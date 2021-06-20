@@ -16,5 +16,6 @@ class Room:
     def terrain(self, terrain):
         self.__terrain = terrain
 
+    
 room = Room()
 print(room.terrain)
