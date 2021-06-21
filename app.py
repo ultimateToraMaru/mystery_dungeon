@@ -2,8 +2,7 @@
 from dungeon.room import Room
 
 class App:
-    print('app')
-    room = Room
+    room = Room()
     # print(room.terrain)
 
 

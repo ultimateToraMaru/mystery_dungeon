@@ -2,7 +2,6 @@
 # floor内の一個一個の部屋を表すクラス
 class Room:
     def __init__(self):
-        print('a')
         self.__MAXMASS = 10
         self.__terrain = [[0] * self.__MAXMASS for i in range(self.__MAXMASS)]
 
