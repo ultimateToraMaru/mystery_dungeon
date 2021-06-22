@@ -1,8 +1,10 @@
 
 from dungeon.room import Room
 
+
 class App:
     room = Room()
+    print(room.terrain)
     # print(room.terrain)
 
 
