@@ -6,5 +6,5 @@ class Object (metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def create(self):
+    def create(self, x, y):
         pass
