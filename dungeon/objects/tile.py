@@ -1,7 +1,8 @@
+from dungeon.objects.obj import Obj
 import pyxel
 
-class Tile(object):
-    def __init__(self, color) :
+class Tile(Obj):
+    def __init__(self, color):
         super().__init__()
         self.__color = color
 

@@ -1,10 +1,10 @@
 from abc import ABCMeta
 
 
-class Object (metaclass=ABCMeta):
+class Obj (metaclass=ABCMeta):
     def __init__(self) -> None:
         pass
 
-    @abstractmethod
+    # @abstractmethod
     def create(self, x, y):
         pass
