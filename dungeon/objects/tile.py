@@ -1,6 +1,6 @@
 import pyxel
 
-class Wall(object):
+class Tile(object):
     def __init__(self, color) :
         super().__init__()
         self.__color = color
