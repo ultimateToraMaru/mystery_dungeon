@@ -15,9 +15,6 @@ class Set_room_objects:
     def create_objects(self, room_data):
         # for文でroom_dataを回して、objectのcreate()メソッドを読んでcreateしていく。
         # pyxelをインポートする必要があるのでは。このクラスには。
-
-        x=0
-        y=0
         for x in range(10):
             for y in range(10):
                 print(room_data[x][y])

@@ -11,7 +11,7 @@ class App:
         # print(room.terrain)
 
     def update(self):
-        print('test')
+        pass
         # room.generate_room_data()
 
     def draw(self):
