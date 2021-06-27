@@ -1,4 +1,3 @@
-from dungeon.color import Color
 import pyxel
 from dungeon.room import Room
 
@@ -12,14 +11,9 @@ class App:
 
     def update(self):
         pass
-        # room.generate_room_data()
 
     def draw(self):
-        # for obj in room_data:
-        #     obj.create()
-        for i in range(10):
-            for j in range(10):
-                self.room.data[i][j].create(x=i, y=j)
+        self.room.room_objects.terrain.draw()
 
 
 if __name__ == '__main__':

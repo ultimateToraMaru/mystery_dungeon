@@ -1,5 +1,5 @@
 from enum import IntEnum
 
 class Color(IntEnum):
-    RED = 1
-    BLACK = 2
+    RED = 8
+    BLACK = 0
