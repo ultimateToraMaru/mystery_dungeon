@@ -1,4 +1,4 @@
-from dungeon.objects.objects_data.terrain import Terrain
+from dungeon.room.objects_data.terrain import Terrain
 
 # roomが持つオブジェクト(Terrain, Item, Player ...)を集約して持つクラス
 class Room_objects:

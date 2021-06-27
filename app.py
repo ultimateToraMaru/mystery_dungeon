@@ -1,5 +1,5 @@
 import pyxel
-from dungeon.room import Room
+from dungeon.room.room import Room
 
 
 class App:

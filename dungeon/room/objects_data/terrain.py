@@ -1,6 +1,6 @@
-from dungeon.objects.tile import Tile
+from dungeon.room.objects_data.objects.tile import Tile
+from dungeon.room.objects_data.objects.wall import Wall
 from dungeon.color import Color
-from dungeon.objects.wall import Wall
 
 # 地形を表すクラス。地形データ__dataにWallやTile, Rockが入る
 class Terrain():

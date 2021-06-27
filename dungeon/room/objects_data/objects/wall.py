@@ -1,4 +1,4 @@
-from dungeon.objects.obj import Obj
+from dungeon.room.objects_data.objects.obj import Obj
 
 class Wall(Obj):
     def __init__(self, color) :

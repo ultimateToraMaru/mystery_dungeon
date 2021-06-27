@@ -1,6 +1,6 @@
 
 # floor内の一個一個の部屋を表すクラス
-from dungeon.objects.room_objects import Room_objects
+from dungeon.room.objects_data.room_objects import Room_objects
 
 
 class Room:
