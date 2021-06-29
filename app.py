@@ -7,7 +7,6 @@ class App:
         pyxel.init(160, 120)
         self.room = Room()
         pyxel.run(self.update, self.draw)
-        # print(room.terrain)
 
     def update(self):
         pass

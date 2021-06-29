@@ -1,9 +1,9 @@
-from dungeon.room.objects_data.objects.tile import Tile
-from dungeon.room.objects_data.objects.wall import Wall
+from dungeon.room.object_layers.objects.tile import Tile
+from dungeon.room.object_layers.objects.wall import Wall
 from dungeon.color import Color
 
 # 地形を表すクラス。地形データ__dataにWallやTile, Rockが入る
-class Terrain():
+class Terrain_layer():
     def __init__(self):
         self.__MAXMASS = 10     # 部屋の一辺の最大マス数を表す変数
         # 地形データ(木や壁)や落ちてるアイテム(アイテムは取得したら床オブジェクトを設置)を表す変数
@@ -13,15 +13,13 @@ class Terrain():
 
     # 地形をランダムで形成する関数
     def generate(self, data, MAXMASS):
-        # self.__terrain_data[0][0] = Wall(Color.RED)
         # まずは四方に壁を作る
         for i in range(MAXMASS):
             data[0][i] = Wall(Color.RED)
             data[i][0] = Wall(Color.RED)
             data[MAXMASS-1][i] = Wall(Color.RED)
             data[i][MAXMASS-1] = Wall(Color.RED)
-            # 1じゃなくて直接配列の中にオブジェクト(壁オブジェクト)とかを入れれば、いいんじゃない？ by 06/21 22:40
-
+            
         return data
 
     # 地形をキャンバスに描画する関数
