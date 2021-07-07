@@ -1,21 +1,26 @@
 
 # floor内の一個一個の部屋を表すクラス
+from dungeon.color import Color
+from dungeon.room.object_layers.objects.wall import Wall
 from dungeon.room.object_layers.layers import Layers
 
 
 class Room:
-    def __init__(self):
-        self.__room_objects = Layers()
+    def __init__(self, type):
+        if  (type == 'normal'):
+            self.__layers = Layers('normal')
+        elif (type == 'none'):
+            self.__layers = Layers('none')
 
     # # terrainのプロパティ
     @property
-    def room_objects(self):
+    def layers(self):
         pass
 
-    @room_objects.getter
-    def room_objects(self):
-        return self.__room_objects
+    @layers.getter
+    def layers(self):
+        return self.__layers
 
-    @room_objects.setter
-    def room_objects(self, room_objects):
-        self.__room_objects = room_objects
+    @layers.setter
+    def layers(self, layers):
+        self.__layers = layers
