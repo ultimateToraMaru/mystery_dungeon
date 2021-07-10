@@ -25,6 +25,16 @@ class Floor:
         rooms = [[Room('none')] * self.__MAX_BLOCKS for i in range(self.__MAX_BLOCKS)]
 
         for i in range(r):
-            rooms[i] = Room('normal')
+            rooms[0][i] = Room('normal')
 
         return rooms
+
+    def rooms_terrain_draw(self):
+        x = 0
+        y = 0
+        for i in range(len(self.__rooms)):
+            for j in range(len(self.__rooms)):
+                self.__rooms[i][j].layers.terrain_layer.draw(x, y)
+                # print(x, y)
+                x = i*10
+                y = j*10

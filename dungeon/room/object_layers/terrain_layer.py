@@ -12,7 +12,7 @@ class Terrain_layer():
             self.__data = [[Tile(Color.BLACK)] * self.__MAXMASS for i in range(self.__MAXMASS)]      
             self.__data = self.generate(self.__data, self.__MAXMASS)
         elif(type == 'none'):
-            self.__data = [[Wall(Color.BLACK)] * self.__MAXMASS for i in range(self.__MAXMASS)]
+            self.__data = [[Wall(Color.BROWN)] * self.__MAXMASS for i in range(self.__MAXMASS)]
 
     # 地形をランダムで形成する関数
     def generate(self, data, MAXMASS):
@@ -27,13 +27,13 @@ class Terrain_layer():
 
     # 壁だけの部屋を生成。部屋ではない。。。
     def generate_none_room(self):
-        data = [[Wall(Color.BLACK)] * self.__MAXMASS for i in range(self.__MAXMASS)]
+        data = [[Wall(Color.BROWN)] * self.__MAXMASS for i in range(self.__MAXMASS)]
         return data
 
     # 地形をキャンバスに描画する関数
-    def draw(self):
+    def draw(self, room_x, room_y):
         # for文で__dataを回して、drawしていく
-        for x in range(10):
-            for y in range(10):
-                self.__data[x][y].create(x, y)
+        for x in range(self.__MAXMASS):
+            for y in range(self.__MAXMASS):
+                self.__data[x][y].create(x+room_x, y+room_y)
     

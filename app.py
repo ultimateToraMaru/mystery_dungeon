@@ -6,7 +6,6 @@ from dungeon.room.room import Room
 class App:
     def __init__(self):
         pyxel.init(160, 120)
-        # self.room = Room()
         self.floor = Floor()
         pyxel.run(self.update, self.draw)
 
@@ -14,16 +13,14 @@ class App:
         pass
 
     def draw(self):
-        # self.room.room_objects.terrain.draw()
-        self.floor_terrain_draw()
+        self.floor.rooms_terrain_draw()
         
 
-    def floor_terrain_draw(self):
-        print(len(self.floor.rooms))
-        x = 0
-        y = 0
-        for i in range(len(self.floor.rooms)):
-            self.floor.rooms[i].layers.terrain_layer.draw()
+    # def floor_terrain_draw(self):
+    #     # print(len(self.floor.rooms))
+    #     for i in range(len(self.floor.rooms)):
+    #         for j in range(len(self.floor.rooms)):
+    #             self.floor.rooms[i][j].layers.terrain_layer.draw(i*10, j*10)
 
 if __name__ == '__main__':
     app = App()
