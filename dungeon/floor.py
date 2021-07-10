@@ -21,12 +21,16 @@ class Floor:
         self.__rooms = rooms
 
     def generate(self):
-        r = random.randint(1, 4)    # rの範囲。1~5。お部屋の数。
+        r = random.randint(2, 5)    # rの範囲。1~5。お部屋の数。
         rooms = [[Room('none')] * self.__MAX_BLOCKS for i in range(self.__MAX_BLOCKS)]
+        print('部屋の数', r)
 
         for i in range(r):
-            rooms[0][i] = Room('normal')
-
+            r_x = random.randint(0, self.__MAX_BLOCKS-1) 
+            r_y = random.randint(0, self.__MAX_BLOCKS-1) 
+            print(r_x, r_y)
+            rooms[r_x][r_y] = Room('normal')
+        
         return rooms
 
     def rooms_terrain_draw(self):
@@ -34,7 +38,6 @@ class Floor:
         y = 0
         for i in range(len(self.__rooms)):
             for j in range(len(self.__rooms)):
-                self.__rooms[i][j].layers.terrain_layer.draw(x, y)
-                # print(x, y)
                 x = i*10
                 y = j*10
+                self.__rooms[i][j].layers.terrain_layer.draw(x, y)

@@ -1,3 +1,4 @@
+import random
 from dungeon.room.object_layers.objects.tile import Tile
 from dungeon.room.object_layers.objects.wall import Wall
 from dungeon.color import Color
@@ -9,7 +10,7 @@ class Terrain_layer():
         # 地形データ(木や壁)や落ちてるアイテム(アイテムは取得したら床オブジェクトを設置)を表す変数
         # そうすればterrain_dataとterrainを分ける必要はない！
         if (type == 'normal'):
-            self.__data = [[Tile(Color.BLACK)] * self.__MAXMASS for i in range(self.__MAXMASS)]      
+            self.__data = [[Wall(Color.RED)] * self.__MAXMASS for i in range(self.__MAXMASS)]      
             self.__data = self.generate(self.__data, self.__MAXMASS)
         elif(type == 'none'):
             self.__data = [[Wall(Color.BROWN)] * self.__MAXMASS for i in range(self.__MAXMASS)]
@@ -17,11 +18,23 @@ class Terrain_layer():
     # 地形をランダムで形成する関数
     def generate(self, data, MAXMASS):
         # まずは四方に壁を作る
-        for i in range(MAXMASS):
-            data[0][i] = Wall(Color.RED)
-            data[i][0] = Wall(Color.RED)
-            data[MAXMASS-1][i] = Wall(Color.RED)
-            data[i][MAXMASS-1] = Wall(Color.RED)
+        # for i in range(MAXMASS):
+        #     data[0][i] = Wall(Color.RED)
+        #     data[i][0] = Wall(Color.RED)
+        #     data[MAXMASS-1][i] = Wall(Color.RED)
+        #     data[i][MAXMASS-1] = Wall(Color.RED)
+        
+        r_x_start = random.randint(1, self.__MAXMASS-1) 
+        r_x_end = random.randint(1, self.__MAXMASS-1) 
+        r_y_start = random.randint(1, self.__MAXMASS-1) 
+        r_y_end = random.randint(1, self.__MAXMASS-1) 
+
+        for i in range(MAXMASS-2):
+            for j in range(r_x_start, r_x_end):
+                data[i][j] = Tile(Color.BLACK)
+
+            for j in range(r_y_start, r_y_end):
+                data[j][i] = Tile(Color.BLACK)
             
         return data
 
