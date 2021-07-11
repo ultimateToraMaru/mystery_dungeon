@@ -1,6 +1,6 @@
 
 # floor内の一個一個の部屋を表すクラス
-from dungeon.color import Color
+from dungeon.const.color import Color
 from dungeon.room.object_layers.objects.wall import Wall
 from dungeon.room.object_layers.layers import Layers
 

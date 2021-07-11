@@ -1,11 +1,11 @@
+from dungeon.const.properties import Properties
 from dungeon.room.room import Room
 import random
 
 # dungeonのfloorを表す関数。複数のroomを持つ
 class Floor:
     def __init__(self):
-        self.__MAX_BLOCKS = 5
-        self.__rooms = [[Room('none')] * self.__MAX_BLOCKS for i in range(self.__MAX_BLOCKS)]
+        self.__rooms = [[Room('none')] * Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
         self.__rooms = self.generate()
 
     @property
@@ -22,12 +22,12 @@ class Floor:
 
     def generate(self):
         r = random.randint(2, 5)    # rの範囲。1~5。お部屋の数。
-        rooms = [[Room('none')] * self.__MAX_BLOCKS for i in range(self.__MAX_BLOCKS)]
+        rooms = [[Room('none')] * Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
         print('部屋の数', r)
 
         for i in range(r):
-            r_x = random.randint(0, self.__MAX_BLOCKS-1) 
-            r_y = random.randint(0, self.__MAX_BLOCKS-1) 
+            r_x = random.randint(0, Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
+            r_y = random.randint(0, Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
             print(r_x, r_y)
             rooms[r_x][r_y] = Room('normal')
         
@@ -38,6 +38,6 @@ class Floor:
         y = 0
         for i in range(len(self.__rooms)):
             for j in range(len(self.__rooms)):
-                x = i*10
-                y = j*10
+                x = i*Properties.MAX_MASS_IN_ROOM_ONE_SIDE
+                y = j*Properties.MAX_MASS_IN_ROOM_ONE_SIDE
                 self.__rooms[i][j].layers.terrain_layer.draw(x, y)
