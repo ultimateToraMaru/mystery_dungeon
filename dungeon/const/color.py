@@ -4,3 +4,4 @@ class Color(IntEnum):
     RED = 8
     BLACK = 0
     BROWN = 4
+    GREEN = 3

@@ -1,3 +1,4 @@
+import math
 from dungeon.const.properties import Properties
 import random
 from dungeon.room.object_layers.objects.tile import Tile
@@ -14,6 +15,7 @@ class Terrain_layer():
             self.__data = self.generate(self.__data, Properties.MAX_MASS_IN_ROOM_ONE_SIDE)
         elif(type == 'none'):
             self.__data = [[Wall(Color.BROWN)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]
+            self.__data = self.generate_none_room(self.__data)
 
 
     # 地形をランダムで形成する関数
@@ -25,27 +27,39 @@ class Terrain_layer():
         #     data[MAXMASS-1][i] = Wall(Color.RED)
         #     data[i][MAXMASS-1] = Wall(Color.RED)
 
+        # 部屋の端っこ。始まりポイントと終わりポイント
         start_point = 2
         end_point = MAXMASS-1
         
-        r_x_start = random.randint(start_point, start_point*2) 
+        # 四角形の4点をランダムで決める
+        r_x_start = random.randint(start_point, start_point+2) 
         r_x_end = random.randint(r_x_start+start_point, end_point) 
-        r_y_start = random.randint(start_point, start_point*2) 
+        r_y_start = random.randint(start_point, start_point+2) 
         r_y_end = random.randint(r_y_start+start_point, end_point) 
 
+        # Y軸の端っこに床を配置していく
         for i in range(r_y_start, r_y_end):
             for j in range(r_x_start, r_x_end):
-                data[i][j] = Tile(Color.BLACK)
+                data[i][j] = Tile(Color.GREEN)
 
+        # X軸の端っこに床を配置していく
         for i in range(r_x_start, r_x_end):
             for j in range(r_y_start, r_y_end):
-                data[j][i] = Tile(Color.BLACK)
+                data[j][i] = Tile(Color.GREEN)
             
         return data
 
     # 壁だけの部屋を生成。部屋ではない。。。
-    def generate_none_room(self):
+    # 格子状に道を作って道の生成を簡易的にしよう
+    # 階の周りを大きく壁で加工必要がある。ん？でも床ではないから歩けないか。。。囲わなくても大丈夫そう。
+    def generate_none_room(self, data):
         data = [[Wall(Color.BROWN)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]
+        
+        for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
+            data[i][math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Tile(Color.GREEN)
+            data[math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2)][i] = Tile(Color.GREEN)
+    
+
         return data
 
     # 地形をキャンバスに描画する関数

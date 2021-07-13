@@ -20,8 +20,9 @@ class Floor:
     def rooms(self, rooms):
         self.__rooms = rooms
 
+    # ランダムな場所に部屋を生成
     def generate(self):
-        r = random.randint(2, 5)    # rの範囲。1~5。お部屋の数。
+        r = random.randint(2, 5)    # rの範囲。2~5。お部屋の数。
         rooms = [[Room('none')] * Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
         print('部屋の数', r)
 
@@ -33,6 +34,7 @@ class Floor:
         
         return rooms
 
+    # 部屋の地形データを読み取り、オブジェクトにdrawの指示を出す
     def rooms_terrain_draw(self):
         x = 0
         y = 0

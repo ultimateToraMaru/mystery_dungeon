@@ -5,7 +5,7 @@ from dungeon.room.room import Room
 
 class App:
     def __init__(self):
-        pyxel.init(255, 255, caption="mystery_dungeon", scale=1, fps=5)
+        pyxel.init(255, 255, caption="mystery_dungeon", scale=2, fps=5)
         self.floor = Floor()
         pyxel.run(self.update, self.draw)
 
