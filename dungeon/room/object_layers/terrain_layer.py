@@ -13,6 +13,7 @@ class Terrain_layer():
         if (type == 'normal'):
             self.__data = [[Wall(Color.RED)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]      
             self.__data = self.generate(self.__data, Properties.MAX_MASS_IN_ROOM_ONE_SIDE)
+            self.__data = self.setExportPoints(self.__data, Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1);
         elif(type == 'none'):
             self.__data = [[Wall(Color.BROWN)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]
             self.__data = self.generate_none_room(self.__data)
@@ -32,19 +33,39 @@ class Terrain_layer():
         end_point = MAXMASS-1
         
         # 四角形の4点をランダムで決める
-        r_x_start = random.randint(start_point, start_point+2) 
-        r_x_end = random.randint(r_x_start+start_point, end_point) 
-        r_y_start = random.randint(start_point, start_point+2) 
-        r_y_end = random.randint(r_y_start+start_point, end_point) 
+        r_start_x = random.randint(start_point, start_point+2) 
+        r_end_x = random.randint(r_start_x+start_point, end_point) 
+        r_start_y = random.randint(start_point, start_point+2) 
+        r_end_y = random.randint(r_start_y+start_point, end_point) 
+
+        # 出口ポイントをランダムで決める
+        r_exit_point_x_1 = random.randint(r_start_x+1, r_end_x-1)
+        r_exit_point_x_2 = random.randint(r_start_x+1, r_end_x-1)
+        r_exit_point_y_3 = random.randint(r_start_y+1, r_end_y-1)
+        r_exit_point_y_4 = random.randint(r_start_y+1, r_end_y-1)
+
+        print(r_exit_point_x_1, r_exit_point_x_2, r_exit_point_y_3, r_exit_point_y_4)
+
+        # r = random.randint(1, 3)
+        # point_r = random.randint(0, MAXMASS-1)
+
+    # if (side_r == 0):
+        data[r_start_y-1][r_exit_point_x_1] = Tile(Color.GREEN)
+    # elif (side_r == 1):
+        data[r_end_y][r_exit_point_x_2] = Tile(Color.GREEN)
+    # elif (side_r == 2):
+        data[r_exit_point_y_3][r_start_x-1] = Tile(Color.GREEN)
+    # elif (side_r == 3):
+        data[r_exit_point_y_4][r_end_x] = Tile(Color.GREEN)
 
         # Y軸の端っこに床を配置していく
-        for i in range(r_y_start, r_y_end):
-            for j in range(r_x_start, r_x_end):
+        for i in range(r_start_y, r_end_y):
+            for j in range(r_start_x, r_end_x):
                 data[i][j] = Tile(Color.GREEN)
 
         # X軸の端っこに床を配置していく
-        for i in range(r_x_start, r_x_end):
-            for j in range(r_y_start, r_y_end):
+        for i in range(r_start_x, r_end_x):
+            for j in range(r_start_y, r_end_y):
                 data[j][i] = Tile(Color.GREEN)
             
         return data
@@ -68,4 +89,31 @@ class Terrain_layer():
         for x in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
             for y in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[x][y].create(x+room_x, y+room_y)
+
+    # 入り口出口は部屋が持つべきだよね。ってことで、地形データ(terrain_layer)に持ってきたのだ
+    # 部屋間の道はその道が通る部屋が持つべきだよね。
+    def setExportPoints(self, data, MAXMASS):
+        # r = random.randint(1, 3)
+        # for i in range(r):
+        #     side_r = random.randint(0, MAXMASS-1)
+        #     point_r = random.randint(0, MAXMASS-1)
+
+        #     if (side_r == 0):
+        #         data[1][point_r] = Tile(Color.GREEN)
+        #     elif (side_r == 1):
+        #         data[MAXMASS-1][point_r] = Tile(Color.GREEN)
+        #     elif (side_r == 2):
+        #         data[point_r][1] = Tile(Color.GREEN)
+        #     elif (side_r == 3):
+        #         data[point_r][MAXMASS-1] = Tile(Color.GREEN)
+        data
+        
+        return data
+
+
+            
+
+        # 部屋じゃないブロックは格子状に床を配置して
+        # 簡易的に道を作っていくのもいいかも
+        # 試しにやってみたぞい by0713
     
