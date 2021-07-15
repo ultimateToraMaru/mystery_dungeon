@@ -18,5 +18,4 @@ class Obj (metaclass=ABCMeta):
     def create(self, x, y):
         w = Properties.MASS_WIDTH
         h = Properties.MASS_HEIGHT
-
         pyxel.rect(x*w, y*h, w, h, self.__color)
