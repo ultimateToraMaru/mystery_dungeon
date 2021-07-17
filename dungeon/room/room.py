@@ -8,12 +8,12 @@ from dungeon.room.object_layers.layers import Layers
 
 class Room:
     def __init__(self, type):
-        if  (type == 'normal'):
+        self.__type = type
+        if  (self.__type == 'normal'):
             self.__layers = Layers('normal')
-        elif (type == 'none'):
+        elif (self.__type == 'none'):
             self.__layers = Layers('none')
 
-    # # terrainのプロパティ
     @property
     def layers(self):
         pass
@@ -25,3 +25,15 @@ class Room:
     @layers.setter
     def layers(self, layers):
         self.__layers = layers
+    
+    @property
+    def type(self):
+        pass
+
+    @type.getter
+    def type(self):
+        return self.__type
+
+    @type.setter
+    def type(self, type):
+        self.__type = type

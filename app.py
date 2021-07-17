@@ -17,11 +17,5 @@ class App:
         self.floor.rooms_terrain_draw()
         
 
-    # def floor_terrain_draw(self):
-    #     # print(len(self.floor.rooms))
-    #     for i in range(len(self.floor.rooms)):
-    #         for j in range(len(self.floor.rooms)):
-    #             self.floor.rooms[i][j].layers.terrain_layer.draw(i*10, j*10)
-
 if __name__ == '__main__':
     app = App()

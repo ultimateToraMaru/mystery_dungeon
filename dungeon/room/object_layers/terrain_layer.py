@@ -21,12 +21,6 @@ class Terrain_layer():
 
     # 地形をランダムで形成する関数
     def generate(self, data, MAXMASS):
-        # まずは四方に壁を作る
-        # for i in range(MAXMASS):
-        #     data[0][i] = Wall(Color.RED)
-        #     data[i][0] = Wall(Color.RED)
-        #     data[MAXMASS-1][i] = Wall(Color.RED)
-        #     data[i][MAXMASS-1] = Wall(Color.RED)
 
         # 部屋の端っこ。始まりポイントと終わりポイント
         start_point = 2
@@ -38,20 +32,6 @@ class Terrain_layer():
         r_end_x = random.randint(r_start_x+margin, end_point) 
         r_start_y = random.randint(start_point, start_point+1) 
         r_end_y = random.randint(r_start_y+margin, end_point) 
-
-        # # 出口ポイントをランダムで決めて、道をつくる
-        # r = random.randint(1, 3)
-
-        # center = math.floor(MAXMASS/2)
-        # for i in range(5):
-        #     if (r == 0):
-        #         data[0+i][center] = Tile(Color.GREEN)
-        #     elif (r == 1):
-        #         data[center+i][center] = Tile(Color.GREEN)
-        #     elif (r == 2):
-        #         data[center][0+i] = Tile(Color.GREEN)
-        #     elif (r == 3):
-        #         data[center][center+i] = Tile(Color.GREEN)
 
         # Y軸の端っこに床を配置していく
         for i in range(r_start_y, r_end_y):
@@ -103,14 +83,14 @@ class Terrain_layer():
                 # elif (directions_r == 3):
                     data[center][center+i] = Tile(Color.GREEN)
         
-        # フロアの端っこの部屋の場合
+        # path_finding()
         
         return data
+    
+    # pass_findingはfloor()でやるべきなのでは？
+    def path_finding():
+        pass
 
-
-            
-
-        # 部屋じゃないブロックは格子状に床を配置して
-        # 簡易的に道を作っていくのもいいかも
-        # 試しにやってみたぞい by0713
+    def set_point(self):
+        self.__data[math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2)][math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Wall(Color.GREEN)
     
