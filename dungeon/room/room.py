@@ -9,10 +9,7 @@ from dungeon.room.object_layers.layers import Layers
 class Room:
     def __init__(self, type):
         self.__type = type
-        if  (self.__type == 'normal'):
-            self.__layers = Layers('normal')
-        elif (self.__type == 'none'):
-            self.__layers = Layers('none')
+        self.__layers = Layers(type)
 
     @property
     def layers(self):

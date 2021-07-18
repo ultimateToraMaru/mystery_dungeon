@@ -14,7 +14,8 @@ class App:
         pass
 
     def draw(self):
-        self.floor.rooms_terrain_draw()
+        self.floor.terrain_draw()
+        self.floor.player_draw()
         
 
 if __name__ == '__main__':

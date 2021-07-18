@@ -1,18 +1,14 @@
+from dungeon.room.object_layers.player_layer import Player_layer
 from dungeon.room.object_layers.terrain_layer import Terrain_layer
 
 # roomが持つオブジェクト(Terrain, Item, Player ...)を集約して持つクラス
 class Layers:
     def __init__(self, type):
-
-        if  (type == 'normal'):
-            self.__terrain_layer = Terrain_layer('normal')
-        elif (type == 'none'):
-            self.__terrain_layer = Terrain_layer('none')
-
+        self.__terrain_layer = Terrain_layer(type)
+        self.__player_layer = Player_layer()
         # self.__item
-        # self.__player
-        
-    # terrain_dataのプロパティ
+
+
     @property
     def terrain_layer(self):
         pass
@@ -24,3 +20,15 @@ class Layers:
     @terrain_layer.setter
     def terrain_layer(self, terrain_layer):
         self.__terrain_layer = terrain_layer
+    
+    @property
+    def player_layer(self):
+        pass
+
+    @player_layer.getter
+    def player_layer(self):
+        return self.__player_layer
+
+    @player_layer.setter
+    def player_layer(self, player_layer):
+        self.__player_layer = player_layer

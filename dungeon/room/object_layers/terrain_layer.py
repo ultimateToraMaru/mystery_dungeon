@@ -11,7 +11,7 @@ class Terrain_layer():
         # 地形データ(木や壁)や落ちてるアイテム(アイテムは取得したら床オブジェクトを設置)を表す変数
         # そうすればterrain_dataとterrainを分ける必要はない！
         if (type == 'normal'):
-            self.__data = [[Wall(Color.RED)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]      
+            self.__data = [[Wall(Color.MAGENTA)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]      
             self.__data = self.generate(self.__data, Properties.MAX_MASS_IN_ROOM_ONE_SIDE)
             self.__data = self.setExportPoints(self.__data, Properties.MAX_MASS_IN_ROOM_ONE_SIDE);
         elif(type == 'none'):

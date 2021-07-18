@@ -35,7 +35,7 @@ class Floor:
         return rooms
 
     # 部屋の地形データを読み取り、オブジェクトにdrawの指示を出す
-    def rooms_terrain_draw(self):
+    def terrain_draw(self):
         self.room_pass_finding()
         x = 0
         y = 0
@@ -44,6 +44,16 @@ class Floor:
                 x = i*Properties.MAX_MASS_IN_ROOM_ONE_SIDE
                 y = j*Properties.MAX_MASS_IN_ROOM_ONE_SIDE
                 self.__rooms[i][j].layers.terrain_layer.draw(x, y)
+    
+    def player_draw(self, direction):
+        if (direction == 'right'):
+            player_position = self.rooms. self.__player_layer.get_player_position()
+            self.__player_layer.set_player_position(player_position[0], player_position[1]+1)
+    
+    # def player_move(self, direction):
+    #     if (direction == 'right'):
+    #         player_position = self.__player_layer.get_player_position()
+    #         self.__player_layer.set_player_position(player_position[0], player_position[1]+1)
 
     def room_pass_finding(self):
         for i in range(len(self.__rooms)):
