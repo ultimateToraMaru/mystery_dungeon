@@ -36,7 +36,6 @@ class Floor:
 
     # 部屋の地形データを読み取り、オブジェクトにdrawの指示を出す
     def terrain_draw(self):
-        self.room_pass_finding()
         x = 0
         y = 0
         for i in range(len(self.__rooms)):
@@ -44,19 +43,37 @@ class Floor:
                 x = i*Properties.MAX_MASS_IN_ROOM_ONE_SIDE
                 y = j*Properties.MAX_MASS_IN_ROOM_ONE_SIDE
                 self.__rooms[i][j].layers.terrain_layer.draw(x, y)
+
+    def player_draw(self):
+        # if (direction == 'right'):
+        #     player_position = self.__rooms.player_layer.get_player_position()
+        #     self.__player_layer.set_player_position(player_position[0], player_position[1]+1)
+        x = 0
+        y = 0
+        for i in range(len(self.__rooms)):
+            for j in range(len(self.__rooms)):
+                x = i*Properties.MAX_MASS_IN_ROOM_ONE_SIDE
+                y = j*Properties.MAX_MASS_IN_ROOM_ONE_SIDE
+                self.__rooms[i][j].layers.player_layer.draw(x, y)
+                
+    def select_start_room(self):
+        r_room_i = random.randint(0, len(self.__rooms)-1)
+        r_room_j = random.randint(0, len(self.__rooms)-1)
+        self.__rooms[r_room_i][r_room_j].layers.player_layer.set_start_position()
     
-    def player_draw(self, direction):
-        if (direction == 'right'):
-            player_position = self.rooms. self.__player_layer.get_player_position()
-            self.__player_layer.set_player_position(player_position[0], player_position[1]+1)
+    
+    def search_player(self):
+        for i in range(len(self.__rooms)):
+            for j in range(len(self.__rooms)):
+                self.__rooms[i][j].layers.player_layer.get_player_position()
     
     # def player_move(self, direction):
     #     if (direction == 'right'):
     #         player_position = self.__player_layer.get_player_position()
     #         self.__player_layer.set_player_position(player_position[0], player_position[1]+1)
 
-    def room_pass_finding(self):
-        for i in range(len(self.__rooms)):
-            for j in range(len(self.__rooms)):
-                if (self.__rooms[i][j].type == 'normal'):
-                    self.__rooms[i][j].layers.terrain_layer.set_point()
+    # def room_pass_finding(self):
+    #     for i in range(len(self.__rooms)):
+    #         for j in range(len(self.__rooms)):
+    #             if (self.__rooms[i][j].type == 'normal'):
+    #                 self.__rooms[i][j].layers.terrain_layer.set_point()

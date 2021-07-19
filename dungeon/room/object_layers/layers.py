@@ -5,7 +5,7 @@ from dungeon.room.object_layers.terrain_layer import Terrain_layer
 class Layers:
     def __init__(self, type):
         self.__terrain_layer = Terrain_layer(type)
-        self.__player_layer = Player_layer()
+        self.__player_layer = Player_layer(True)
         # self.__item
 
 
