@@ -39,11 +39,16 @@ class Player_layer():
     
     # なんか同時に複数の部屋に現れちゃう。だけどプレイやーを配置で来た！すごい！すー
     def set_start_position(self):
-        r_i = random.randint(0, len(self.__data)-1)
-        r_j = random.randint(0, len(self.__data)-1)
+        # r_i = random.randint(0, len(self.__data)-1)
+        # r_j = random.randint(0, len(self.__data)-1)
 
-        self.__player_position = [r_i, r_j]
+        # ランダムじゃなくて、部屋の中央でもよくない？
+        # しかも、中央は絶対部屋になってるぜよ
+        r_i = math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
+        r_j = math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
+
         self.__data[r_i][r_j] = Player(Color.SKYPINK)
+      
         print('部屋内位置', r_i, r_j)
-        print(self.__data[r_i][r_j])
+        # print(self.__data[r_i][r_j])
         # print(self.__data)

@@ -10,7 +10,6 @@ class App:
         pyxel.load("my_resource.pyxres")
         self.floor = Floor()
 
-
         self.floor.set_start_position()
         self.floor.terrain_draw()
         self.floor.player_draw()

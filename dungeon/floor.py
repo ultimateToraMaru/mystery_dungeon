@@ -10,8 +10,8 @@ class Floor:
             for j in range(Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
                 self.__rooms[i][j] = Room('none', False)
 
-        self.__rooms = self.generate()
         self.__start_room_position = [0,0]
+        self.__rooms = self.generate()
 
     @property
     def rooms(self):
@@ -41,15 +41,15 @@ class Floor:
             # print(r_x, r_y)
             # print('i', i, 'r_start', r_select_start_room)
             if (i == r_select_start_room):
-                print('start_room:', r_x, r_y)
-                room = Room('normal', True)
-                print('プレイヤーがいる部屋', room)
-                rooms[r_x][r_y] = room
+                # print('start_room:', r_x, r_y)
+                # room = Room('normal', True)
+                print('プレイヤーがいる部屋の座標', r_x, r_y)
+                rooms[r_x][r_y] = Room('normal', True)
                 self.__start_room_position = [r_x, r_y]
             else :
-                non_room = Room('normal', False)
-                print('プレイヤーがいない部屋', non_room)
-                rooms[r_x][r_y] = non_room
+                # non_room = Room('normal', False)
+                # print('プレイヤーがいない部屋', non_room)
+                rooms[r_x][r_y] = Room('normal', False)
         
         return rooms
 
@@ -79,6 +79,7 @@ class Floor:
                 
     
     def set_start_position(self):
+        print('プレイヤーのいるお部屋', self.__start_room_position[0], self.__start_room_position[1],  self.__rooms[self.__start_room_position[0]][self.__start_room_position[1]])
         self.__rooms[self.__start_room_position[0]][self.__start_room_position[1]].layers.player_layer.set_start_position()
 
     # def select_start_room(self):
