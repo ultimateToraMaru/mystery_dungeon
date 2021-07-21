@@ -7,9 +7,10 @@ from dungeon.room.object_layers.layers import Layers
 
 
 class Room:
-    def __init__(self, type, is_player_room):
+    def __init__(self, type, is_start_room):
         self.__type = type
-        self.__layers = Layers(type, is_player_room)
+        self.__layers = Layers(type)
+        self.__is_start_room = is_start_room
 
     @property
     def layers(self):

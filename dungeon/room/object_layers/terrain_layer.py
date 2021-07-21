@@ -51,7 +51,7 @@ class Terrain_layer():
     # 階の周りを大きく壁で加工必要がある。ん？でも床ではないから歩けないか。。。囲わなくても大丈夫そう。
     def generate_none_room(self, data):
         data = [[Wall(Color.BROWN)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]
-        
+
         for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
             data[i][math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Tile(Color.GREEN)
             data[math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2)][i] = Tile(Color.GREEN)
@@ -62,6 +62,8 @@ class Terrain_layer():
     # 地形をキャンバスに描画する関数
     def draw(self, room_x, room_y):
         # for文で__dataを回して、drawしていく
+        # print(room_x, room_y)
+        # print(self.__data[0][0])
         for x in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
             for y in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[x][y].create(x+room_x, y+room_y)

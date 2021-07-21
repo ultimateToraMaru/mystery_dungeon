@@ -9,16 +9,24 @@ from dungeon.const.color import Color
 
 # 地形を表すクラス。地形データ__dataにWallやTile, Rockが入る
 class Player_layer():
-    def __init__(self, is_start_room):
+    def __init__(self):
         self.__data = [[None_obj()] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)] 
-        self.__player = None_obj()
+        for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for j in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
+                self.__data[i][j] = None_obj()
+        # print(self.__data)
 
-        if (is_start_room):
-            # いっぱいスタートルームがあるのが原因！
-            print('start')
-            self.__player = Player(Color.SKYPINK)
+        # self.__player = None_obj()
+        self.__player_position = [0,0]
+
+        # if (is_start_room):
+        #     # いっぱいスタートルームがあるのが原因！
+        #     print('start!')
+        #     self.__player = Player(Color.SKYPINK)
 
     def draw(self, room_x, room_y):
+        # print(room_x, room_y)
+        # print(self.__data[self.__player_position[0]][self.__player_position[1]])
         for x in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
             for y in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[x][y].create(x+room_x, y+room_y)
@@ -34,6 +42,8 @@ class Player_layer():
         r_i = random.randint(0, len(self.__data)-1)
         r_j = random.randint(0, len(self.__data)-1)
 
-        self.__player.position = [r_i, r_j]
-        self.__data[r_i][r_j] = self.__player
+        self.__player_position = [r_i, r_j]
+        self.__data[r_i][r_j] = Player(Color.SKYPINK)
         print('部屋内位置', r_i, r_j)
+        print(self.__data[r_i][r_j])
+        # print(self.__data)

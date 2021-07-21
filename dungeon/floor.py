@@ -6,6 +6,10 @@ import random
 class Floor:
     def __init__(self):
         self.__rooms = [[Room('none', False)] * Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
+        for i in range(Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+            for j in range(Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+                self.__rooms[i][j] = Room('none', False)
+
         self.__rooms = self.generate()
         self.__start_room_position = [0,0]
 
@@ -25,6 +29,9 @@ class Floor:
     def generate(self):
         r = random.randint(2, 5)    # rの範囲:2~5。お部屋の数。
         rooms = [[Room('none', False)] * Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
+        for i in range(Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+            for j in range(Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+                rooms[i][j] = Room('none', False)
         print('部屋の数', r)
 
         r_select_start_room = random.randint(0, r-1)    # startする部屋をランダムで選ぶ。上からr番目みたいな感じ。
@@ -35,10 +42,14 @@ class Floor:
             # print('i', i, 'r_start', r_select_start_room)
             if (i == r_select_start_room):
                 print('start_room:', r_x, r_y)
-                rooms[r_x][r_y] = Room('normal', True)
+                room = Room('normal', True)
+                print('プレイヤーがいる部屋', room)
+                rooms[r_x][r_y] = room
                 self.__start_room_position = [r_x, r_y]
             else :
-                rooms[r_x][r_y] = Room('normal', False)
+                non_room = Room('normal', False)
+                print('プレイヤーがいない部屋', non_room)
+                rooms[r_x][r_y] = non_room
         
         return rooms
 
@@ -63,7 +74,13 @@ class Floor:
                 x = i*Properties.MAX_MASS_IN_ROOM_ONE_SIDE
                 y = j*Properties.MAX_MASS_IN_ROOM_ONE_SIDE
                 self.__rooms[i][j].layers.player_layer.draw(x, y)
+        
+        print(self.__rooms)
                 
+    
+    def set_start_position(self):
+        self.__rooms[self.__start_room_position[0]][self.__start_room_position[1]].layers.player_layer.set_start_position()
+
     # def select_start_room(self):
     #     r_room_i = random.randint(0, len(self.__rooms)-1)
     #     r_room_j = random.randint(0, len(self.__rooms)-1)
@@ -72,13 +89,10 @@ class Floor:
     #     # self.__rooms[r_room_i][r_room_j].is_start_room = True
     #     self.__rooms[r_room_i][r_room_j].layers.player_layer.set_start_position()
     
-    def set_start_position(self):
-        self.__rooms[self.__start_room_position[0]][self.__start_room_position[1]].layers.player_layer.set_start_position()
-    
-    def search_player(self):
-        for i in range(len(self.__rooms)):
-            for j in range(len(self.__rooms)):
-                self.__rooms[i][j].layers.player_layer.get_player_position()
+    # def search_player(self):
+    #     for i in range(len(self.__rooms)):
+    #         for j in range(len(self.__rooms)):
+    #             self.__rooms[i][j].layers.player_layer.get_player_position()
     
     # def player_move(self, direction):
     #     if (direction == 'right'):
