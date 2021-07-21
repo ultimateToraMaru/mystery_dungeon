@@ -10,10 +10,12 @@ from dungeon.const.color import Color
 # 地形を表すクラス。地形データ__dataにWallやTile, Rockが入る
 class Player_layer():
     def __init__(self, is_start_room):
-        self.__data = [[None_obj(Color.BLACK)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]      
-        
+        self.__data = [[None_obj()] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)] 
+        self.__player = None_obj()
+
         if (is_start_room):
-            # print('start')
+            # いっぱいスタートルームがあるのが原因！
+            print('start')
             self.__player = Player(Color.SKYPINK)
 
     def draw(self, room_x, room_y):
@@ -27,11 +29,11 @@ class Player_layer():
     def set_player_position(self, x, y):
         self.__player.position = [x, y]
     
-
-    # なんか同時に複数の部屋に現れちゃう。だけどプレイやーを配置で来た！すいごい！すー
+    # なんか同時に複数の部屋に現れちゃう。だけどプレイやーを配置で来た！すごい！すー
     def set_start_position(self):
         r_i = random.randint(0, len(self.__data)-1)
         r_j = random.randint(0, len(self.__data)-1)
 
         self.__player.position = [r_i, r_j]
-        self.__data[r_j][r_j] = self.__player
+        self.__data[r_i][r_j] = self.__player
+        print('部屋内位置', r_i, r_j)

@@ -23,5 +23,4 @@ class Player(Obj):
     def create(self, x, y):
         w = Properties.MASS_WIDTH
         h = Properties.MASS_HEIGHT
-        print('player', w, h)
         pyxel.rect(x*w, y*h, w, h, Color.CLOUDBLUE)    # 仮の色を渡しておく

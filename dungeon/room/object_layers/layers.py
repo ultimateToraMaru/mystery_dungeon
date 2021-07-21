@@ -3,11 +3,15 @@ from dungeon.room.object_layers.terrain_layer import Terrain_layer
 
 # roomが持つオブジェクト(Terrain, Item, Player ...)を集約して持つクラス
 class Layers:
-    def __init__(self, type):
+    def __init__(self, type, is_player_room):
         self.__terrain_layer = Terrain_layer(type)
-        self.__player_layer = Player_layer(True)
-        # self.__item
+        self.__player_layer = Player_layer(is_player_room)
 
+        # if (is_start_room):
+        #     self.__player_layer = Player_layer(True)
+        # else:
+        #     self.__player_layer = Player_layer(False)
+        # self.__item
 
     @property
     def terrain_layer(self):

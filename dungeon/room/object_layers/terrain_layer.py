@@ -13,7 +13,8 @@ class Terrain_layer():
         if (type == 'normal'):
             self.__data = [[Wall(Color.MAGENTA)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]      
             self.__data = self.generate(self.__data, Properties.MAX_MASS_IN_ROOM_ONE_SIDE)
-            self.__data = self.setExportPoints(self.__data, Properties.MAX_MASS_IN_ROOM_ONE_SIDE);
+            self.__data = self.setExportPoints(self.__data, Properties.MAX_MASS_IN_ROOM_ONE_SIDE)
+            
         elif(type == 'none'):
             self.__data = [[Wall(Color.BROWN)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]
             self.__data = self.generate_none_room(self.__data)
