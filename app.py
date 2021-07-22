@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.player import Player
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.floor import Floor
 import pyxel
@@ -10,9 +11,7 @@ class App:
         pyxel.load("my_resource.pyxres")
         self.floor = Floor()
 
-        self.floor.set_start_position()
-        self.floor.terrain_draw()
-        self.floor.player_draw()
+        self.player = self.floor.spawn_player()
 
         # array = [[None_obj()]*2 for i in range(2)] 
         # for i in range(2):
@@ -35,7 +34,10 @@ class App:
             pyxel.quit()
 
     def draw(self):
-        pass
+        self.floor.terrain_draw()
+        self.player.move('right')
+        self.floor.player_set_position()
+        self.floor.player_draw()
 
 if __name__ == '__main__':
     app = App()

@@ -10,7 +10,7 @@ class Floor:
             for j in range(Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
                 self.__rooms[i][j] = Room('none', False)
 
-        self.__start_room_position = [0,0]
+        self.__player_room_position = [0,0]
         self.__rooms = self.generate()
 
     @property
@@ -45,7 +45,7 @@ class Floor:
                 # room = Room('normal', True)
                 print('プレイヤーがいる部屋の座標', r_x, r_y)
                 rooms[r_x][r_y] = Room('normal', True)
-                self.__start_room_position = [r_x, r_y]
+                self.__player_room_position = [r_x, r_y]
             else :
                 # non_room = Room('normal', False)
                 # print('プレイヤーがいない部屋', non_room)
@@ -75,13 +75,16 @@ class Floor:
                 y = j*Properties.MAX_MASS_IN_ROOM_ONE_SIDE
                 self.__rooms[i][j].layers.player_layer.draw(x, y)
         
-        print(self.__rooms)
+        # print(self.__rooms)
                 
     
-    def set_start_position(self):
-        print('プレイヤーのいるお部屋', self.__start_room_position[0], self.__start_room_position[1],  self.__rooms[self.__start_room_position[0]][self.__start_room_position[1]])
-        self.__rooms[self.__start_room_position[0]][self.__start_room_position[1]].layers.player_layer.set_start_position()
+    def spawn_player(self):
+        print('プレイヤーのいるお部屋', self.__player_room_position[0], self.__player_room_position[1],  self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]])
+        player = self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.set_start_position()
+        return player
 
+    def player_set_position(self):
+        self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.set_position()
     # def select_start_room(self):
     #     r_room_i = random.randint(0, len(self.__rooms)-1)
     #     r_room_j = random.randint(0, len(self.__rooms)-1)
