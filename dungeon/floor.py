@@ -93,27 +93,26 @@ class Floor:
     # プレイヤーを動かす
     def player_move(self, direction):
         if (direction == 'right'):
-            # print(type(self.__rooms))
-            forward = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
-            if ((self.__player.position[0]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE) and (forward == Tile)):
+            forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
+            if ((self.__player.position[0]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE) and (forward_mass == Tile)):
                 self.__player.move(direction)
-                # print(type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
-                #         , type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]]) == Tile)
         
         elif (direction == 'left'):
-            forward = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]-1][self.__player.position[1]])
-            if ((self.__player.position[0]-1 > -1) and (forward == Tile)):
+            forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]-1][self.__player.position[1]])
+            if ((self.__player.position[0]-1 > -1) and (forward_mass == Tile)):
                     self.__player.move(direction)
         
         elif (direction == 'up'):
-            forward = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
-            if ((self.__player.position[1]-1 > -1) and (forward == Tile)):
+            forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
+            if ((self.__player.position[1]-1 > -1) and (forward_mass == Tile)):
                     self.__player.move(direction)
 
         elif (direction == 'down'):
-            forward = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]+1])
-            if ((self.__player.position[1]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE) and (forward == Tile)):
+            forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]+1])
+            if ((self.__player.position[1]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE) and (forward_mass == Tile)):
                     self.__player.move(direction)
+    
+    # def is_not_room_side(self, direction):
 
 
     #  def select_start_room(self):
