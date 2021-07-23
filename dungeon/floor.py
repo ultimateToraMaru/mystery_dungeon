@@ -1,3 +1,5 @@
+from dungeon.room.object_layers.objects.tile import Tile
+from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.const.properties import Properties
 from dungeon.room.room import Room
 import random
@@ -12,6 +14,7 @@ class Floor:
 
         self.__player_room_position = [0,0]
         self.__rooms = self.generate()
+        self.__player = None_obj()
 
     @property
     def rooms(self):
@@ -81,11 +84,21 @@ class Floor:
     def spawn_player(self):
         print('プレイヤーのいるお部屋', self.__player_room_position[0], self.__player_room_position[1],  self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]])
         player = self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.set_start_position()
-        return player
+        self.__player = player
 
     def player_set_position(self):
         self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.set_position()
-    # def select_start_room(self):
+
+    def player_move(self, direction):
+        if (direction == 'right'):
+            # print(type(self.__rooms))
+            print(type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
+                    , type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]]) == Tile)
+            if (type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]]) == Tile):
+                self.__player.move(direction)
+
+
+    #  def select_start_room(self):
     #     r_room_i = random.randint(0, len(self.__rooms)-1)
     #     r_room_j = random.randint(0, len(self.__rooms)-1)
     #     print('部屋の選定', r_room_i, r_room_j)

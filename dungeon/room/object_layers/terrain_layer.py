@@ -18,6 +18,14 @@ class Terrain_layer():
         elif(type == 'none'):
             self.__data = [[Wall(Color.BROWN)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]
             self.__data = self.generate_none_room(self.__data)
+    
+    @property
+    def data(self):
+        pass
+
+    @data.getter
+    def data(self):
+        return self.__data
 
 
     # 地形をランダムで形成する関数

@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.const.color import Color
 from dungeon.const.properties import Properties
 from dungeon.room.object_layers.objects.obj import Obj
@@ -7,6 +8,7 @@ class Player(Obj):
     def __init__(self, color):
         super().__init__(color)
         self.__position = [0, 0]
+        # self.__map = 
     
     @property
     def position(self):
@@ -30,3 +32,9 @@ class Player(Obj):
         if (direction == 'right'):
             self.position[0] = self.position[0]+1
             self.position[1] = self.position[1]
+    
+    def is_can_move(self, direction):
+        if (direction == 'right'):
+            if (type(self.position[0]+1) == None_obj):
+                return True
+                

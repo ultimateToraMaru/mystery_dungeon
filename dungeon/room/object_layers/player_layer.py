@@ -14,12 +14,23 @@ class Player_layer():
         for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
             for j in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[i][j] = None_obj()
-        
-        self.__player = None_obj()
+
+        self.__tmp_player_position = [0, 0]
 
         if (is_start_room):
             self.__player = Player(Color.SKYPINK)
-            # self.__player_position = 
+        else:
+            self.__player = None_obj()
+
+
+    @property
+    def data(self):
+        pass
+
+    @data.getter
+    def data(self):
+        return self.__data
+
 
     def draw(self, room_x, room_y):
         # print(room_x, room_y)
@@ -32,7 +43,8 @@ class Player_layer():
         return self.__player.position
     
     def set_player_position(self, x, y):
-        self.__player.position = [x, y]
+        self.__tmp_player_position = [x, y]
+        self.__player.position = self.__tmp_player_position
     
     # なんか同時に複数の部屋に現れちゃう。だけどプレイやーを配置で来た！すごい！すー
     def set_start_position(self):
@@ -44,6 +56,7 @@ class Player_layer():
         r_i = math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
         r_j = math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
 
+        # self.__player.position = [r_i, r_j]
         self.set_player_position(r_i, r_j)
         self.__data[self.__player.position[0]][self.__player.position[1]] = self.__player
       
@@ -54,4 +67,7 @@ class Player_layer():
         return self.__player
 
     def set_position(self):
+        self.__data[self.__tmp_player_position[0]][self.__tmp_player_position[1]] = None_obj()
         self.__data[self.__player.position[0]][self.__player.position[1]] = self.__player
+        self.set_player_position(self.__player.position[0], self.__player.position[1])
+        # print(self.__data)
