@@ -80,22 +80,40 @@ class Floor:
         
         # print(self.__rooms)
                 
-    
+    # プレイヤーを生み出す。フロア到達時に一階だけ実行される。
     def spawn_player(self):
         print('プレイヤーのいるお部屋', self.__player_room_position[0], self.__player_room_position[1],  self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]])
         player = self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.set_start_position()
         self.__player = player
 
+    # プレイヤー自身の座標を受け取って、セットする
     def player_set_position(self):
         self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.set_position()
 
+    # プレイヤーを動かす
     def player_move(self, direction):
         if (direction == 'right'):
             # print(type(self.__rooms))
-            print(type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
-                    , type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]]) == Tile)
-            if (type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]]) == Tile):
+            forward = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
+            if ((self.__player.position[0]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE) and (forward == Tile)):
                 self.__player.move(direction)
+                # print(type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
+                #         , type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]]) == Tile)
+        
+        elif (direction == 'left'):
+            forward = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]-1][self.__player.position[1]])
+            if ((self.__player.position[0]-1 > -1) and (forward == Tile)):
+                    self.__player.move(direction)
+        
+        elif (direction == 'up'):
+            forward = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
+            if ((self.__player.position[1]-1 > -1) and (forward == Tile)):
+                    self.__player.move(direction)
+
+        elif (direction == 'down'):
+            forward = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]+1])
+            if ((self.__player.position[1]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE) and (forward == Tile)):
+                    self.__player.move(direction)
 
 
     #  def select_start_room(self):

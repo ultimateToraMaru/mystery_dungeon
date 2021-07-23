@@ -35,9 +35,19 @@ class App:
 
     def draw(self):
         self.floor.terrain_draw()
-        self.floor.player_move('right')
+        self.input_check()
         self.floor.player_set_position()
         self.floor.player_draw()
+    
+    def input_check(self):
+        if pyxel.btnp(pyxel.KEY_D):
+            self.floor.player_move('right')
+        elif pyxel.btnp(pyxel.KEY_A):
+            self.floor.player_move('left')
+        elif pyxel.btnp(pyxel.KEY_W):
+            self.floor.player_move('up')
+        elif pyxel.btnp(pyxel.KEY_S):
+            self.floor.player_move('down')
 
 if __name__ == '__main__':
     app = App()

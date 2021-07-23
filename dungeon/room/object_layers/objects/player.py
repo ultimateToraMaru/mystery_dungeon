@@ -29,12 +29,21 @@ class Player(Obj):
         pyxel.blt(x*w, y*h, img=1, u=0, v=0, w=4, h=4)
     
     def move(self, direction):
+        print('move')
         if (direction == 'right'):
             self.position[0] = self.position[0]+1
-            self.position[1] = self.position[1]
+
+        elif (direction == 'left'):
+            self.position[0] = self.position[0]-1
+
+        elif (direction == 'up'):
+            self.position[1] = self.position[1]-1
+
+        elif (direction == 'down'):
+            self.position[1] = self.position[1]+1
     
-    def is_can_move(self, direction):
-        if (direction == 'right'):
-            if (type(self.position[0]+1) == None_obj):
-                return True
+    # def is_can_move(self, direction):
+    #     if (direction == 'right'):
+    #         if (type(self.position[0]+1) == None_obj):
+    #             return True
                 
