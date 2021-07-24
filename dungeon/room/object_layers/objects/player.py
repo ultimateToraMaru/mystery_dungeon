@@ -29,7 +29,7 @@ class Player(Obj):
         pyxel.blt(x*w, y*h, img=1, u=0, v=0, w=4, h=4)
     
     def move(self, direction):
-        print('move')
+        # print('move')
         if (direction == 'right'):
             self.position[0] = self.position[0]+1
 

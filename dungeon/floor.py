@@ -95,7 +95,11 @@ class Floor:
     
     # プレイヤーの行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)
     def is_can_move(self, direction):
+        print('部屋の番地:', self.__player_room_position, ' 部屋内:', self.__player.position[0], self.__player.position[1])
         if (direction == 'right'):
+            if (self.__player.position[0] == Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1 and self.__player_room_position[0]+1 == Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+                return False
+
             if (self.__player.position[0]+1 == Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
                 # この行の+1の位置が怪しい。後から考える必要あり。敵とかが出てきたときにおかしくなりそう。ex. 右に行こうとしてるのに上に敵がいるからいけないなど。。。
                 next_room = type(self.__rooms[self.__player_room_position[0]+1][self.__player_room_position[1]].layers.terrain_layer.data[Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
@@ -115,6 +119,9 @@ class Floor:
                 forward_is_not_corner_of_room = self.__player.position[0]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE
         
         elif (direction == 'left'):
+            if (self.__player.position[0] == 0 and self.__player_room_position[0]-1 == -1):
+                return False
+
             forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]-1][self.__player.position[1]])
             forward_is_not_corner_of_room = self.__player.position[0]-1 > -1
             if (self.__player.position[0]-1 == -1):
@@ -131,6 +138,9 @@ class Floor:
             
         
         elif (direction == 'up'):
+            if (self.__player.position[1] == 0 and self.__player_room_position[1]-1 == -1):
+                return False
+
             forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
             forward_is_not_corner_of_room = self.__player.position[1]-1 > -1
             if (self.__player.position[1]-1 == -1):
@@ -146,8 +156,14 @@ class Floor:
                     self.__player.position = [self.__player.position[0], Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1]
 
         elif (direction == 'down'):
+            if (self.__player.position[1] == Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1 and self.__player_room_position[1]+1 == Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+                return False
+
             if (self.__player.position[1]+1 == Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
                  # この行の+1の位置が怪しい。後から考える必要あり。敵とかが出てきたときにおかしくなりそう。ex. 右に行こうとしてるのに上に敵がいるからいけないなど。。。
+                if (self.__player_room_position[1]+1 == Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+                    return False
+
                 next_room = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]+1].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
                 if (next_room == Tile):
                     # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
