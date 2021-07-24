@@ -98,17 +98,39 @@ class Floor:
         if (direction == 'right'):
             forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
             forward_is_not_corner_of_room = self.__player.position[0]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE
+            if (self.__player.position[0]+1 == Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
+                # この行の+1の位置が怪しい。後から考える必要あり。敵とかが出てきたときにおかしくなりそう。ex. 右に行こうとしてるのに上に敵がいるからいけないなど。。。
+                next_room = type(self.__rooms[self.__player_room_position[0]+1][self.__player_room_position[1]].layers.terrain_layer.data[Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
+                if (next_room == Tile):
+                    # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
+                    self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.clean()
+                    self.__rooms[self.__player_room_position[0]+1][self.__player_room_position[1]].layers.player_layer.player = self.__player
+
+                    # プレイヤーの移動。ポジションもろもろ
+                    self.__player_room_position = [self.__player_room_position[0]+1, self.__player_room_position[1]]
+                    self.__player.position = [Properties.MAX_MASS_IN_ROOM_ONE_SIDE+1, self.__player.position[1]]
         
         elif (direction == 'left'):
             forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]-1][self.__player.position[1]])
             forward_is_not_corner_of_room = self.__player.position[0]-1 > -1
+            if (self.__player.position[0]-1 == -1):
+                # この行の-1の位置が怪しい。後から考える必要あり。
+                next_room = type(self.__rooms[self.__player_room_position[0]-1][self.__player_room_position[1]].layers.terrain_layer.data[Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
+                if (next_room == Tile):
+                    # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
+                    self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.clean()
+                    self.__rooms[self.__player_room_position[0]-1][self.__player_room_position[1]].layers.player_layer.player = self.__player
+
+                    # プレイヤーの移動。ポジションもろもろ
+                    self.__player_room_position = [self.__player_room_position[0]-1, self.__player_room_position[1]]
+                    self.__player.position = [Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1, self.__player.position[1]]
             
         
         elif (direction == 'up'):
             forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
             forward_is_not_corner_of_room = self.__player.position[1]-1 > -1
             if (self.__player.position[1]-1 == -1):
-                # この行の-1の位置が怪しい。
+                # この行の-1の位置が怪しい。後から考える必要あり。
                 next_room = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]-1].layers.terrain_layer.data[self.__player.position[0]][Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1])
                 if (next_room == Tile):
                     # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
