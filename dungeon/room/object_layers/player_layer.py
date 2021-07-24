@@ -31,6 +31,14 @@ class Player_layer():
     def data(self):
         return self.__data
 
+    @property
+    def player(self):
+        pass
+
+    @player.setter
+    def player(self, player):
+        self.__player = player
+
 
     def draw(self, room_x, room_y):
         # print(room_x, room_y)
@@ -73,3 +81,9 @@ class Player_layer():
         self.set_player_position(self.__player.position[0], self.__player.position[1])
         
         # print(self.__data)
+    
+    # プレイヤーの残層をきれいに掃除する
+    def clean(self):
+        for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for j in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
+                self.__data[i][j] = None_obj()
