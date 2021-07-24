@@ -67,9 +67,6 @@ class Floor:
                 self.__rooms[i][j].layers.terrain_layer.draw(x, y)
 
     def player_draw(self):
-        # if (direction == 'right'):
-        #     player_position = self.__rooms.player_layer.get_player_position()
-        #     self.__player_layer.set_player_position(player_position[0], player_position[1]+1)
         x = 0
         y = 0
         for i in range(len(self.__rooms)):
@@ -92,49 +89,30 @@ class Floor:
 
     # プレイヤーを動かす
     def player_move(self, direction):
+        if (self.is_can_move(direction)):
+            self.__player.move(direction)
+
+    
+    # プレイヤーの行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)
+    def is_can_move(self, direction):
         if (direction == 'right'):
             forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
-            if ((self.__player.position[0]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE) and (forward_mass == Tile)):
-                self.__player.move(direction)
+            forward_is_not_corner_of_room = self.__player.position[0]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE
         
         elif (direction == 'left'):
             forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]-1][self.__player.position[1]])
-            if ((self.__player.position[0]-1 > -1) and (forward_mass == Tile)):
-                    self.__player.move(direction)
+            forward_is_not_corner_of_room = self.__player.position[0]-1 > -1
         
         elif (direction == 'up'):
             forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
-            if ((self.__player.position[1]-1 > -1) and (forward_mass == Tile)):
-                    self.__player.move(direction)
+            forward_is_not_corner_of_room = self.__player.position[1]-1 > -1
+            if (self.__player.position[1]-1 == -1):
+                next_room = type(self.__rooms[self.__player_room_position[0]-1][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1])
+                if (next_room == Tile):
+                    print(next_room == Tile)
 
         elif (direction == 'down'):
             forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]+1])
-            if ((self.__player.position[1]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE) and (forward_mass == Tile)):
-                    self.__player.move(direction)
-    
-    # def is_not_room_side(self, direction):
+            forward_is_not_corner_of_room = self.__player.position[1]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE
 
-
-    #  def select_start_room(self):
-    #     r_room_i = random.randint(0, len(self.__rooms)-1)
-    #     r_room_j = random.randint(0, len(self.__rooms)-1)
-    #     print('部屋の選定', r_room_i, r_room_j)
-
-    #     # self.__rooms[r_room_i][r_room_j].is_start_room = True
-    #     self.__rooms[r_room_i][r_room_j].layers.player_layer.set_start_position()
-    
-    # def search_player(self):
-    #     for i in range(len(self.__rooms)):
-    #         for j in range(len(self.__rooms)):
-    #             self.__rooms[i][j].layers.player_layer.get_player_position()
-    
-    # def player_move(self, direction):
-    #     if (direction == 'right'):
-    #         player_position = self.__player_layer.get_player_position()
-    #         self.__player_layer.set_player_position(player_position[0], player_position[1]+1)
-
-    # def room_pass_finding(self):
-    #     for i in range(len(self.__rooms)):
-    #         for j in range(len(self.__rooms)):
-    #             if (self.__rooms[i][j].type == 'normal'):
-    #                 self.__rooms[i][j].layers.terrain_layer.set_point()
+        return (forward_is_not_corner_of_room and (forward_mass == Tile))
