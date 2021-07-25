@@ -26,7 +26,7 @@ class Player(Obj):
         w = Properties.MASS_WIDTH
         h = Properties.MASS_HEIGHT
         # pyxel.rect(x*w, y*h, w, h, Color.CLOUDBLUE)    # 仮の色を渡しておく
-        pyxel.blt(x*w, y*h, img=1, u=0, v=0, w=4, h=4)
+        pyxel.blt(x*w, y*h, img=1, u=0, v=0, w=5, h=5)
     
     def move(self, direction):
         # print('move')

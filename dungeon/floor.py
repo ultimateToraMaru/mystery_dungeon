@@ -97,6 +97,7 @@ class Floor:
     def is_can_move(self, direction):
         print('部屋の番地:', self.__player_room_position, ' 部屋内:', self.__player.position[0], self.__player.position[1])
         if (direction == 'right'):
+            # ブロックの端ではそれ以降移動できないようにする
             if (self.__player.position[0] == Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1 and self.__player_room_position[0]+1 == Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
                 return False
 
@@ -119,6 +120,7 @@ class Floor:
                 forward_is_not_corner_of_room = self.__player.position[0]+1 < Properties.MAX_MASS_IN_ROOM_ONE_SIDE
         
         elif (direction == 'left'):
+            # ブロックの端ではそれ以降移動できないようにする
             if (self.__player.position[0] == 0 and self.__player_room_position[0]-1 == -1):
                 return False
 
@@ -138,6 +140,7 @@ class Floor:
             
         
         elif (direction == 'up'):
+            # ブロックの端ではそれ以降移動できないようにする
             if (self.__player.position[1] == 0 and self.__player_room_position[1]-1 == -1):
                 return False
 
@@ -156,6 +159,7 @@ class Floor:
                     self.__player.position = [self.__player.position[0], Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1]
 
         elif (direction == 'down'):
+            # ブロックの端ではそれ以降移動できないようにする
             if (self.__player.position[1] == Properties.MAX_MASS_IN_ROOM_ONE_SIDE-1 and self.__player_room_position[1]+1 == Properties.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
                 return False
 

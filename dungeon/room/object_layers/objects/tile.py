@@ -10,4 +10,4 @@ class Tile(Obj):
         w = Properties.MASS_WIDTH
         h = Properties.MASS_HEIGHT
 
-        pyxel.blt(x*w, y*h, img=0, u=0, v=0, w=4, h=4)
+        pyxel.blt(x*w, y*h, img=0, u=0, v=0, w=5, h=5)
