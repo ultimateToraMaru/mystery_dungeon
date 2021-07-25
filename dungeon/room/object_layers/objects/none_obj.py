@@ -1,5 +1,5 @@
 from dungeon.const.color import Color
-from dungeon.const.properties import Properties
+from dungeon.const.size import Size
 import pyxel
 from dungeon.room.object_layers.objects.obj import Obj
 

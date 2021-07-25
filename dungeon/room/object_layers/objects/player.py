@@ -1,6 +1,6 @@
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.const.color import Color
-from dungeon.const.properties import Properties
+from dungeon.const.size import Size
 from dungeon.room.object_layers.objects.obj import Obj
 import pyxel
 
@@ -23,10 +23,14 @@ class Player(Obj):
         self.__position = position
     
     def create(self, x, y):
-        w = Properties.MASS_WIDTH
-        h = Properties.MASS_HEIGHT
-        # pyxel.rect(x*w, y*h, w, h, Color.CLOUDBLUE)    # 仮の色を渡しておく
-        pyxel.blt(x*w, y*h, img=1, u=0, v=0, w=5, h=5)
+        w = Size.MASS_WIDTH
+        h = Size.MASS_HEIGHT
+        
+        if (Size.MASS_HEIGHT == 5): 
+            # pyxel.rect(x*w, y*h, w, h, Color.CLOUDBLUE)    # 仮の色を渡しておく
+            pyxel.blt(x*w, y*h, img=1, u=0, v=0, w=5, h=5)    # 5*5
+        elif (Size.MASS_HEIGHT == 10):
+            pyxel.blt(x*w, y*h, img=1, u=8, v=0, w=10, h=10, colkey=7)    # 10*10
     
     def move(self, direction):
         # print('move')

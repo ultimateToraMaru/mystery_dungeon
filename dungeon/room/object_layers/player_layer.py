@@ -1,7 +1,7 @@
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.objects.player import Player
 import math
-from dungeon.const.properties import Properties
+from dungeon.const.size import Size
 import random
 from dungeon.room.object_layers.objects.tile import Tile
 from dungeon.room.object_layers.objects.wall import Wall
@@ -10,9 +10,9 @@ from dungeon.const.color import Color
 # 地形を表すクラス。地形データ__dataにWallやTile, Rockが入る
 class Player_layer():
     def __init__(self, is_start_room):
-        self.__data = [[None_obj()] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)] 
-        for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for j in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
+        self.__data = [[None_obj()] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)] 
+        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[i][j] = None_obj()
 
         self.__tmp_player_position = [0, 0]
@@ -43,8 +43,8 @@ class Player_layer():
     def draw(self, room_x, room_y):
         # print(room_x, room_y)
         # print(self.__data[self.__player_position[0]][self.__player_position[1]])
-        for x in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for y in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
+        for x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[x][y].create(x+room_x, y+room_y)
 
     def get_player_position(self):
@@ -61,8 +61,8 @@ class Player_layer():
 
         # ランダムじゃなくて、部央でもよくない？
         # しかも、中央は絶対部屋になってるぜよ
-        r_i = math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
-        r_j = math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
+        r_i = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
+        r_j = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
 
         # self.__player.position = [r_i, r_j]
         self.set_player_position(r_i, r_j)
@@ -84,6 +84,6 @@ class Player_layer():
     
     # プレイヤーの残層をきれいに掃除する
     def clean(self):
-        for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for j in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
+        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[i][j] = None_obj()

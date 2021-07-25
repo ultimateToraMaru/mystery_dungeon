@@ -1,5 +1,5 @@
 from abc import ABCMeta
-from dungeon.const.properties import Properties
+from dungeon.const.size import Size
 import pyxel
 
 class Obj (metaclass=ABCMeta):
@@ -16,6 +16,6 @@ class Obj (metaclass=ABCMeta):
         return self.__color
 
     def create(self, x, y):
-        w = Properties.MASS_WIDTH
-        h = Properties.MASS_HEIGHT
+        w = Size.MASS_WIDTH
+        h = Size.MASS_HEIGHT
         pyxel.rect(x*w, y*h, w, h, self.__color)

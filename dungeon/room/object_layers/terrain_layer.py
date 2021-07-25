@@ -1,5 +1,5 @@
 import math
-from dungeon.const.properties import Properties
+from dungeon.const.size import Size
 import random
 from dungeon.room.object_layers.objects.tile import Tile
 from dungeon.room.object_layers.objects.wall import Wall
@@ -11,12 +11,12 @@ class Terrain_layer():
         # 地形データ(木や壁)や落ちてるアイテム(アイテムは取得したら床オブジェクトを設置)を表す変数
         # そうすればterrain_dataとterrainを分ける必要はない！
         if (type == 'normal'):
-            self.__data = [[Wall(Color.MAGENTA)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]      
-            self.__data = self.generate(self.__data, Properties.MAX_MASS_IN_ROOM_ONE_SIDE)
-            self.__data = self.setExportPoints(self.__data, Properties.MAX_MASS_IN_ROOM_ONE_SIDE)
+            self.__data = [[Wall(Color.MAGENTA)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]      
+            self.__data = self.generate(self.__data, Size.MAX_MASS_IN_ROOM_ONE_SIDE)
+            self.__data = self.setExportPoints(self.__data, Size.MAX_MASS_IN_ROOM_ONE_SIDE)
             
         elif(type == 'none'):
-            self.__data = [[Wall(Color.BROWN)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]
+            self.__data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
             self.__data = self.generate_none_room(self.__data)
     
     @property
@@ -58,11 +58,11 @@ class Terrain_layer():
     # 格子状に道を作って道の生成を簡易的にしよう
     # 階の周りを大きく壁で加工必要がある。ん？でも床ではないから歩けないか。。。囲わなくても大丈夫そう。
     def generate_none_room(self, data):
-        data = [[Wall(Color.BROWN)] * Properties.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE)]
+        data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
 
-        for i in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
-            data[i][math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Tile(Color.GREEN)
-            data[math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2)][i] = Tile(Color.GREEN)
+        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            data[i][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Tile(Color.GREEN)
+            data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][i] = Tile(Color.GREEN)
     
 
         return data
@@ -72,8 +72,8 @@ class Terrain_layer():
         # for文で__dataを回して、drawしていく
         # print(room_x, room_y)
         # print(self.__data[0][0])
-        for x in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for y in range(Properties.MAX_MASS_IN_ROOM_ONE_SIDE):
+        for x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[x][y].create(x+room_x, y+room_y)
 
     # 入り口出口は部屋が持つべきだよね。ってことで、地形データ(terrain_layer)に持ってきたのだ
@@ -103,5 +103,5 @@ class Terrain_layer():
         pass
 
     def set_point(self):
-        self.__data[math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2)][math.floor(Properties.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Wall(Color.GREEN)
+        self.__data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Wall(Color.GREEN)
     
