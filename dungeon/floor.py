@@ -97,90 +97,99 @@ class Floor:
     def is_can_move(self, direction):
         print('部屋の番地:', self.__player_room_position, ' 部屋内:', self.__player.position[0], self.__player.position[1])
         if (direction == 'right'):
-            # ブロックの端ではそれ以降移動できないようにする
-            if (self.__player.position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1 and self.__player_room_position[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
-                return False
 
-            if (self.__player.position[0]+1 == Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                # この行の+1の位置が怪しい。後から考える必要あり。敵とかが出てきたときにおかしくなりそう。ex. 右に行こうとしてるのに上に敵がいるからいけないなど。。。
-                next_room = type(self.__rooms[self.__player_room_position[0]+1][self.__player_room_position[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
-                if (next_room == Tile):
-                    # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
-                    self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.clean()
-                    self.__rooms[self.__player_room_position[0]+1][self.__player_room_position[1]].layers.player_layer.player = self.__player
-
-                    # プレイヤーの移動。ポジションもろもろ
-                    self.__player_room_position = [self.__player_room_position[0]+1, self.__player_room_position[1]]
-                    self.__player.position = [-1, self.__player.position[1]]
-
-                return True
-
+            player_at_end_of_the_room = self.__player.position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
+            player_at_end_of_the_floor = self.__player_room_position[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
+            if (player_at_end_of_the_room):
+                next_room_mass = type(self.__rooms[self.__player_room_position[0]+1][self.__player_room_position[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
+                this_room = self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]]
+                next_room = self.__rooms[self.__player_room_position[0]+1][self.__player_room_position[1]]
+                next_room_position = [self.__player_room_position[0]+1, self.__player_room_position[1]]
+                in_room_position = [-1, self.__player.position[1]]
             else :
                 forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
                 forward_is_not_corner_of_room = self.__player.position[0]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
         
-        elif (direction == 'left'):
-            # ブロックの端ではそれ以降移動できないようにする
-            if (self.__player.position[0] == 0 and self.__player_room_position[0]-1 == -1):
-                return False
+        # elif (direction == 'left'):
+        #     # ブロックの端ではそれ以降移動できないようにする
+        #     if (self.__player.position[0] == 0 and self.__player_room_position[0]-1 == -1):
+        #         return False
 
-            forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]-1][self.__player.position[1]])
-            forward_is_not_corner_of_room = self.__player.position[0]-1 > -1
-            if (self.__player.position[0]-1 == -1):
-                next_room = type(self.__rooms[self.__player_room_position[0]-1][self.__player_room_position[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
-                if (next_room == Tile):
-                    # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
-                    self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.clean()
-                    self.__rooms[self.__player_room_position[0]-1][self.__player_room_position[1]].layers.player_layer.player = self.__player
+        #     forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]-1][self.__player.position[1]])
+        #     forward_is_not_corner_of_room = self.__player.position[0]-1 > -1
+        #     if (self.__player.position[0]-1 == -1):
+        #         next_room = type(self.__rooms[self.__player_room_position[0]-1][self.__player_room_position[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
+        #         if (next_room == Tile):
+        #             # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
+        #             self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.clean()
+        #             self.__rooms[self.__player_room_position[0]-1][self.__player_room_position[1]].layers.player_layer.player = self.__player
 
-                    # プレイヤーの移動。ポジションもろもろ
-                    self.__player_room_position = [self.__player_room_position[0]-1, self.__player_room_position[1]]
-                    self.__player.position = [Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, self.__player.position[1]]
+        #             # プレイヤーの移動。ポジションもろもろ
+        #             self.__player_room_position = [self.__player_room_position[0]-1, self.__player_room_position[1]]
+        #             self.__player.position = [Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, self.__player.position[1]]
             
         
-        elif (direction == 'up'):
-            # ブロックの端ではそれ以降移動できないようにする
-            if (self.__player.position[1] == 0 and self.__player_room_position[1]-1 == -1):
-                return False
+        # elif (direction == 'up'):
+        #     # ブロックの端ではそれ以降移動できないようにする
+        #     if (self.__player.position[1] == 0 and self.__player_room_position[1]-1 == -1):
+        #         return False
 
-            forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
-            forward_is_not_corner_of_room = self.__player.position[1]-1 > -1
-            if (self.__player.position[1]-1 == -1):
-                next_room = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]-1].layers.terrain_layer.data[self.__player.position[0]][Size.MAX_MASS_IN_ROOM_ONE_SIDE-1])
-                if (next_room == Tile):
-                    # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
-                    self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.clean()
-                    self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]-1].layers.player_layer.player = self.__player
+        #     forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
+        #     forward_is_not_corner_of_room = self.__player.position[1]-1 > -1
+        #     if (self.__player.position[1]-1 == -1):
+        #         next_room = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]-1].layers.terrain_layer.data[self.__player.position[0]][Size.MAX_MASS_IN_ROOM_ONE_SIDE-1])
+        #         if (next_room == Tile):
+        #             # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
+        #             self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.clean()
+        #             self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]-1].layers.player_layer.player = self.__player
 
-                    # プレイヤーの移動。ポジションもろもろ
-                    self.__player_room_position = [self.__player_room_position[0], self.__player_room_position[1]-1]
-                    self.__player.position = [self.__player.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE-1]
+        #             # プレイヤーの移動。ポジションもろもろ
+        #             self.__player_room_position = [self.__player_room_position[0], self.__player_room_position[1]-1]
+        #             self.__player.position = [self.__player.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE-1]
 
-        elif (direction == 'down'):
-            # ブロックの端ではそれ以降移動できないようにする
-            if (self.__player.position[1] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1 and self.__player_room_position[1]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
-                return False
+        # elif (direction == 'down'):
+        #     # ブロックの端ではそれ以降移動できないようにする
+        #     if (self.__player.position[1] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1 and self.__player_room_position[1]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+        #         return False
 
-            if (self.__player.position[1]+1 == Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+        #     if (self.__player.position[1]+1 == Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                  
-                if (self.__player_room_position[1]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
-                    return False
+        #         if (self.__player_room_position[1]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+        #             return False
 
-                # ブロックをまたがる
-                next_room = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]+1].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
-                if (next_room == Tile):
-                    # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
-                    self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.clean()
-                    self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]+1].layers.player_layer.player = self.__player
+        #         # ブロックをまたがる
+        #         next_room = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]+1].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
+        #         if (next_room == Tile):
+        #             # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
+        #             self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.clean()
+        #             self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]+1].layers.player_layer.player = self.__player
 
-                    # プレイヤーの移動。ポジションもろもろ
-                    self.__player_room_position = [self.__player_room_position[0], self.__player_room_position[1]+1]
-                    self.__player.position = [self.__player.position[0], -1]
+        #             # プレイヤーの移動。ポジションもろもろ
+        #             self.__player_room_position = [self.__player_room_position[0], self.__player_room_position[1]+1]
+        #             self.__player.position = [self.__player.position[0], -1]
 
-                return True
+        #         return True
 
-            else :
-                forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]+1])
-                forward_is_not_corner_of_room = self.__player.position[1]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
+        #     else :
+        #         forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]+1])
+        #         forward_is_not_corner_of_room = self.__player.position[1]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
+        
 
-        return (forward_is_not_corner_of_room and (forward_mass == Tile))
+        if (player_at_end_of_the_room):
+            if (player_at_end_of_the_floor): 
+                return False
+
+            if (next_room_mass == Tile):
+                # プレイヤーの移動に伴って部屋を掃除する
+                this_room.layers.player_layer.clean()
+                # プレイヤーインスタンスを次の部屋に移す
+                next_room.layers.player_layer.player = self.__player
+                # プレイヤーがいる部屋のポジションを更新
+                self.__player_room_position = next_room_position
+                # プレイヤーの部屋内のポジションを更新
+                self.__player.position = in_room_position
+
+            return True
+
+        else :
+            return (forward_is_not_corner_of_room and (forward_mass == Tile))
