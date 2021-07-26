@@ -127,7 +127,6 @@ class Floor:
             forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]-1][self.__player.position[1]])
             forward_is_not_corner_of_room = self.__player.position[0]-1 > -1
             if (self.__player.position[0]-1 == -1):
-                # この行の-1の位置が怪しい。後から考える必要あり。
                 next_room = type(self.__rooms[self.__player_room_position[0]-1][self.__player_room_position[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
                 if (next_room == Tile):
                     # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
@@ -147,7 +146,6 @@ class Floor:
             forward_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
             forward_is_not_corner_of_room = self.__player.position[1]-1 > -1
             if (self.__player.position[1]-1 == -1):
-                # この行の-1の位置が怪しい。後から考える必要あり。
                 next_room = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]-1].layers.terrain_layer.data[self.__player.position[0]][Size.MAX_MASS_IN_ROOM_ONE_SIDE-1])
                 if (next_room == Tile):
                     # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
@@ -164,10 +162,11 @@ class Floor:
                 return False
 
             if (self.__player.position[1]+1 == Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                 # この行の+1の位置が怪しい。後から考える必要あり。敵とかが出てきたときにおかしくなりそう。ex. 右に行こうとしてるのに上に敵がいるからいけないなど。。。
+                 
                 if (self.__player_room_position[1]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
                     return False
 
+                # ブロックをまたがる
                 next_room = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]+1].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
                 if (next_room == Tile):
                     # プレイヤーの移動に伴って、部屋を掃除したり、次の部屋にプレイヤーを移したり
