@@ -33,7 +33,7 @@ class Terrain_layer():
 
         # 部屋の端っこ。始まりポイントと終わりポイント
         start_point = 2
-        margin = 3
+        margin = MAXMASS - (MAXMASS/2)
         end_point = MAXMASS-1
         
         # 四角形の4点をランダムで決める
@@ -45,6 +45,7 @@ class Terrain_layer():
         # Y軸の端っこに床を配置していく
         for i in range(r_start_y, r_end_y):
             for j in range(r_start_x, r_end_x):
+                # print(i, j)
                 data[i][j] = Tile(Color.GREEN)
 
         # X軸の端っこに床を配置していく
@@ -84,7 +85,7 @@ class Terrain_layer():
             # 出口ポイントをランダムで決めて、道をつくる
             center = math.floor(MAXMASS/2)
             # directions_r = random.randint(0, 3)
-            for i in range(5):
+            for i in range(center):
                 # if (directions_r == 0):
                     data[0+i][center] = Tile(Color.GREEN)
                 # elif (directions_r == 1):
