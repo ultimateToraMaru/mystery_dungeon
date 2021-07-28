@@ -173,3 +173,7 @@ class Floor:
         # プレイヤーが部屋の中を移動するとき
         else :
             return (forward_is_not_corner_of_room and (forward_mass == Tile))
+    
+    def get_player_around_room(self):
+        player_room = self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]]
+        return player_room
