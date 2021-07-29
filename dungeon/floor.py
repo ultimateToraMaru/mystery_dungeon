@@ -102,6 +102,8 @@ class Floor:
             player_at_end_of_the_room = self.__player.position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
             player_at_end_of_the_floor = self.__player_room_position[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
             if (player_at_end_of_the_room):
+                if (player_at_end_of_the_floor): 
+                    return False
                 next_room_mass = type(self.__rooms[self.__player_room_position[0]+1][self.__player_room_position[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
                 this_room = self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]]
                 next_room = self.__rooms[self.__player_room_position[0]+1][self.__player_room_position[1]]
@@ -141,6 +143,8 @@ class Floor:
             player_at_end_of_the_room = self.__player.position[1] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
             player_at_end_of_the_floor = self.__player_room_position[1]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
             if (player_at_end_of_the_room):
+                if (player_at_end_of_the_floor): 
+                    return False
                 next_room_mass = type(self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]+1].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
                 this_room = self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]]
                 next_room = self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]+1]
@@ -176,4 +180,5 @@ class Floor:
     
     def get_player_around_room(self):
         player_room = self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]]
+        # player_around_rooms = [self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]], self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]]]
         return player_room
