@@ -9,6 +9,7 @@ class Player(Obj):
         super().__init__(color)
         self.__position = [0, 0]
         # self.__map = 
+        self.__direction = 'down'
     
     @property
     def position(self):
@@ -32,10 +33,18 @@ class Player(Obj):
         elif (Size.MASS_HEIGHT == 10):
             pyxel.blt(x*w, y*h, img=1, u=8, v=0, w=10, h=10, colkey=0)    # 10*10
         elif (Size.MASS_HEIGHT == 16):
-            pyxel.blt(x*w, y*h, img=1, u=0, v=16, w=16, h=16, colkey=0)    # 10*10
+            if (self.__direction == 'right'):
+                pyxel.blt(x*w, y*h, img=1, u=32, v=32, w=16, h=16, colkey=0)    # 10*10
+            elif (self.__direction == 'left'):
+                pyxel.blt(x*w, y*h, img=1, u=0, v=32, w=16, h=16, colkey=0)    # 10*10
+            elif (self.__direction == 'up'):
+                pyxel.blt(x*w, y*h, img=1, u=16, v=16, w=16, h=16, colkey=0)    # 10*10
+            elif (self.__direction == 'down'):
+                pyxel.blt(x*w, y*h, img=1, u=16, v=32, w=16, h=16, colkey=0)    # 10*10
     
     def move(self, direction):
         # print('move')
+        self.__direction = direction
         if (direction == 'right'):
             self.position[0] = self.position[0]+1
 
