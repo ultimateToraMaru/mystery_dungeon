@@ -11,7 +11,7 @@ class Terrain_layer():
         # 地形データ(木や壁)や落ちてるアイテム(アイテムは取得したら床オブジェクトを設置)を表す変数
         # そうすればterrain_dataとterrainを分ける必要はない！
         if (type == 'normal'):
-            self.__data = [[Wall(Color.MAGENTA)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]      
+            self.__data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]      
             self.__data = self.generate(self.__data, Size.MAX_MASS_IN_ROOM_ONE_SIDE)
             self.__data = self.setExportPoints(self.__data, Size.MAX_MASS_IN_ROOM_ONE_SIDE)
             
@@ -46,12 +46,12 @@ class Terrain_layer():
         for i in range(r_start_y, r_end_y):
             for j in range(r_start_x, r_end_x):
                 # print(i, j)
-                data[i][j] = Tile(Color.GREEN)
+                data[i][j] = Tile()
 
         # X軸の端っこに床を配置していく
         for i in range(r_start_x, r_end_x):
             for j in range(r_start_y, r_end_y):
-                data[j][i] = Tile(Color.GREEN)
+                data[j][i] = Tile()
             
         return data
 
@@ -62,8 +62,8 @@ class Terrain_layer():
         data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
 
         for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            data[i][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Tile(Color.GREEN)
-            data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][i] = Tile(Color.GREEN)
+            data[i][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Tile()
+            data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][i] = Tile()
     
 
         return data
@@ -87,13 +87,13 @@ class Terrain_layer():
             # directions_r = random.randint(0, 3)
             for i in range(center):
                 # if (directions_r == 0):
-                    data[0+i][center] = Tile(Color.GREEN)
+                    data[0+i][center] = Tile()
                 # elif (directions_r == 1):
-                    data[center+i][center] = Tile(Color.GREEN)
+                    data[center+i][center] = Tile()
                 # elif (directions_r == 2):
-                    data[center][0+i] = Tile(Color.GREEN)
+                    data[center][0+i] = Tile()
                 # elif (directions_r == 3):
-                    data[center][center+i] = Tile(Color.GREEN)
+                    data[center][center+i] = Tile()
         
         # path_finding()
         

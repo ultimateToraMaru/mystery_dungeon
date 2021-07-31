@@ -10,7 +10,7 @@ class App:
     def __init__(self):
         # pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=5)   # 5*5
         # pyxel.init(200, 200, caption="mystery_dungeon", scale=2, fps=5)     # 10*10
-        pyxel.init(255, 255, caption="mystery_dungeon", scale=2, fps=5)     # 16*16
+        pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=5)     # 16*16
 
         pyxel.load("my_resource.pyxres")
         self.floor = Floor()
@@ -39,7 +39,7 @@ class App:
             pyxel.quit()
 
     def draw(self):
-        self.camera.target_room = self.floor.get_player_around_room()
+        self.camera.target = self.floor.get_player_around_room()
         self.camera.show()
         # self.floor.terrain_draw()
         self.input_check()

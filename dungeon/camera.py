@@ -12,16 +12,17 @@ class Camera():
         # for i in range(self.__CAMERA_SCALE):
         #     for j in range(self.__CAMERA_SCALE):
         #         self.__angle_of_view[i][j] = None_obj()
-        self.__target_room = Room('normal', False)
+        # self.__target = Room('normal', False)
+        self.__target = []
         self.__player_position = [0, 0]
     
     @property
-    def target_room(self):
+    def target(self):
         pass
 
-    @target_room.setter
-    def target_room(self, target_room):
-        self.__target_room = target_room
+    @target.setter
+    def target(self, target):
+        self.__target = target
     
     @property
     def player_position(self):
@@ -42,11 +43,12 @@ class Camera():
     def show(self):
         x = 0
         y = 0
-        # for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-        #     for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+        # for i in range(len(self.__target)):
+        #     for j in range(len(self.__target)):
         #         x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
         #         y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-        #         # print(self.__target_room)
-        # print(self.__player_position.index(Player()))
-        self.__target_room.layers.terrain_layer.draw(x, y)
-        self.__target_room.layers.player_layer.draw(x, y)
+                # self.__target.layers.terrain_layer.draw(x, y)
+                # self.__target.layers.player_layer.draw(x, y)
+        
+        self.__target.layers.terrain_layer.draw(x, y)
+        self.__target.layers.player_layer.draw(x, y)

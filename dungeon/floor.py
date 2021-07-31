@@ -31,7 +31,7 @@ class Floor:
 
     # ランダムな場所に部屋を生成
     def generate(self):
-        r = random.randint(2, 5)    # rの範囲:2~5。お部屋の数。
+        r = random.randint(5, 10)    # rの範囲:2~5。お部屋の数。
         rooms = [[Room('none', False)] * Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
         for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
             for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
@@ -180,5 +180,12 @@ class Floor:
     
     def get_player_around_room(self):
         player_room = self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]]
-        # player_around_rooms = [self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]], self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]]]
+        # room_position = [   [-1, -1], [-1, 0], [-1, +1],
+        #                     [0, -1], [0, 0], [0, +1],
+        #                     [+1, -1], [+1, 0], [+1, +1],
+        #                 ]
+        # player_around_rooms = []
+        # for pos in room_position :
+        #     player_around_rooms.append(self.__rooms[self.__player_room_position[0]+pos[0]][self.__player_room_position[1]+pos[1]])
+
         return player_room
