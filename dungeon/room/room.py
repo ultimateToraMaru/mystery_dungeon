@@ -1,6 +1,10 @@
 
 # floor内の一個一個の部屋を表すクラス
-from random import random
+from dungeon.room.object_layers.objects.steps import Steps
+from dungeon.room.object_layers.objects.player import Player
+from dungeon.room.object_layers.objects.tile import Tile
+from dungeon.const.size import Size
+import random
 from dungeon.const.color import Color
 from dungeon.room.object_layers.objects.wall import Wall
 from dungeon.room.object_layers.layers import Layers
@@ -51,3 +55,26 @@ class Room:
     @is_start_room.setter
     def is_start_room(self, is_start_room):
         self.__is_start_room = is_start_room
+    
+    
+    # 部屋内のランダムな場所に階段を設置する
+    def set_steps(self, steps):
+        # self.__steps = steps
+        while (True):
+            r_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
+            r_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
+            if (type(self.__layers.terrain_layer.data[r_x][r_y]) == Tile):
+                self.__layers.steps_layer.steps_position = [r_x, r_y]
+                self.__layers.steps_layer.data[r_x][r_y] = steps
+                break
+
+    # プレイヤーが階段に到着したか確認する
+    def steps_check(self):
+        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                if (type(self.__layers.player_layer.data[i][j]) == Player and
+                    type(self.__layers.steps_layer.data[i][j]) == Steps):
+                    print('next')
+                    return True
+
+        return False

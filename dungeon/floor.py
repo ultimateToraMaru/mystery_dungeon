@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.steps import Steps
 from dungeon.room.object_layers.objects.tile import Tile
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.const.size import Size
@@ -13,9 +14,11 @@ class Floor:
             for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
                 self.__rooms[i][j] = Room('none', False)
 
-        self.__player_room_position = [0,0]
+        self.__player_room_position = [0, 0]
+        self.__steps_room_position = [0, 0]
         self.__rooms = self.generate()
         self.__player = None_obj()
+        self.__steps = None_obj()
 
     @property
     def rooms(self):
@@ -84,6 +87,23 @@ class Floor:
         print('プレイヤーのいるお部屋', self.__player_room_position[0], self.__player_room_position[1],  self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]])
         player = self.__rooms[self.__player_room_position[0]][self.__player_room_position[1]].layers.player_layer.set_start_position()
         self.__player = player
+    
+    # 階段を生み出す。フロア到達時に一階だけ実行される。
+    def spawn_steps(self):
+        
+        while (True): 
+            r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
+            r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
+            if (self.__rooms[r_x][r_y].type == 'normal'):
+                self.__steps_room_position = [r_x, r_y]
+                self.__steps = Steps()
+                break
+
+        print('階段のあるお部屋', self.__steps_room_position[0], self.__steps_room_position[1])
+        self.__rooms[r_x][r_y].set_steps(self.__steps)
+    
+    def is_player_on_steps(self):
+        return self.__rooms[self.__steps_room_position[0]][self.__steps_room_position[1]].steps_check()
 
     # プレイヤー自身の座標を受け取って、セットする
     def player_set_position(self):

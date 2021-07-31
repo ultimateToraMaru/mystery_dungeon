@@ -17,6 +17,7 @@ class App:
         self.camera = Camera()
 
         self.floor.spawn_player()
+        self.floor.spawn_steps()
 
         # array = [[None_obj()]*2 for i in range(2)] 
         # for i in range(2):
@@ -44,6 +45,7 @@ class App:
         # self.floor.terrain_draw()
         self.input_check()
         self.floor.player_set_position()
+        self.floor.is_player_on_steps()
         # self.floor.player_draw()
     
     def input_check(self):

@@ -1,3 +1,9 @@
+from dungeon.room.object_layers.objects.steps import Steps
+from dungeon.room.object_layers.objects.player import Player
+from dungeon.room.object_layers.objects.tile import Tile
+from dungeon.const.size import Size
+import random
+from dungeon.room.object_layers.steps_layer import Steps_layer
 from dungeon.room.object_layers.player_layer import Player_layer
 from dungeon.room.object_layers.terrain_layer import Terrain_layer
 
@@ -6,6 +12,7 @@ class Layers:
     def __init__(self, type, is_start_room):
         self.__terrain_layer = Terrain_layer(type)
         self.__player_layer = Player_layer(is_start_room)
+        self.__steps_layer = Steps_layer()
 
         # if (is_start_room):
         #     self.__player_layer = Player_layer(True)
@@ -36,3 +43,16 @@ class Layers:
     @player_layer.setter
     def player_layer(self, player_layer):
         self.__player_layer = player_layer
+
+    
+    @property
+    def steps_layer(self):
+        pass
+
+    @steps_layer.getter
+    def steps_layer(self):
+        return self.__steps_layer
+
+    @steps_layer.setter
+    def steps_layer(self, steps_layer):
+        self.__steps_layer = steps_layer

@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.none_obj import None_obj
 import math
 from dungeon.const.size import Size
 import random
@@ -18,6 +19,8 @@ class Terrain_layer():
         elif(type == 'none'):
             self.__data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
             self.__data = self.generate_none_room(self.__data)
+
+        self.__steps = None_obj()
     
     @property
     def data(self):
@@ -105,4 +108,5 @@ class Terrain_layer():
 
     def set_point(self):
         self.__data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Wall(Color.GREEN)
+
     
