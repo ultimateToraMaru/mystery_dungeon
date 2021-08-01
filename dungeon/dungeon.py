@@ -13,8 +13,8 @@ class Dungeon:
             self.__floors.append(Floor())
         
         self.__name = 'ほげダンジョン'
-        self.__now_stage = 1
-        self.__turn = 1
+        self.__now_stage: int = 0
+        self.__turn: int = 1
 
         self.__now_floor = Floor()
         self.__camera = Camera()
@@ -32,6 +32,8 @@ class Dungeon:
 
         self.__now_floor.spawn_player()
         self.__now_floor.spawn_steps()
+
+        print(self.__now_stage, '階')
     
     def turn_forward(self):
         self.__camera.target = self.__now_floor.get_player_room_arounds()
@@ -41,28 +43,31 @@ class Dungeon:
 
         if (self.__now_floor.is_player_on_steps() == True):
             print('next')
-            self.__now_floor = self.get_next_floor()
             self.start()
 
         self.__now_floor.player_set_position()
     
     def get_next_floor(self):
-        next_floor = self.__floors[self.__now_stage-1]
         self.__now_stage += 1
+        next_floor = self.__floors[self.__now_stage-1]
 
         return next_floor
     
     def input_check(self):
         if pyxel.btnp(pyxel.KEY_D):
             self.__turn += 1
+            print('ターン:', self.__turn)
             self.__now_floor.player_move('right')
         elif pyxel.btnp(pyxel.KEY_A):
             self.__turn += 1
+            print('ターン:', self.__turn)
             self.__now_floor.player_move('left')
         elif pyxel.btnp(pyxel.KEY_W):
             self.__turn += 1
+            print('ターン:', self.__turn)
             self.__now_floor.player_move('up')
         elif pyxel.btnp(pyxel.KEY_S):
             self.__turn += 1
+            print('ターン:', self.__turn)
             self.__now_floor.player_move('down')
     
