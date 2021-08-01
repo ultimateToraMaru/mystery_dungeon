@@ -74,7 +74,6 @@ class Room:
             for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 if (type(self.__layers.player_layer.data[i][j]) == Player and
                     type(self.__layers.steps_layer.data[i][j]) == Steps):
-                    print('next')
                     return True
 
         return False

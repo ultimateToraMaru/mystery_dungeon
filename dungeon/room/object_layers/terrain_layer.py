@@ -20,7 +20,6 @@ class Terrain_layer():
             self.__data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
             self.__data = self.generate_none_room(self.__data)
 
-        self.__steps = None_obj()
     
     @property
     def data(self):
