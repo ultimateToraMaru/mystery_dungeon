@@ -11,14 +11,18 @@ class Terrain_layer():
     def __init__(self, type):
         # 地形データ(木や壁)や落ちてるアイテム(アイテムは取得したら床オブジェクトを設置)を表す変数
         # そうすればterrain_dataとterrainを分ける必要はない！
-        if (type == 'normal'):
+        if (type == 'normal' or type == 'top_end' or type == 'bottom_end' or  
+            type == 'top_left_corner' or type == 'bottom_left_corner' or type == 'left_end' or
+            type == 'top_right_corner' or type == 'bottom_right_corner' or type == 'right_end'):
+
             self.__data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]      
             self.__data = self.generate(self.__data, Size.MAX_MASS_IN_ROOM_ONE_SIDE)
-            self.__data = self.setExportPoints(self.__data, Size.MAX_MASS_IN_ROOM_ONE_SIDE)
+            self.__data = self.setExportPoints(self.__data, Size.MAX_MASS_IN_ROOM_ONE_SIDE, type)
             
         elif(type == 'none'):
             self.__data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
             self.__data = self.generate_none_room(self.__data)
+        
 
     
     @property
@@ -81,21 +85,55 @@ class Terrain_layer():
 
     # 入り口出口は部屋が持つべきだよね。ってことで、地形データ(terrain_layer)に持ってきたのだ
     # 部屋間の道はその道が通る部屋が持つべきだよね。
-    def setExportPoints(self, data, MAXMASS):
+    def setExportPoints(self, data, MAXMASS, type):
 
         for i in range(random.randint(1, 4)):
             # 出口ポイントをランダムで決めて、道をつくる
             center = math.floor(MAXMASS/2)
             # directions_r = random.randint(0, 3)
             for i in range(center):
-                # if (directions_r == 0):
-                    data[0+i][center] = Tile()
-                # elif (directions_r == 1):
-                    data[center+i][center] = Tile()
-                # elif (directions_r == 2):
-                    data[center][0+i] = Tile()
-                # elif (directions_r == 3):
-                    data[center][center+i] = Tile()
+                if (type == 'normal'):
+                    data[0+i][center] = Tile()      # 上方
+                    data[center+i][center] = Tile() # 下方
+                    data[center][0+i] = Tile()      # 左方
+                    data[center][center+i] = Tile() # 右方
+
+                elif(type == 'top_end'):
+                    data[center+i][center] = Tile() # 下方
+                    data[center][0+i] = Tile()      # 左方
+                    data[center][center+i] = Tile() # 右方
+
+                elif(type == 'bottom_end'):
+                    data[center+i][center] = Tile() # 下方
+                    data[center][0+i] = Tile()      # 左方
+                    data[center][center+i] = Tile() # 右方
+
+                elif(type == 'top_left_corner'):
+                    data[center+i][center] = Tile() # 下方
+                    data[center][center+i] = Tile() # 右方
+
+                elif(type == 'bottom_left_corner'):
+                    data[0+i][center] = Tile()      # 上方
+                    data[center][center+i] = Tile() # 右方
+
+                elif(type == 'left_end'):
+                    data[0+i][center] = Tile()      # 上方
+                    data[center+i][center] = Tile() # 下方
+                    data[center][center+i] = Tile() # 右方
+                
+                elif(type == 'top_right_corner'):
+                    data[center+i][center] = Tile() # 下方
+                    data[center][0+i] = Tile()      # 左方
+
+                elif(type == 'bottom_right_corner'):
+                    data[0+i][center] = Tile()      # 上方
+                    data[center][0+i] = Tile()      # 左方
+
+                elif(type == 'right_end'):
+                    data[0+i][center] = Tile()      # 上方
+                    data[center][0+i] = Tile()      # 左方
+                    data[center][center+i] = Tile() # 右方
+
         
         # path_finding()
         
