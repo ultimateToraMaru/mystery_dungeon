@@ -44,29 +44,35 @@ class Floor:
         for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
             for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
                 rooms[i][j] = Room('none', False)
-
                 # フロアの端の部屋は行き止まりになる通路がない部屋を生成する
                 # if (j == 0) :
                 #     rooms[i][j] = Room('top_end', False)
+                #     print('top')
                 
                 # elif (j == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
                 #     rooms[i][j] = Room('bottom_end', False)
 
-                if (i == 0) :
-                    if (j == 0) :
-                        rooms[i][j] = Room('top_left_corner', False)
-                    elif (j == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
-                        rooms[i][j] = Room('bottom_left_corner', False)
-                    else :
-                        rooms[i][j] = Room('left_end', False)
+                # if (i == 0) :
+                #     rooms[i][j] = Room('top_end', False)
+                    # if (j == 0) :
+                    #     rooms[i][j] = Room('top_left_corner', False)
+                    # elif (j == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
+                    #     rooms[i][j] = Room('bottom_left_corner', False)
+                    # else :
+                    #     rooms[i][j] = Room('left_end', False)
+                
+                ################ xが4の部屋に横から移動しようとしたときに落ちる
 
-                elif (i == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
-                    if (j == 0) :
-                        rooms[i][j] = Room('top_right_corner', False)
-                    elif (j == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
-                        rooms[i][j] = Room('bottom_right_corner', False)
-                    else :
-                        rooms[i][j] = Room('right_end', False)
+                # elif (i == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
+                #     rooms[i][j] = Room('bottom_end', False)
+                #     if (j == 0) :
+                #         rooms[i][j] = Room('top_right_corner', False)
+                #     elif (j == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
+                #         rooms[i][j] = Room('bottom_right_corner', False)
+                #     else :
+                #         rooms[i][j] = Room('right_end', False)
+                # else :
+                #     rooms[i][j] = Room('none', False)
 
         print('部屋の数', room_qty)
 

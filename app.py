@@ -15,7 +15,8 @@ class App:
 
         pyxel.load("my_resource.pyxres")
         self.dungeon = Dungeon()
-        self.dungeon.start()
+        self.dungeon.start_turn()
+
         # self.floor = Floor()
         # self.camera = Camera()
 
@@ -29,13 +30,23 @@ class App:
             pyxel.quit()
 
     def draw(self):
-        self.dungeon.turn_forward()
+        self.dungeon.forward_turn()
         # self.camera.target = self.floor.get_player_room_arounds()
         # self.camera.show()
-        # # self.floor.terrain_draw()
-        # self.input_check()
-        # self.floor.player_set_position()
-        # # self.floor.player_draw()
+    #     self.floor.terrain_draw()
+    #     self.input_check()
+    #     self.floor.player_set_position()
+    #     self.floor.player_draw()
+    
+    # def input_check(self):
+    #     if pyxel.btnp(pyxel.KEY_D):
+    #         self.__now_floor.player_move('right')
+    #     elif pyxel.btnp(pyxel.KEY_A):
+    #         self.__now_floor.player_move('left')
+    #     elif pyxel.btnp(pyxel.KEY_W):
+    #         self.__now_floor.player_move('up')
+    #     elif pyxel.btnp(pyxel.KEY_S):
+    #         self.__now_floor.player_move('down')
 
 if __name__ == '__main__':
     app = App()
