@@ -1,3 +1,4 @@
+from dungeon.display import Display
 from dungeon.room.object_layers.objects.character import Character
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.const.color import Color
@@ -8,6 +9,7 @@ import pyxel
 class Player(Character):
     def __init__(self, color):
         super().__init__(color)
+        Display.show_status(self.level, self.hp, self.MAX_HP, self.mp, self.MAX_MP, self.attack, self.defense)
         # self.__position = [0, 0]
         # self.__map = 
         # self.__direction = 'down'
@@ -44,23 +46,23 @@ class Player(Character):
         #     elif (self.__direction == 'down'):
         #         pyxel.blt(x*w, y*h, img=1, u=16, v=32, w=16, h=16, colkey=0)    # 10*10
     
-    # def move(self, direction):
-    #     # print('move')
-    #     self.__direction = direction
-    #     if (direction == 'right'):
-    #         self.position[0] = self.position[0]+1
+    def move(self, direction):
+        # print('move')
+        self.direction = direction
+        if (direction == 'right'):
+            self.position[0] = self.position[0]+1
 
-    #     elif (direction == 'left'):
-    #         self.position[0] = self.position[0]-1
+        elif (direction == 'left'):
+            self.position[0] = self.position[0]-1
 
-    #     elif (direction == 'up'):
-    #         self.position[1] = self.position[1]-1
+        elif (direction == 'up'):
+            self.position[1] = self.position[1]-1
 
-    #     elif (direction == 'down'):
-    #         self.position[1] = self.position[1]+1
+        elif (direction == 'down'):
+            self.position[1] = self.position[1]+1
     
-    # def is_can_move(self, direction):
-    #     if (direction == 'right'):
-    #         if (type(self.position[0]+1) == None_obj):
-    #             return True
+    def is_can_move(self, direction):
+        if (direction == 'right'):
+            if (type(self.position[0]+1) == None_obj):
+                return True
                 
