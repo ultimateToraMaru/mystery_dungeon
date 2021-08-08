@@ -14,11 +14,11 @@ class Room:
     def __init__(self, type, is_start_room):
         self.__type = type
         self.__layers = Layers(type, is_start_room)
-        self.__is_start_room = is_start_room
+        # self.__is_start_room = is_start_room
 
-        # roomはfloor内での自分自身の座標を持つべき。
-        self.__i = 0
-        self.__j = 0
+        # roomはfloor内での自分自身の座標を持つべき。いらないかも?無駄かも？
+        # self.__i = 0
+        # self.__j = 0
 
     @property
     def layers(self):
