@@ -77,7 +77,7 @@ class Enemy_layer():
     #     # print(self.__data)
     
     # # プレイヤーの残層をきれいに掃除する
-    # def clean(self):
-    #     for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-    #         for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-    #             self.__data[i][j] = None_obj()
+    def clean(self):
+        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                self.__data[i][j] = None_obj()
