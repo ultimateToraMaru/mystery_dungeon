@@ -18,6 +18,7 @@ class Enemy_layer():
         # self.__enemys = []
         # self.__enemys = enemys_generate()
         # self.__tmp_player_position = [0, 0]
+        #
 
 
     @property
