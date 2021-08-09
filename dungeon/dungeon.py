@@ -1,3 +1,4 @@
+from dungeon.display import Display
 from dungeon.camera import Camera
 from dungeon.floor import Floor
 import pyxel
@@ -35,7 +36,7 @@ class Dungeon:
         self.__floors[self.__now_floor_index].spawn_player()
         self.__floors[self.__now_floor_index].spawn_steps()
 
-        print(self.__now_floor_index+1, '階')
+        Display.show_number_of_floors(self.__now_floor_index+1)
     
     # ターンを進める
     def forward_turn(self):

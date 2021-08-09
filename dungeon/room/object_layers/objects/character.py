@@ -148,15 +148,15 @@ class Character(Obj):
     def move(self, direction):
         pass
         # # print('move')
-        # self.__direction = direction
-        # if (direction == 'right'):
-        #     self.position[0] = self.position[0]+1
+        self.__direction = direction
+        if (direction == 'right'):
+            self.position[0] = self.position[0]+1
 
-        # elif (direction == 'left'):
-        #     self.position[0] = self.position[0]-1
+        elif (direction == 'left'):
+            self.position[0] = self.position[0]-1
 
-        # elif (direction == 'up'):
-        #     self.position[1] = self.position[1]-1
+        elif (direction == 'up'):
+            self.position[1] = self.position[1]-1
 
-        # elif (direction == 'down'):
-        #     self.position[1] = self.position[1]+1
+        elif (direction == 'down'):
+            self.position[1] = self.position[1]+1

@@ -8,3 +8,6 @@ class Display():
         print('Attack:', attack)
         print('Difense', difense)
         print('**********')
+    
+    def show_number_of_floors(num):
+        print(num, '階')

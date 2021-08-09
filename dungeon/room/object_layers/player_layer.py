@@ -67,10 +67,6 @@ class Player_layer():
         # self.__player.position = [r_i, r_j]
         self.set_player_position(r_i, r_j)
         self.__data[self.__player.position[0]][self.__player.position[1]] = self.__player
-      
-        print('部屋内位置', r_i, r_j)
-        # print(self.__data[r_i][r_j])
-        # print(self.__data)
 
         return self.__player
 
