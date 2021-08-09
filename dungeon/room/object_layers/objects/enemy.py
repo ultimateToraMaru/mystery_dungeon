@@ -13,5 +13,5 @@ class Enemy(Character):
         # self.__target = target
     
     def create(self, x, y):
-        super().create(x, y, u=32, v=32)
+        super().create(x, y, u=32, v=64)
                 

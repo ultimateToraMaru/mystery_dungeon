@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.enemy import Enemy
 from dungeon.room.object_layers.objects.steps import Steps
 from dungeon.room.object_layers.objects.tile import Tile
 from dungeon.room.object_layers.objects.none_obj import None_obj
@@ -19,6 +20,7 @@ class Floor:
         self.__player = None_obj()
         self.__stepsRoom_position = [0, 0]
         self.__steps = None_obj()
+        self.__enemys = []
         
         self.__rooms = self.generate_room()
 
@@ -139,6 +141,7 @@ class Floor:
                 if (is_enemy_spawn):
                     self.__rooms[i][j].generate_enemys()
     
+    
 
     # プレイヤー自身の座標を受け取って、セットする
     def player_set_position(self):
@@ -153,6 +156,12 @@ class Floor:
     def player_move(self, direction):
         if (self.is_can_move(direction)):
             self.__player.move(direction)
+    
+    # エネミーを動かす
+    def enemy_move(self, direction):
+        for i in range(len(self.__enemys)):
+            if (self.is_can_move(direction)):
+                self.__enemys.move(direction)
 
     
     # プレイヤーの行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)

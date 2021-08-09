@@ -1,5 +1,6 @@
 
 # floor内の一個一個の部屋を表すクラス
+from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.objects.enemy import Enemy
 from dungeon.room.object_layers.objects.steps import Steps
 from dungeon.room.object_layers.objects.player import Player
@@ -85,5 +86,8 @@ class Room:
         for i in range(enemy_nums):
             r_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
-            if (type(self.__layers.terrain_layer.data[r_x][r_y]) == Tile):
+            if (type(self.__layers.terrain_layer.data[r_x][r_y]) == Tile and 
+                type(self.__layers.player_layer.data[r_x][r_y]) == None_obj and 
+                type(self.__layers.steps_layer.data[r_x][r_y]) == None_obj and 
+                type(self.__layers.enemy_layer.data[r_x][r_y]) == None_obj):
                 self.__layers.enemy_layer.data[r_x][r_y] = Enemy(Color.BLACK)

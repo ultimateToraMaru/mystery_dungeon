@@ -6,6 +6,7 @@ import pyxel
 class Character(Obj):
     def __init__(self, color):
         super().__init__(color)
+        self.__room_address = [0, 0]
         self.__position = [0, 0]
         self.__direction = 'down'
 
@@ -17,6 +18,19 @@ class Character(Obj):
         self.__MAX_MP: int = self.__mp
         self.__attack: int = 100
         self.__defense: int = 100
+
+
+    @property
+    def room_address(self):
+        pass
+
+    @room_address.getter
+    def room_address(self):
+        return self.__room_address
+
+    @room_address.setter
+    def position(self, room_address):
+        self.__room_address = room_address
     
     @property
     def position(self):
@@ -146,7 +160,6 @@ class Character(Obj):
                 pyxel.blt(x*w, y*h, img=1, u=u/2, v=v, w=16, h=16, colkey=0)    # 10*10
     
     def move(self, direction):
-        pass
         # # print('move')
         self.__direction = direction
         if (direction == 'right'):
