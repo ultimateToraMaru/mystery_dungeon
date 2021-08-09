@@ -1,5 +1,6 @@
 
 # floor内の一個一個の部屋を表すクラス
+from dungeon.room.object_layers.objects.enemy import Enemy
 from dungeon.room.object_layers.objects.steps import Steps
 from dungeon.room.object_layers.objects.player import Player
 from dungeon.room.object_layers.objects.tile import Tile
@@ -58,7 +59,7 @@ class Room:
     
     
     # 部屋内のランダムな場所に階段を設置する
-    def set_steps(self, steps):
+    def generate_steps(self, steps):
         # self.__steps = steps
         while (True):
             r_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
@@ -77,3 +78,12 @@ class Room:
                     return True
 
         return False
+    
+    # 部屋内のランダムな場所にランダムな数のエネミーを設置する
+    def generate_enemys(self):
+        enemy_nums = random.randint(1, 5)
+        for i in range(enemy_nums):
+            r_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
+            r_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
+            if (type(self.__layers.terrain_layer.data[r_x][r_y]) == Tile):
+                self.__layers.enemy_layer.data[r_x][r_y] = Enemy(Color.BLACK)

@@ -35,6 +35,7 @@ class Dungeon:
 
         self.__floors[self.__now_floor_index].spawn_player()
         self.__floors[self.__now_floor_index].spawn_steps()
+        self.__floors[self.__now_floor_index].spawn_enemys()
 
         Display.show_number_of_floors(self.__now_floor_index+1)
     

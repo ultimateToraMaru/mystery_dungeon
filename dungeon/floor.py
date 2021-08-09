@@ -129,7 +129,15 @@ class Floor:
                 break
 
         print('階段のあるお部屋', self.__stepsRoom_position[0], self.__stepsRoom_position[1])
-        self.__rooms[r_x][r_y].set_steps(self.__steps)
+        self.__rooms[r_x][r_y].generate_steps(self.__steps)
+    
+    # エネミーをランダムな部屋に生み出す。エネミーが生まれる部屋をランダムで決める。
+    def spawn_enemys(self):
+        for i in range(len(self.__rooms)):
+            for j in range(len(self.__rooms)):
+                is_enemy_spawn = random.randint(0, 1)
+                if (is_enemy_spawn):
+                    self.__rooms[i][j].generate_enemys()
     
 
     # プレイヤー自身の座標を受け取って、セットする

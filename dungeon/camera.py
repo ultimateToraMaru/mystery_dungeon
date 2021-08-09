@@ -53,3 +53,4 @@ class Camera():
         self.__target.layers.terrain_layer.draw(x, y)
         self.__target.layers.steps_layer.draw(x, y)
         self.__target.layers.player_layer.draw(x, y)
+        self.__target.layers.enemy_layer.draw(x, y)
