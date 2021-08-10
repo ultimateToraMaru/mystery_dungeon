@@ -51,6 +51,7 @@ class Dungeon:
             self.start_turn()
 
         self.__floors[self.__now_floor_index].player_set_position()
+        self.__floors[self.__now_floor_index].enemy_set_position()
     
 
     # def get_next_floor(self):
@@ -71,7 +72,6 @@ class Dungeon:
             self.__turn += 1
             print('ターン:', self.__turn)
             self.__floors[self.__now_floor_index].player_move('left')
-            self.__floors[self.__now_floor_index].enemy_move('right')
         elif pyxel.btnp(pyxel.KEY_W):
             self.__turn += 1
             print('ターン:', self.__turn)
@@ -82,4 +82,7 @@ class Dungeon:
             print('ターン:', self.__turn)
             self.__floors[self.__now_floor_index].player_move('down')
             # self.__floors[self.__now_floor_index].enemy_move('up')
-    
+        
+        elif pyxel.btnp(pyxel.KEY_F):
+            print('F')
+            self.__floors[self.__now_floor_index].enemy_move('right')

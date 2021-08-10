@@ -17,7 +17,7 @@ class Enemy_layer():
         
         # self.__enemys = []
         # self.__enemys = enemys_generate()
-        # self.__tmp_player_position = [0, 0]
+        #self.__tmp_player_position = [0, 0]
         #
 
 
@@ -48,9 +48,9 @@ class Enemy_layer():
     # def get_player_position(self):
     #     return self.__player.position
     
-    # def set_player_position(self, x, y):
-    #     self.__tmp_player_position = [x, y]
-    #     self.__player.position = [x, y]
+    def set_enemy_position(self, enemy, x, y):
+        # self.__tmp_enemy_position = [x, y]
+        enemy.position = [x, y]
     
     # # なんか同時に複数の部屋に現れちゃう。だけどプレイやーを配置で来た！すごい！すー
     # def set_start_position(self):
@@ -68,15 +68,16 @@ class Enemy_layer():
 
     #     return self.__player
 
-    # def set_position(self):
-    #     # print(self.__tmp_player_position, self.__player.position)
-    #     self.__data[self.__tmp_player_position[0]][self.__tmp_player_position[1]] = None_obj()
-    #     self.__data[self.__player.position[0]][self.__player.position[1]] = self.__player
-    #     self.set_player_position(self.__player.position[0], self.__player.position[1])
+    def set_position(self, enemy):
+        # print(self.__tmp_player_position, self.__player.position)
+        # self.__data[self.__tmp_player_position[0]][self.__tmp_player_position[1]] = None_obj()    # いつか実装しないといかない
+        # print('set_position', enemy.position[0], enemy.position[1])
+        self.__data[enemy.position[0]][enemy.position[1]] = enemy
+        self.set_enemy_position(enemy, enemy.position[0], enemy.position[1])
         
     #     # print(self.__data)
     
-    # # プレイヤーの残層をきれいに掃除する
+    # エネミーの残層をきれいに掃除する
     def clean(self):
         for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):

@@ -7,8 +7,10 @@ from dungeon.room.object_layers.objects.obj import Obj
 import pyxel
 
 class Enemy(Character):
-    def __init__(self, color):
+    def __init__(self, color, room_address, position):
         super().__init__(color)
+        self.room_address = room_address
+        self.position = position
         # Display.show_status(self.level, self.hp, self.MAX_HP, self.mp, self.MAX_MP, self.attack, self.defense)
         # self.__target = target
     

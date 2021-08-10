@@ -139,7 +139,7 @@ class Floor:
             for j in range(len(self.__rooms)):
                 is_enemy_spawn = random.randint(0, 1)
                 if (is_enemy_spawn):
-                    self.__enemys.extend(self.__rooms[i][j].generate_enemys())
+                    self.__enemys.extend(self.__rooms[i][j].generate_enemys(i, j))
         
         print(self.__enemys)
                     
@@ -150,6 +150,12 @@ class Floor:
     def player_set_position(self):
         self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.player_layer.set_position()
         # self.is_player_on_steps()
+    
+    # エネミー自身の座標を受け取って、セットする
+    def enemy_set_position(self):
+        for i in range(len(self.__enemys)):
+            self.__rooms[self.__enemys[i].room_address[0]][self.__enemys[i].room_address[1]].layers.enemy_layer.set_position(self.__enemys[i])
+            # self.is_player_on_steps()
 
     # プレイヤーが階段の上にいるか検査する
     def is_player_on_steps(self):
@@ -163,6 +169,7 @@ class Floor:
     # エネミーを動かす
     def enemy_move(self, direction):
         for i in range(len(self.__enemys)):
+            # print('move')  
             if (self.is_can_move_enemy(self.__enemys[i], direction)):
                 self.__enemys[i].move(direction)
 
@@ -253,14 +260,15 @@ class Floor:
     
     # エネミーの行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)
     def is_can_move_enemy(self, enemy, direction):
-        # print('部屋の番地:', self.__playerRoom_position, ' 部屋内:', self.__player.position[0], self.__player.position[1])
+        print('エネミー部屋の番地:', enemy.room_address, ' 部屋内:', enemy.position)
         if (direction == 'right'):
             enemy_at_end_of_the_room = enemy.position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
+            print('enemy at end of the room', enemy_at_end_of_the_room)
             enemy_at_end_of_the_floor = enemy.room_address[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
             if (enemy_at_end_of_the_room):
                 if (enemy_at_end_of_the_floor): 
                     return False
-                next_room_mass = type(self.__rooms[enemy.room_address[0]+1][enemy.room_address[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][enemy.room_address[1]])
+                next_room_mass = type(self.__rooms[enemy.room_address[0]+1][enemy.room_address[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][enemy.position[1]])
                 this_room = self.__rooms[enemy.room_address[0]][enemy.room_address[1]]
                 next_room = self.__rooms[enemy.room_address[0]+1][enemy.room_address[1]]
                 next_room_position = [enemy.room_address[0]+1, enemy.room_address[1]]
@@ -316,16 +324,18 @@ class Floor:
             # その部屋がブロックの端のとき、終了(世界の果てには移動できない)
             if (enemy_at_end_of_the_floor): 
                 return False
-
             # 次の部屋のマスが床のとき(障害物がないとき)
             if (next_room_mass == Tile):
+                print('部屋の隅です')
                 # プレイヤーの移動に伴って部屋を掃除する
                 this_room.layers.enemy_layer.clean()
                 # プレイヤーインスタンスを次の部屋に移す
+                enemy.room_address = next_room_position
                 # next_room.layers.player_layer.player = self.__player  # これはいらない
                 # プレイヤーがいる部屋のポジションを更新
                 # self.__playerRoom_position = next_room_position # これはいらない
                 # プレイヤーの部屋内のポジションを更新
+                print('next_room')
                 enemy.position = in_room_position
 
             return True

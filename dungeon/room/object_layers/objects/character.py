@@ -29,7 +29,7 @@ class Character(Obj):
         return self.__room_address
 
     @room_address.setter
-    def position(self, room_address):
+    def room_address(self, room_address):
         self.__room_address = room_address
     
     @property
