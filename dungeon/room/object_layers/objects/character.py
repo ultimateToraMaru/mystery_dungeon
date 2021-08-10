@@ -8,6 +8,7 @@ class Character(Obj):
         super().__init__(color)
         self.__room_address = [0, 0]
         self.__position = [0, 0]
+        self.__tmp_position = [0, 0]
         self.__direction = 'down'
 
         # ステータス
@@ -43,6 +44,18 @@ class Character(Obj):
     @position.setter
     def position(self, position):
         self.__position = position
+    
+    @property
+    def tmp_position(self):
+        pass
+
+    @tmp_position.getter
+    def tmp_position(self):
+        return self.__tmp_position
+
+    @tmp_position.setter
+    def tmp_position(self, tmp_position):
+        self.__tmp_position = tmp_position
     
     @property
     def direction(self):

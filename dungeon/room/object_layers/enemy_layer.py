@@ -49,7 +49,7 @@ class Enemy_layer():
     #     return self.__player.position
     
     def set_enemy_position(self, enemy, x, y):
-        # self.__tmp_enemy_position = [x, y]
+        enemy.tmp_position = [x, y]
         enemy.position = [x, y]
     
     # # なんか同時に複数の部屋に現れちゃう。だけどプレイやーを配置で来た！すごい！すー
@@ -70,7 +70,7 @@ class Enemy_layer():
 
     def set_position(self, enemy):
         # print(self.__tmp_player_position, self.__player.position)
-        # self.__data[self.__tmp_player_position[0]][self.__tmp_player_position[1]] = None_obj()    # いつか実装しないといかない
+        self.__data[enemy.tmp_position[0]][enemy.tmp_position[1]] = None_obj()    # いつか実装しないといかない.いまぞの時がやってきた。
         # print('set_position', enemy.position[0], enemy.position[1])
         self.__data[enemy.position[0]][enemy.position[1]] = enemy
         self.set_enemy_position(enemy, enemy.position[0], enemy.position[1])
