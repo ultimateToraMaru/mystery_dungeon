@@ -12,8 +12,24 @@ class Enemy(Character):
         self.room_address = room_address
         self.position = position
         # Display.show_status(self.level, self.hp, self.MAX_HP, self.mp, self.MAX_MP, self.attack, self.defense)
-        # self.__target = target
+        self.__target = None_obj()
+    
+    @property
+    def target(self):
+        pass
+
+    @target.getter
+    def target(self):
+        return self.__target
+
+    @target.setter
+    def target(self, target):
+        self.__target = target
     
     def create(self, x, y):
         super().create(x, y, u=16, v=64)
+        self.mind()
+    
+    def mind(self):
+        print(self, 'ターゲットは部屋番号', self.__target.room_address,'の', self.__target.position, 'にいます！' )
                 

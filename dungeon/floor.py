@@ -21,8 +21,10 @@ class Floor:
         self.__stepsRoom_position = [0, 0]
         self.__steps = None_obj()
         self.__enemys = []
+        self.enemy_set_target()
         
         self.__rooms = self.generate_room()
+
 
     @property
     def rooms(self):
@@ -361,3 +363,8 @@ class Floor:
 
         # return player_room    # 16*16
         return player_rooms    # 5*5
+    
+    def enemy_set_target(self):
+        for i in range(len(self.__enemys)):
+            print(i, 'set!')
+            self.__enemys[i].target = self.__player

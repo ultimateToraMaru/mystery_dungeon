@@ -86,4 +86,7 @@ class Dungeon:
         
         # elif pyxel.btnp(pyxel.KEY_F):
         #     print('F')
+    
+    # def instruction_enemy(self):
+
             
