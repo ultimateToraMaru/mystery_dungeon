@@ -8,12 +8,11 @@ from dungeon.room.object_layers.objects.none_obj import None_obj
 class Camera():
     def __init__(self):
         self.__CAMERA_SCALE = 5
-        # self.__angle_of_view = [[None_obj()] * self.__CAMERA_SCALE for i in range(self.__CAMERA_SCALE)] 
-        # for i in range(self.__CAMERA_SCALE):
-        #     for j in range(self.__CAMERA_SCALE):
-        #         self.__angle_of_view[i][j] = None_obj()
-        # self.__target = Room('normal', False)
-        self.__target = []
+        self.__target = [[None_obj()] * self.__CAMERA_SCALE for i in range(self.__CAMERA_SCALE)] 
+        for i in range(self.__CAMERA_SCALE):
+            for j in range(self.__CAMERA_SCALE):
+                self.__target[i][j] = None_obj()
+        # self.__target = []
         self.__player_position = [0, 0]
     
     @property
@@ -41,16 +40,20 @@ class Camera():
         pass
 
     def show(self):
+        # 16*16
         x = 0
         y = 0
-        # for i in range(len(self.__target)):
-        #     for j in range(len(self.__target)):
-        #         x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-        #         y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-                # self.__target.layers.terrain_layer.draw(x, y)
-                # self.__target.layers.player_layer.draw(x, y)
+        for i in range(len(self.__target)):
+            for j in range(len(self.__target)):
+                x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+                y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+                self.__target[i][j].layers.terrain_layer.draw(x, y)
+                self.__target[i][j].layers.player_layer.draw(x, y)
+                self.__target[i][j].layers.player_layer.draw(x, y)
+                self.__target[i][j].layers.enemy_layer.draw(x, y)
         
-        self.__target.layers.terrain_layer.draw(x, y)
-        self.__target.layers.steps_layer.draw(x, y)
-        self.__target.layers.player_layer.draw(x, y)
-        self.__target.layers.enemy_layer.draw(x, y)
+        # 5*5
+        # self.__target.layers.terrain_layer.draw(x, y)
+        # self.__target.layers.steps_layer.draw(x, y)
+        # self.__target.layers.player_layer.draw(x, y)
+        # self.__target.layers.enemy_layer.draw(x, y)

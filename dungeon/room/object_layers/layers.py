@@ -74,4 +74,5 @@ class Layers:
         self.__enemy_layer = enemy_layer
     
     def is_noneobj(self, x, y):
+        # エネミーがすり抜けてしまう。すり抜けたうえで、次の部屋に移動しようとした際にエラーが吐かれる
         return (type(self.__terrain_layer.data[x][y]) == Tile and type(self.__player_layer.data[x][y]) == None_obj and type(self.__enemy_layer.data[x][y]) == None_obj)
