@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.enemy_layer import Enemy_layer
 from dungeon.room.object_layers.objects.steps import Steps
 from dungeon.room.object_layers.objects.player import Player
@@ -71,3 +72,12 @@ class Layers:
     @enemy_layer.setter
     def enemy_layer(self, enemy_layer):
         self.__enemy_layer = enemy_layer
+    
+    def is_noneobj(self, x, y):
+        if (type(self.__terrain_layer.data[x][y]) == Tile and
+            type(self.__player_layer.data[x][y]) == None_obj and
+            type(self.__enemy_layer.data[x][y]) == None_obj):
+
+            return True
+        
+        return False
