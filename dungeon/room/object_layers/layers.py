@@ -74,10 +74,4 @@ class Layers:
         self.__enemy_layer = enemy_layer
     
     def is_noneobj(self, x, y):
-        if (type(self.__terrain_layer.data[x][y]) == Tile and
-            type(self.__player_layer.data[x][y]) == None_obj and
-            type(self.__enemy_layer.data[x][y]) == None_obj):
-
-            return True
-        
-        return False
+        return (type(self.__terrain_layer.data[x][y]) == Tile and type(self.__player_layer.data[x][y]) == None_obj and type(self.__enemy_layer.data[x][y]) == None_obj)

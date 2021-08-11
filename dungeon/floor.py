@@ -263,12 +263,11 @@ class Floor:
         print('エネミー部屋の番地:', enemy.room_address, ' 部屋内:', enemy.position)
         if (direction == 'right'):
             enemy_at_end_of_the_room = enemy.position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
-            print('enemy at end of the room', enemy_at_end_of_the_room)
             enemy_at_end_of_the_floor = enemy.room_address[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
             if (enemy_at_end_of_the_room):
                 if (enemy_at_end_of_the_floor): 
                     return False
-                next_room_mass_is_noneobj =  self.__rooms[enemy.room_address[0]+1][enemy.room_address[1]].layers.is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, enemy.position[1])
+                next_room_mass_is_noneobj = self.__rooms[enemy.room_address[0]+1][enemy.room_address[1]].layers.is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, enemy.position[1])
                 this_room = self.__rooms[enemy.room_address[0]][enemy.room_address[1]]
                 next_room = self.__rooms[enemy.room_address[0]+1][enemy.room_address[1]]
                 next_room_position = [enemy.room_address[0]+1, enemy.room_address[1]]
@@ -319,14 +318,18 @@ class Floor:
                 forward_is_not_corner_of_room = enemy.position[1]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
 
         
+        print('enemy at end of the room:', enemy_at_end_of_the_room)
+        print('enemy_at_end_of_the_floor:', enemy_at_end_of_the_floor)
         # プレイヤーが部屋の端にいるとき
         if (enemy_at_end_of_the_room):
+            print('エネミー: ここは部屋の隅です')
             # その部屋がブロックの端のとき、終了(世界の果てには移動できない)
-            if (enemy_at_end_of_the_floor): 
+            if (enemy_at_end_of_the_floor):
+                print('エネミー: この先は世界の果てです')
                 return False
             # 次の部屋のマスが床のとき(障害物がないとき)
             if (next_room_mass_is_noneobj):
-                print('部屋の隅です')
+                print('エネミー: 次の部屋に移動します')
                 # プレイヤーの移動に伴って部屋を掃除する
                 this_room.layers.enemy_layer.clean()
                 # プレイヤーインスタンスを次の部屋に移す
@@ -342,7 +345,7 @@ class Floor:
 
         # プレイヤーが部屋の中を移動するとき
         else :
-            return (forward_is_not_corner_of_room and (forward_mass_is_noneobj))
+            return (forward_is_not_corner_of_room and forward_mass_is_noneobj)
     
     def get_player_room_arounds(self):
         player_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]]
