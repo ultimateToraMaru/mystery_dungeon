@@ -12,5 +12,5 @@ class Player(Character):
         Display.show_status(self.level, self.hp, self.MAX_HP, self.mp, self.MAX_MP, self.attack, self.defense)
     
     def create(self, x, y):
-        super().create(x, y, u=32, v=32)
+        super().create(x, y, u=16, v=32)
                 

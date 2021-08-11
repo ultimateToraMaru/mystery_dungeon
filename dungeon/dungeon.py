@@ -77,12 +77,12 @@ class Dungeon:
             self.__turn += 1
             print('ターン:', self.__turn)
             self.__floors[self.__now_floor_index].player_move('up')
-            # self.__floors[self.__now_floor_index].enemy_move('down')
+            self.__floors[self.__now_floor_index].enemy_move('down')
         elif pyxel.btnp(pyxel.KEY_S):
             self.__turn += 1
             print('ターン:', self.__turn)
             self.__floors[self.__now_floor_index].player_move('down')
-            # self.__floors[self.__now_floor_index].enemy_move('up')
+            self.__floors[self.__now_floor_index].enemy_move('up')
         
         # elif pyxel.btnp(pyxel.KEY_F):
         #     print('F')

@@ -164,13 +164,13 @@ class Character(Obj):
             pyxel.blt(x*w, y*h, img=1, u=8, v=0, w=10, h=10, colkey=0)    # 10*10
         elif (Size.MASS_HEIGHT == 16):
             if (self.__direction == 'right'):
-                pyxel.blt(x*w, y*h, img=1, u=u, v=v, w=16, h=16, colkey=0)    # 10*10
+                pyxel.blt(x*w, y*h, img=1, u=u+16, v=v, w=16, h=16, colkey=0)    # 10*10
             elif (self.__direction == 'left'):
-                pyxel.blt(x*w, y*h, img=1, u=u-32, v=v, w=16, h=16, colkey=0)    # 10*10
+                pyxel.blt(x*w, y*h, img=1, u=u-16, v=v, w=16, h=16, colkey=0)    # 10*10
             elif (self.__direction == 'up'):
-                pyxel.blt(x*w, y*h, img=1, u=u/2, v=v/2, w=16, h=16, colkey=0)    # 10*10
+                pyxel.blt(x*w, y*h, img=1, u=u, v=v-16, w=16, h=16, colkey=0)    # 10*10
             elif (self.__direction == 'down'):
-                pyxel.blt(x*w, y*h, img=1, u=u/2, v=v, w=16, h=16, colkey=0)    # 10*10
+                pyxel.blt(x*w, y*h, img=1, u=u, v=v, w=16, h=16, colkey=0)    # 10*10
     
     def move(self, direction):
         # # print('move')
