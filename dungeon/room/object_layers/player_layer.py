@@ -15,7 +15,7 @@ class Player_layer():
             for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[i][j] = None_obj()
 
-        self.__tmp_player_position = [0, 0]
+        # self.__tmp_player_position = [0, 0]
 
         # if (is_start_room):
         #     self.__player = Player(Color.SKYPINK)

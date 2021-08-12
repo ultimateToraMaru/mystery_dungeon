@@ -338,6 +338,7 @@ class Floor:
                 # print('エネミー: 次の部屋に移動します')
                 # プレイヤーの移動に伴って部屋を掃除する
                 this_room.layers.enemy_layer.clean()
+                this_room.layers.player_layer.clean()
                 # プレイヤーインスタンスを次の部屋に移す
                 character.room_address = next_room_position
                 # next_room.layers.player_layer.player = self.__player  # これはいらない
