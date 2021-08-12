@@ -21,7 +21,6 @@ class Floor:
         self.__stepsRoom_position = [0, 0]
         self.__steps = None_obj()
         self.__enemys = []
-        self.enemy_set_target()
         
         self.__rooms = self.generate_room()
 
@@ -157,7 +156,6 @@ class Floor:
     def enemy_set_position(self):
         for i in range(len(self.__enemys)):
             self.__rooms[self.__enemys[i].room_address[0]][self.__enemys[i].room_address[1]].layers.enemy_layer.set_position(self.__enemys[i])
-            # self.is_player_on_steps()
 
     # プレイヤーが階段の上にいるか検査する
     def is_player_on_steps(self):
@@ -172,6 +170,7 @@ class Floor:
     def enemy_move(self, direction):
         for i in range(len(self.__enemys)):
             # print('move')  
+            self.__enemys[i].mind()
             if (self.is_can_move_enemy(self.__enemys[i], direction)):
                 self.__enemys[i].move(direction)
 
@@ -365,6 +364,8 @@ class Floor:
         return player_rooms    # 5*5
     
     def enemy_set_target(self):
+        print('set_ready')
         for i in range(len(self.__enemys)):
             print(i, 'set!')
             self.__enemys[i].target = self.__player
+            self.enemy[i].mind()
