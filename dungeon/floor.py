@@ -79,7 +79,7 @@ class Floor:
                 # else :
                 #     rooms[i][j] = Room('none', False)
 
-        print('部屋の数', room_qty)
+        # print('部屋の数', room_qty)
 
         start_room = random.randint(0, room_qty-1)    # startする部屋をランダムで選ぶ。上からr番目みたいな感じ。
         for i in range(room_qty):
@@ -147,9 +147,6 @@ class Floor:
         print(self.__enemys)
         self.enemy_set_target()
                     
-    
-    
-
     # プレイヤー自身の座標を受け取って、セットする
     def player_set_position(self):
         self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]].layers.player_layer.set_position(self.__player)
@@ -189,7 +186,7 @@ class Floor:
                     return False
                 next_room_mass_is_noneobj = self.__rooms[character.room_address[0]+1][character.room_address[1]].layers.is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, character.position[1])
                 this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
-                next_room = self.__rooms[character.room_address[0]+1][character.room_address[1]]
+                # next_room = self.__rooms[character.room_address[0]+1][character.room_address[1]]
                 next_room_position = [character.room_address[0]+1, character.room_address[1]]
                 in_room_position = [-1, character.position[1]]
             else :
@@ -202,7 +199,7 @@ class Floor:
             if (character_at_end_of_the_room):
                 next_room_mass_is_noneobj = self.__rooms[character.room_address[0]-1][character.room_address[1]].layers.is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, character.position[1])
                 this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
-                next_room = self.__rooms[character.room_address[0]-1][character.room_address[1]]
+                # next_room = self.__rooms[character.room_address[0]-1][character.room_address[1]]
                 next_room_position = [character.room_address[0]-1, character.room_address[1]]
                 in_room_position = [Size.MAX_MASS_IN_ROOM_ONE_SIDE, character.position[1]]
             else :
@@ -215,7 +212,7 @@ class Floor:
             if (character_at_end_of_the_room):
                 next_room_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]-1].layers.is_noneobj(character.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
                 this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
-                next_room = self.__rooms[character.room_address[0]][character.room_address[1]-1]
+                # next_room = self.__rooms[character.room_address[0]][character.room_address[1]-1]
                 next_room_position = [character.room_address[0], character.room_address[1]-1]
                 in_room_position = [character.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE]
             else :
@@ -230,7 +227,7 @@ class Floor:
                     return False
                 next_room_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]+1].layers.is_noneobj(character.position[0], character.position[1]-1)
                 this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
-                next_room = self.__rooms[character.room_address[0]][character.room_address[1]+1]
+                # next_room = self.__rooms[character.room_address[0]][character.room_address[1]+1]
                 next_room_position = [character.room_address[0], character.room_address[1]+1]
                 in_room_position = [character.position[0], -1]
             else :
@@ -273,9 +270,9 @@ class Floor:
         # return player_rooms    # 5*5
     
     def enemy_set_target(self):
-        print('set_ready')
+        # print('set_ready')
         for i in range(len(self.__enemys)):
-            print(i, 'set!')
+            # print(i, 'set!')
             self.__enemys[i].target = self.__player
     
     def enemy_mind(self):

@@ -44,40 +44,23 @@ class Enemy_layer():
         for x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[x][y].create(x+room_x, y+room_y)
-
-    # def get_player_position(self):
-    #     return self.__player.position
     
-    def set_enemy_position(self, enemy, x, y):
-        enemy.tmp_position = [x, y]
-        enemy.position = [x, y]
-    
-    # # なんか同時に複数の部屋に現れちゃう。だけどプレイやーを配置で来た！すごい！すー
-    # def set_start_position(self):
-    #     # r_i = random.randint(0, len(self.__data)-1)
-    #     # r_j = random.randint(0, len(self.__data)-1)
-
-    #     # ランダムじゃなくて、部央でもよくない？
-    #     # しかも、中央は絶対部屋になってるぜよ
-    #     r_i = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
-    #     r_j = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
-
-    #     # self.__player.position = [r_i, r_j]
-    #     self.set_player_position(r_i, r_j)
-    #     self.__data[self.__player.position[0]][self.__player.position[1]] = self.__player
-
-    #     return self.__player
+    # def set_enemy_position(self, enemy, x, y):
+    #     enemy.tmp_position = [x, y]
+    #     enemy.position = [x, y]
 
     def set_position(self, enemy):
         # print(enemy.room_address, enemy.position)
-        self.__data[enemy.tmp_position[0]][enemy.tmp_position[1]] = None_obj()    # いつか実装しないといかない.いまぞの時がやってきた。
         # print('set_position', enemy.position[0], enemy.position[1])
+        self.__data[enemy.tmp_position[0]][enemy.tmp_position[1]] = None_obj()
         self.__data[enemy.position[0]][enemy.position[1]] = enemy
-        self.set_enemy_position(enemy, enemy.position[0], enemy.position[1])
+        enemy.tmp_position = [enemy.position[0], enemy.position[1]]
+        enemy.position = [enemy.position[0], enemy.position[1]]
+        # self.set_enemy_position(enemy, enemy.position[0], enemy.position[1])
         
     #     # print(self.__data)
     
-    # エネミーの残層をきれいに掃除する
+    # エネミーの残像をきれいに掃除する
     def clean(self):
         for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):

@@ -85,6 +85,7 @@ class Room:
         enemy_nums = random.randint(1, 5)
         # enemy_nums = 1
         enemys = []
+        # ランダムな場所に生成
         for index in range(enemy_nums):
             r_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)

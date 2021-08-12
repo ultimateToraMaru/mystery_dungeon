@@ -10,7 +10,7 @@ from dungeon.const.color import Color
 # 地形を表すクラス。地形データ__dataにWallやTile, Rockが入る
 class Player_layer():
     def __init__(self):
-        self.__data = [[None_obj()] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)] 
+        self.__data = [[None_obj()] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
         for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[i][j] = None_obj()
@@ -50,9 +50,9 @@ class Player_layer():
     def get_player_position(self):
         return self.__player.position
     
-    def set_player_position(self, player, x, y):
-        player.tmp_position = [x, y]
-        player.position = [x, y]
+    # def set_player_position(self, player, x, y):
+    #     player.tmp_position = [x, y]
+    #     player.position = [x, y]
     
     # なんか同時に複数の部屋に現れちゃう。だけどプレイやーを配置で来た！すごい！すー
     def set_start_position(self, player):
@@ -74,11 +74,13 @@ class Player_layer():
         # print(self.__tmp_player_position, self.__player.position)
         self.__data[player.tmp_position[0]][player.tmp_position[1]] = None_obj()
         self.__data[player.position[0]][player.position[1]] = player
-        self.set_player_position(player, player.position[0], player.position[1])
+        player.tmp_position = [player.position[0], player.position[1]]
+        player.position = [player.position[0], player.position[1]]
+        # self.set_player_position(player, player.position[0], player.position[1])
         
         # print(self.__data)
     
-    # プレイヤーの残層をきれいに掃除する
+    # プレイヤーの残像をきれいに掃除する
     def clean(self):
         for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
