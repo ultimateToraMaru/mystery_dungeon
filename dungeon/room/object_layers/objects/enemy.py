@@ -12,6 +12,7 @@ class Enemy(Character):
         self.room_address = room_address
         self.position = position
         # Display.show_status(self.level, self.hp, self.MAX_HP, self.mp, self.MAX_MP, self.attack, self.defense)
+        # test_branch
         self.__target = None_obj()
     
     @property
