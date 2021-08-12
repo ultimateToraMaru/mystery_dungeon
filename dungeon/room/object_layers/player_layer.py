@@ -9,7 +9,7 @@ from dungeon.const.color import Color
 
 # 地形を表すクラス。地形データ__dataにWallやTile, Rockが入る
 class Player_layer():
-    def __init__(self, is_start_room):
+    def __init__(self):
         self.__data = [[None_obj()] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)] 
         for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):

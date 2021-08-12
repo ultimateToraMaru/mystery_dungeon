@@ -11,9 +11,9 @@ from dungeon.room.object_layers.terrain_layer import Terrain_layer
 
 # roomが持つオブジェクト(Terrain, Item, Player ...)を集約して持つクラス
 class Layers:
-    def __init__(self, type, is_start_room):
+    def __init__(self, type):
         self.__terrain_layer = Terrain_layer(type)
-        self.__player_layer = Player_layer(is_start_room)
+        self.__player_layer = Player_layer()
         self.__steps_layer = Steps_layer()
         self.__enemy_layer = Enemy_layer()
 
