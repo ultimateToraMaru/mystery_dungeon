@@ -15,14 +15,6 @@ class Player_layer():
             for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[i][j] = None_obj()
 
-        # self.__tmp_player_position = [0, 0]
-
-        # if (is_start_room):
-        #     self.__player = Player(Color.SKYPINK)
-        # else:
-        #     self.__player = None_obj()
-
-
     @property
     def data(self):
         pass
@@ -41,8 +33,6 @@ class Player_layer():
 
 
     def draw(self, room_x, room_y):
-        # print(room_x, room_y)
-        # print(self.__data[self.__player_position[0]][self.__player_position[1]])
         for x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[x][y].create(x+room_x, y+room_y)
@@ -50,11 +40,6 @@ class Player_layer():
     def get_player_position(self):
         return self.__player.position
     
-    # def set_player_position(self, player, x, y):
-    #     player.tmp_position = [x, y]
-    #     player.position = [x, y]
-    
-    # なんか同時に複数の部屋に現れちゃう。だけどプレイやーを配置で来た！すごい！すー
     def set_start_position(self, player):
         # r_i = random.randint(0, len(self.__data)-1)
         # r_j = random.randint(0, len(self.__data)-1)
@@ -64,21 +49,16 @@ class Player_layer():
         r_i = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
         r_j = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
 
-        # self.__player.position = [r_i, r_j]
         self.set_player_position(player, r_i, r_j)
         self.__data[player.position[0]][player.position[1]] = player
 
         return player
 
     def set_position(self, player):
-        # print(self.__tmp_player_position, self.__player.position)
         self.__data[player.tmp_position[0]][player.tmp_position[1]] = None_obj()
         self.__data[player.position[0]][player.position[1]] = player
         player.tmp_position = [player.position[0], player.position[1]]
         player.position = [player.position[0], player.position[1]]
-        # self.set_player_position(player, player.position[0], player.position[1])
-        
-        # print(self.__data)
     
     # プレイヤーの残像をきれいに掃除する
     def clean(self):

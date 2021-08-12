@@ -150,7 +150,6 @@ class Floor:
     # プレイヤー自身の座標を受け取って、セットする
     def player_set_position(self):
         self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]].layers.player_layer.set_position(self.__player)
-        # self.is_player_on_steps()
     
     # エネミー自身の座標を受け取って、セットする
     def enemy_set_position(self):
@@ -169,11 +168,9 @@ class Floor:
     # エネミーを動かす
     def enemy_move(self, direction):
         for i in range(len(self.__enemys)):
-            # print('move')  
             if (self.is_can_move_character(self.__enemys[i], direction)):
                 self.__enemys[i].move(direction)
         
-    
     # キャラクターが行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)
     def is_can_move_character(self, character, direction):
         # 調査の結果、上の部屋に移動しようとしたときに移動先の座標がおかしい
@@ -184,39 +181,39 @@ class Floor:
             if (character_at_end_of_the_room):
                 if (character_at_end_of_the_floor): 
                     return False
-                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]+1][character.room_address[1]].layers.is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, character.position[1])
+                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]+1][character.room_address[1]].is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, character.position[1])
                 this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
                 # next_room = self.__rooms[character.room_address[0]+1][character.room_address[1]]
                 next_room_position = [character.room_address[0]+1, character.room_address[1]]
                 in_room_position = [-1, character.position[1]]
             else :
-                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].layers.is_noneobj(character.position[0]+1, character.position[1])
+                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].is_noneobj(character.position[0]+1, character.position[1])
                 forward_is_not_corner_of_room = character.position[0]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
         
         elif (direction == 'left'):
             character_at_end_of_the_room = character.position[0] == 0
             character_at_end_of_the_floor = character.room_address[0]-1 == -1
             if (character_at_end_of_the_room):
-                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]-1][character.room_address[1]].layers.is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, character.position[1])
+                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]-1][character.room_address[1]].is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, character.position[1])
                 this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
                 # next_room = self.__rooms[character.room_address[0]-1][character.room_address[1]]
                 next_room_position = [character.room_address[0]-1, character.room_address[1]]
                 in_room_position = [Size.MAX_MASS_IN_ROOM_ONE_SIDE, character.position[1]]
             else :
-                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].layers.is_noneobj(character.position[0]-1, character.position[1])
+                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].is_noneobj(character.position[0]-1, character.position[1])
                 forward_is_not_corner_of_room = character.position[0]-1 > -1
         
         elif (direction == 'up'):
             character_at_end_of_the_room = character.position[1] == 0
             character_at_end_of_the_floor = character.room_address[1]-1 == -1
             if (character_at_end_of_the_room):
-                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]-1].layers.is_noneobj(character.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
+                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]-1].is_noneobj(character.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
                 this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
                 # next_room = self.__rooms[character.room_address[0]][character.room_address[1]-1]
                 next_room_position = [character.room_address[0], character.room_address[1]-1]
                 in_room_position = [character.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE]
             else :
-                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].layers.is_noneobj(character.position[0], character.position[1]-1)
+                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].is_noneobj(character.position[0], character.position[1]-1)
                 forward_is_not_corner_of_room = character.position[1]-1 > -1
 
         elif (direction == 'down'):
@@ -225,13 +222,13 @@ class Floor:
             if (character_at_end_of_the_room):
                 if (character_at_end_of_the_floor): 
                     return False
-                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]+1].layers.is_noneobj(character.position[0], character.position[1]-1)
+                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]+1].is_noneobj(character.position[0], character.position[1]-1)
                 this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
                 # next_room = self.__rooms[character.room_address[0]][character.room_address[1]+1]
                 next_room_position = [character.room_address[0], character.room_address[1]+1]
                 in_room_position = [character.position[0], -1]
             else :
-                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].layers.is_noneobj(character.position[0], character.position[1]+1)
+                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].is_noneobj(character.position[0], character.position[1]+1)
                 forward_is_not_corner_of_room = character.position[1]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
 
         # プレイヤーが部屋の端にいるとき
