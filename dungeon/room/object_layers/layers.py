@@ -73,6 +73,8 @@ class Layers:
     def enemy_layer(self, enemy_layer):
         self.__enemy_layer = enemy_layer
     
+    # 与えられた座標(x, y)の場所に、障害となるオブジェクト(敵、壁、プレイヤー)がないか判定する(ない: true, ある: false)
     def is_noneobj(self, x, y):
-        # エネミーがすり抜けてしまう。すり抜けたうえで、次の部屋に移動しようとした際にエラーが吐かれる
-        return (type(self.__terrain_layer.data[x][y]) == Tile and type(self.__player_layer.data[x][y]) == None_obj and type(self.__enemy_layer.data[x][y]) == None_obj)
+        return (type(self.__terrain_layer.data[x][y]) == Tile and 
+                type(self.__player_layer.data[x][y]) == None_obj and 
+                type(self.__enemy_layer.data[x][y]) == None_obj)

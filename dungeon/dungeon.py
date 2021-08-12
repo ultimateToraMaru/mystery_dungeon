@@ -84,8 +84,8 @@ class Dungeon:
             self.__floors[self.__now_floor_index].player_move('down')
             self.__floors[self.__now_floor_index].enemy_move('up')
         
-        # elif pyxel.btnp(pyxel.KEY_F):
-        #     print('F')
+        elif pyxel.btnp(pyxel.KEY_F):
+            self.__floors[self.__now_floor_index].enemy_mind()
     
     # def instruction_enemy(self):
 

@@ -143,6 +143,7 @@ class Floor:
                     self.__enemys.extend(self.__rooms[i][j].generate_enemys(i, j))
         
         print(self.__enemys)
+        self.enemy_set_target()
                     
     
     
@@ -170,7 +171,6 @@ class Floor:
     def enemy_move(self, direction):
         for i in range(len(self.__enemys)):
             # print('move')  
-            self.__enemys[i].mind()
             if (self.is_can_move_enemy(self.__enemys[i], direction)):
                 self.__enemys[i].move(direction)
 
@@ -368,4 +368,7 @@ class Floor:
         for i in range(len(self.__enemys)):
             print(i, 'set!')
             self.__enemys[i].target = self.__player
-            self.enemy[i].mind()
+    
+    def enemy_mind(self):
+        for i in range(len(self.__enemys)):
+            self.__enemys[i].mind()
