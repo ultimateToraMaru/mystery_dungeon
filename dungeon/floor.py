@@ -1,3 +1,5 @@
+from dungeon.room.object_layers.objects.character import Character
+from dungeon.room.object_layers.objects.obj import Obj
 from dungeon.const.color import Color
 from dungeon.room.object_layers.objects.player import Player
 from dungeon.room.object_layers.objects.enemy import Enemy
@@ -10,21 +12,22 @@ import random
 
 # dungeonのfloorを表す関数。複数のroomを持つ
 class Floor:
-    def __init__(self):
-        self.__rooms = [[Room('none')] * Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]    # 配列の枠組みを作っておく。下の初期化処理と併用して行う。絶対。
-        # 初期化処理。要素に別々のインスタンスを入れ込んでいく
-        for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
-            for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
-                self.__rooms[i][j] = Room('none')
+    def __init__(self, _id):
+        self.__id: int = _id
+        # self.__rooms = [[Room('none')] * Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]    # 配列の枠組みを作っておく。下の初期化処理と併用して行う。絶対。
+        # # 初期化処理。要素に別々のインスタンスを入れ込んでいく
+        # for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+        #     for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+        #         self.__rooms[i][j] = Room('none')
+        self.__rooms = self.__generate_room()
 
-        # ***_room_addressをいつかなくす。でも、プレイヤーのスタートルームは必要そう。
         self.__player_start_room_address = [0, 0]
-        self.__player = None_obj()
+        self.__player: Player = self.__spawn_player()
+        print('プレイヤーのいるお部屋', self.__player.room_address, '座標 :', self.__player.position)
         self.__steps_room_address = [0, 0]
-        self.__steps = None_obj()
-        self.__enemys = []
+        self.__steps: Obj = None_obj()
+        self.__enemys: list[Enemy] = self.__spawn_enemys()
         
-        self.__rooms = self.generate_room()
 
 
     @property
@@ -40,7 +43,8 @@ class Floor:
         self.__rooms = rooms
 
     # ランダムな場所に部屋を生成
-    def generate_room(self):
+    def __generate_room(self):
+        rooms = []
         min_rooms = 5
         max_rooms = 10
 
@@ -49,6 +53,7 @@ class Floor:
         for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
             for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
                 rooms[i][j] = Room('none')
+
                 # フロアの端の部屋は行き止まりになる通路がない部屋を生成する
                 # if (j == 0) :
                 #     rooms[i][j] = Room('top_end', False)
@@ -92,31 +97,10 @@ class Floor:
             rooms[r_x][r_y] = Room('normal')
         
         return rooms
-
-    # 部屋の地形データを読み取り、オブジェクトにdrawの指示を出す
-    # def terrain_draw(self):
-    #     x = 0
-    #     y = 0
-    #     for i in range(len(self.__rooms)):
-    #         for j in range(len(self.__rooms)):
-    #             x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-    #             y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-    #             self.__rooms[i][j].layers.terrain_layer.draw(x, y)
-    
-    # # 部屋のプレイヤーレイヤーを読み取り、オブジェクトにdrawの指示を出す
-    # def player_draw(self):
-        # x = 0
-        # y = 0
-        # for i in range(len(self.__rooms)):
-        #     for j in range(len(self.__rooms)):
-        #         x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-        #         y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-        #         self.__rooms[i][j].layers.player_layer.draw(x, y)
-                
+        
     # プレイヤーを生み出す。フロア到達時に一階だけ実行される。
-    def spawn_player(self):
-        self.__player = self.__rooms[self.__player_start_room_address[0]][self.__player_start_room_address[1]].generate_player(self.__player_start_room_address[0], self.__player_start_room_address[1])
-        print('プレイヤーのいるお部屋', self.__player.room_address, '座標 :', self.__player.position)
+    def __spawn_player(self):
+        return self.__rooms[self.__player_start_room_address[0]][self.__player_start_room_address[1]].generate_player(self.__player_start_room_address[0], self.__player_start_room_address[1])
     
     # 階段を生み出す。フロア到達時に一階だけ実行される。
     def spawn_steps(self):
@@ -132,15 +116,16 @@ class Floor:
         self.__rooms[r_x][r_y].generate_steps(self.__steps)
     
     # エネミーをランダムな部屋に生み出す。エネミーが生まれる部屋をランダムで決める。
-    def spawn_enemys(self):
+    def __spawn_enemys(self):
+        enemys: list[Enemy] = []
         for i in range(len(self.__rooms)):
             for j in range(len(self.__rooms)):
                 is_enemy_spawn = random.randint(0, 1)
                 if (is_enemy_spawn):
-                    self.__enemys.extend(self.__rooms[i][j].generate_enemys(i, j))
+                    enemys.extend(self.__rooms[i][j].generate_enemys(i, j))
         
-        # print(self.__enemys)
-        self.enemy_set_target()
+        self.enemy_set_target(enemys)
+        return enemys
                     
     # ??? プレイヤー自身の座標を受け取って、セットする
     def player_set_position(self):
@@ -262,9 +247,9 @@ class Floor:
         # return player_rooms    # 5*5
     
     # ??? エネミーにターゲットをセットする
-    def enemy_set_target(self):
-        for i in range(len(self.__enemys)):
-            self.__enemys[i].target = self.__player
+    def enemy_set_target(self, enemys):
+        for i in range(len(enemys)):
+            enemys[i].target = self.__player
     
     # ??? エネミーのターゲットの位置を報告してもらう
     def enemy_mind(self):

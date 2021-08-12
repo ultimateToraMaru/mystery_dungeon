@@ -5,19 +5,16 @@ import pyxel
 
 
 class Dungeon:
-    def __init__(self):
-        self.__floors = []
-
-        self.__FLOOR_NUMBERS = 5
-        for i in range(self.__FLOOR_NUMBERS):
-            print(i)
-            self.__floors.append(Floor())
-        
+    def __init__(self, _id):
+        self.__id: int = _id
         self.__name = 'ほげダンジョン'
+
+        self.__FLOOR_NUMBERS: int = 5
+        self.__floors: list[Floor] = self.generate_floors(self.__FLOOR_NUMBERS)
+        
         self.__now_floor_index: int = -1
         self.__turn: int = 1
 
-        # self.__now_floor = Floor()      # いらない。now_floor_indexがあれば、この変数はいらない。いつか変えよう。
         self.__camera = Camera()
     
     @property
@@ -28,14 +25,22 @@ class Dungeon:
     def floors(self):
         return self.__floors
     
+    # フロアをfloor_numbers階分生成する
+    def generate_floors(self, floor_numbers):
+        floors = []
+        for i in range(floor_numbers):
+            floors.append(Floor(_id=i))
+        
+        return floors
+    
     # フロア到着時に一回だけ呼び出される
     def start_turn(self):
         # self.__now_floor = self.get_next_floor()
         self.__now_floor_index += 1
 
-        self.__floors[self.__now_floor_index].spawn_player()
+        # self.__floors[self.__now_floor_index].__spawn_player()
         self.__floors[self.__now_floor_index].spawn_steps()
-        self.__floors[self.__now_floor_index].spawn_enemys()
+        # self.__floors[self.__now_floor_index].spawn_enemys()
 
         Display.show_number_of_floors(self.__now_floor_index+1)
     
@@ -52,13 +57,6 @@ class Dungeon:
 
         self.__floors[self.__now_floor_index].player_set_position()
         self.__floors[self.__now_floor_index].enemy_set_position()
-    
-
-    # def get_next_floor(self):
-    #     self.__now_floor_index += 1
-    #     next_floor = self.__floors[self.__now_floor_index-1]
-
-    #     return next_floor
     
     # 入力されたキーをチェックする
     # 現在は方向キーだけ実装済み
