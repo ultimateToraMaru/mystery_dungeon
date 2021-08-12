@@ -46,19 +46,6 @@ class Room:
     def type(self, type):
         self.__type = type
     
-    @property
-    def is_start_room(self):
-        pass
-
-    @is_start_room.getter
-    def is_start_room(self):
-        return self.__is_start_room
-
-    @is_start_room.setter
-    def is_start_room(self, is_start_room):
-        self.__is_start_room = is_start_room
-    
-    
     # 部屋内のランダムな場所に階段を設置する
     def generate_steps(self, steps):
         # self.__steps = steps
@@ -70,16 +57,6 @@ class Room:
                 self.__layers.steps_layer.data[r_x][r_y] = steps
                 break
 
-    # プレイヤーが階段に到着したか確認する
-    def steps_check(self):
-        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                if (type(self.__layers.player_layer.data[i][j]) == Player and
-                    type(self.__layers.steps_layer.data[i][j]) == Steps):
-                    return True
-
-        return False
-    
     # 部屋内のランダムな場所にランダムな数のエネミーを設置する
     def generate_enemys(self, i, j):
         enemy_nums = random.randint(1, 5)
@@ -95,15 +72,25 @@ class Room:
                 type(self.__layers.enemy_layer.data[r_x][r_y]) == None_obj):
 
                 enemy = Enemy(Color.BLACK, room_address=[i, j], position=[r_x, r_y])
-                # enemy = Enemy(Color.BLACK, room_address=[i, j], position=[5, 5])
                 self.__layers.enemy_layer.data[r_x][r_y] = enemy
                 enemys.append(enemy)
 
         return enemys
 
+    # 部屋の中心にプレイヤーを設置する
     def generate_player(self, i, j):
         player = Player(Color.BLACK, room_address=[i, j], position=[5, 5])
         return player
+    
+    # ??? プレイヤーが階段に到着したか確認する
+    def steps_check(self):
+        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                if (type(self.__layers.player_layer.data[i][j]) == Player and
+                    type(self.__layers.steps_layer.data[i][j]) == Steps):
+                    return True
+
+        return False
     
     # 与えられた座標(x, y)の場所に、障害となるオブジェクト(敵、壁、プレイヤー)がないか判定する(ない: true, ある: false)
     def is_noneobj(self, x, y):

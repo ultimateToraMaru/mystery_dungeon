@@ -94,33 +94,28 @@ class Floor:
         return rooms
 
     # 部屋の地形データを読み取り、オブジェクトにdrawの指示を出す
-    def terrain_draw(self):
-        x = 0
-        y = 0
-        for i in range(len(self.__rooms)):
-            for j in range(len(self.__rooms)):
-                x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-                y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-                self.__rooms[i][j].layers.terrain_layer.draw(x, y)
+    # def terrain_draw(self):
+    #     x = 0
+    #     y = 0
+    #     for i in range(len(self.__rooms)):
+    #         for j in range(len(self.__rooms)):
+    #             x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+    #             y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+    #             self.__rooms[i][j].layers.terrain_layer.draw(x, y)
     
-    # 部屋のプレイヤーレイヤーを読み取り、オブジェクトにdrawの指示を出す
-    def player_draw(self):
-        x = 0
-        y = 0
-        for i in range(len(self.__rooms)):
-            for j in range(len(self.__rooms)):
-                x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-                y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-                self.__rooms[i][j].layers.player_layer.draw(x, y)
-        
-        # print(self.__rooms)
+    # # 部屋のプレイヤーレイヤーを読み取り、オブジェクトにdrawの指示を出す
+    # def player_draw(self):
+        # x = 0
+        # y = 0
+        # for i in range(len(self.__rooms)):
+        #     for j in range(len(self.__rooms)):
+        #         x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+        #         y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+        #         self.__rooms[i][j].layers.player_layer.draw(x, y)
                 
     # プレイヤーを生み出す。フロア到達時に一階だけ実行される。
     def spawn_player(self):
         self.__player = self.__rooms[self.__player_start_room_address[0]][self.__player_start_room_address[1]].generate_player(self.__player_start_room_address[0], self.__player_start_room_address[1])
-        # player = self.__rooms[self.__player_start_room_address[0]][self.__player_start_room_address[1]].layers.player_layer.set_start_position(self.__player)
-        # self.__player = player
-        # self.__player.room_address = self.__player_start_room_address
         print('プレイヤーのいるお部屋', self.__player.room_address, '座標 :', self.__player.position)
     
     # 階段を生み出す。フロア到達時に一階だけ実行される。
@@ -133,7 +128,7 @@ class Floor:
                 self.__steps = Steps()
                 break
 
-        print('階段のあるお部屋', self.__steps_room_address[0], self.__steps_room_address[1])
+        print('階段のあるお部屋', self.__steps_room_address)
         self.__rooms[r_x][r_y].generate_steps(self.__steps)
     
     # エネミーをランダムな部屋に生み出す。エネミーが生まれる部屋をランダムで決める。
@@ -144,14 +139,14 @@ class Floor:
                 if (is_enemy_spawn):
                     self.__enemys.extend(self.__rooms[i][j].generate_enemys(i, j))
         
-        print(self.__enemys)
+        # print(self.__enemys)
         self.enemy_set_target()
                     
-    # プレイヤー自身の座標を受け取って、セットする
+    # ??? プレイヤー自身の座標を受け取って、セットする
     def player_set_position(self):
         self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]].layers.player_layer.set_position(self.__player)
     
-    # エネミー自身の座標を受け取って、セットする
+    # ??? エネミー自身の座標を受け取って、セットする
     def enemy_set_position(self):
         for i in range(len(self.__enemys)):
             self.__rooms[self.__enemys[i].room_address[0]][self.__enemys[i].room_address[1]].layers.enemy_layer.set_position(self.__enemys[i])
@@ -266,12 +261,12 @@ class Floor:
         return player_room    # 16*16
         # return player_rooms    # 5*5
     
+    # ??? エネミーにターゲットをセットする
     def enemy_set_target(self):
-        # print('set_ready')
         for i in range(len(self.__enemys)):
-            # print(i, 'set!')
             self.__enemys[i].target = self.__player
     
+    # ??? エネミーのターゲットの位置を報告してもらう
     def enemy_mind(self):
         for i in range(len(self.__enemys)):
             self.__enemys[i].mind()
