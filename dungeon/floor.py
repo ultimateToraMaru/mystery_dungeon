@@ -1,3 +1,5 @@
+from dungeon.const.color import Color
+from dungeon.room.object_layers.objects.player import Player
 from dungeon.room.object_layers.objects.enemy import Enemy
 from dungeon.room.object_layers.objects.steps import Steps
 from dungeon.room.object_layers.objects.tile import Tile
@@ -17,7 +19,7 @@ class Floor:
 
 
         self.__playerRoom_position = [0, 0]
-        self.__player = None_obj()
+        self.__player = Player(Color.BLACK)
         self.__stepsRoom_position = [0, 0]
         self.__steps = None_obj()
         self.__enemys = []
@@ -84,9 +86,9 @@ class Floor:
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
             if (i == start_room):
-                print('プレイヤーがいる部屋の座標', r_x, r_y)
                 rooms[r_x][r_y] = Room('normal', True)
                 self.__playerRoom_position = [r_x, r_y]
+                print('プレイヤーがいる部屋の座標', self.__playerRoom_position)
             else :
                 rooms[r_x][r_y] = Room('normal', False)
         
@@ -116,9 +118,10 @@ class Floor:
                 
     # プレイヤーを生み出す。フロア到達時に一階だけ実行される。
     def spawn_player(self):
-        print('プレイヤーのいるお部屋', self.__playerRoom_position[0], self.__playerRoom_position[1],  self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]])
-        player = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.player_layer.set_start_position()
+        player = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.player_layer.set_start_position(self.__player)
         self.__player = player
+        self.__player.room_address = self.__playerRoom_position
+        print('プレイヤーのいるお部屋', self.__player.room_address, '座標 :', self.__player.position)
     
     # 階段を生み出す。フロア到達時に一階だけ実行される。
     def spawn_steps(self):
@@ -150,7 +153,7 @@ class Floor:
 
     # プレイヤー自身の座標を受け取って、セットする
     def player_set_position(self):
-        self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.player_layer.set_position()
+        self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]].layers.player_layer.set_position(self.__player)
         # self.is_player_on_steps()
     
     # エネミー自身の座標を受け取って、セットする
@@ -164,160 +167,161 @@ class Floor:
 
     # プレイヤーを動かす
     def player_move(self, direction):
-        if (self.is_can_move_player(direction)):
+        if (self.is_can_move_character(self.__player, direction)):
             self.__player.move(direction)
     
     # エネミーを動かす
     def enemy_move(self, direction):
         for i in range(len(self.__enemys)):
             # print('move')  
-            if (self.is_can_move_enemy(self.__enemys[i], direction)):
+            if (self.is_can_move_character(self.__enemys[i], direction)):
                 self.__enemys[i].move(direction)
 
     
     # プレイヤーの行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)
-    def is_can_move_player(self, direction):
-        print('部屋の番地:', self.__playerRoom_position, ' 部屋内:', self.__player.position[0], self.__player.position[1])
-        if (direction == 'right'):
-            player_at_end_of_the_room = self.__player.position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
-            player_at_end_of_the_floor = self.__playerRoom_position[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
-            if (player_at_end_of_the_room):
-                if (player_at_end_of_the_floor): 
-                    return False
-                next_room_mass = type(self.__rooms[self.__playerRoom_position[0]+1][self.__playerRoom_position[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
-                this_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]]
-                next_room = self.__rooms[self.__playerRoom_position[0]+1][self.__playerRoom_position[1]]
-                next_room_position = [self.__playerRoom_position[0]+1, self.__playerRoom_position[1]]
-                in_room_position = [-1, self.__player.position[1]]
-            else :
-                forward_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
-                forward_is_not_corner_of_room = self.__player.position[0]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
+    # def is_can_move_player(self, direction):
+    #     print('部屋の番地:', self.__playerRoom_position, ' 部屋内:', self.__player.position[0], self.__player.position[1])
+    #     if (direction == 'right'):
+    #         player_at_end_of_the_room = self.__player.position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
+    #         player_at_end_of_the_floor = self.__playerRoom_position[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
+    #         if (player_at_end_of_the_room):
+    #             if (player_at_end_of_the_floor): 
+    #                 return False
+    #             next_room_mass = type(self.__rooms[self.__playerRoom_position[0]+1][self.__playerRoom_position[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
+    #             this_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]]
+    #             next_room = self.__rooms[self.__playerRoom_position[0]+1][self.__playerRoom_position[1]]
+    #             next_room_position = [self.__playerRoom_position[0]+1, self.__playerRoom_position[1]]
+    #             in_room_position = [-1, self.__player.position[1]]
+    #         else :
+    #             forward_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.terrain_layer.data[self.__player.position[0]+1][self.__player.position[1]])
+    #             forward_is_not_corner_of_room = self.__player.position[0]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
         
-        elif (direction == 'left'):
-            player_at_end_of_the_room = self.__player.position[0] == 0
-            player_at_end_of_the_floor = self.__playerRoom_position[0]-1 == -1
-            if (player_at_end_of_the_room):
-                next_room_mass = type(self.__rooms[self.__playerRoom_position[0]-1][self.__playerRoom_position[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
-                this_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]]
-                next_room = self.__rooms[self.__playerRoom_position[0]-1][self.__playerRoom_position[1]]
-                next_room_position = [self.__playerRoom_position[0]-1, self.__playerRoom_position[1]]
-                in_room_position = [Size.MAX_MASS_IN_ROOM_ONE_SIDE, self.__player.position[1]]
-            else :
-                forward_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.terrain_layer.data[self.__player.position[0]-1][self.__player.position[1]])
-                forward_is_not_corner_of_room = self.__player.position[0]-1 > -1
+    #     elif (direction == 'left'):
+    #         player_at_end_of_the_room = self.__player.position[0] == 0
+    #         player_at_end_of_the_floor = self.__playerRoom_position[0]-1 == -1
+    #         if (player_at_end_of_the_room):
+    #             next_room_mass = type(self.__rooms[self.__playerRoom_position[0]-1][self.__playerRoom_position[1]].layers.terrain_layer.data[Size.MAX_MASS_IN_ROOM_ONE_SIDE-1][self.__player.position[1]])
+    #             this_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]]
+    #             next_room = self.__rooms[self.__playerRoom_position[0]-1][self.__playerRoom_position[1]]
+    #             next_room_position = [self.__playerRoom_position[0]-1, self.__playerRoom_position[1]]
+    #             in_room_position = [Size.MAX_MASS_IN_ROOM_ONE_SIDE, self.__player.position[1]]
+    #         else :
+    #             forward_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.terrain_layer.data[self.__player.position[0]-1][self.__player.position[1]])
+    #             forward_is_not_corner_of_room = self.__player.position[0]-1 > -1
         
-        elif (direction == 'up'):
-            player_at_end_of_the_room = self.__player.position[1] == 0
-            player_at_end_of_the_floor = self.__playerRoom_position[1]-1 == -1
-            if (player_at_end_of_the_room):
-                next_room_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]-1].layers.terrain_layer.data[self.__player.position[0]][Size.MAX_MASS_IN_ROOM_ONE_SIDE-1])
-                this_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]]
-                next_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]-1]
-                next_room_position = [self.__playerRoom_position[0], self.__playerRoom_position[1]-1]
-                in_room_position = [self.__player.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE]
-            else :
-                forward_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
-                forward_is_not_corner_of_room = self.__player.position[1]-1 > -1
+    #     elif (direction == 'up'):
+    #         player_at_end_of_the_room = self.__player.position[1] == 0
+    #         player_at_end_of_the_floor = self.__playerRoom_position[1]-1 == -1
+    #         if (player_at_end_of_the_room):
+    #             next_room_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]-1].layers.terrain_layer.data[self.__player.position[0]][Size.MAX_MASS_IN_ROOM_ONE_SIDE-1])
+    #             this_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]]
+    #             next_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]-1]
+    #             next_room_position = [self.__playerRoom_position[0], self.__playerRoom_position[1]-1]
+    #             in_room_position = [self.__player.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE]
+    #         else :
+    #             forward_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
+    #             forward_is_not_corner_of_room = self.__player.position[1]-1 > -1
 
-        elif (direction == 'down'):
-            player_at_end_of_the_room = self.__player.position[1] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
-            player_at_end_of_the_floor = self.__playerRoom_position[1]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
-            if (player_at_end_of_the_room):
-                if (player_at_end_of_the_floor): 
-                    return False
-                next_room_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]+1].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
-                this_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]]
-                next_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]+1]
-                next_room_position = [self.__playerRoom_position[0], self.__playerRoom_position[1]+1]
-                in_room_position = [self.__player.position[0], -1]
-            else :
-                forward_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]+1])
-                forward_is_not_corner_of_room = self.__player.position[1]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
+    #     elif (direction == 'down'):
+    #         player_at_end_of_the_room = self.__player.position[1] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
+    #         player_at_end_of_the_floor = self.__playerRoom_position[1]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
+    #         if (player_at_end_of_the_room):
+    #             if (player_at_end_of_the_floor): 
+    #                 return False
+    #             next_room_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]+1].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]-1])
+    #             this_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]]
+    #             next_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]+1]
+    #             next_room_position = [self.__playerRoom_position[0], self.__playerRoom_position[1]+1]
+    #             in_room_position = [self.__player.position[0], -1]
+    #         else :
+    #             forward_mass = type(self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]].layers.terrain_layer.data[self.__player.position[0]][self.__player.position[1]+1])
+    #             forward_is_not_corner_of_room = self.__player.position[1]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
 
         
-        # プレイヤーが部屋の端にいるとき
-        if (player_at_end_of_the_room):
-            # その部屋がブロックの端のとき、終了(世界の果てには移動できない)
-            if (player_at_end_of_the_floor): 
-                return False
+    #     # プレイヤーが部屋の端にいるとき
+    #     if (player_at_end_of_the_room):
+    #         # その部屋がブロックの端のとき、終了(世界の果てには移動できない)
+    #         if (player_at_end_of_the_floor): 
+    #             return False
 
-            # 次の部屋のマスが床のとき(障害物がないとき)
-            if (next_room_mass == Tile):
-                # プレイヤーの移動に伴って部屋を掃除する
-                this_room.layers.player_layer.clean()
-                # プレイヤーインスタンスを次の部屋に移す
-                next_room.layers.player_layer.player = self.__player
-                # プレイヤーがいる部屋のポジションを更新
-                self.__playerRoom_position = next_room_position
-                # プレイヤーの部屋内のポジションを更新
-                self.__player.position = in_room_position
+    #         # 次の部屋のマスが床のとき(障害物がないとき)
+    #         if (next_room_mass == Tile):
+    #             # プレイヤーの移動に伴って部屋を掃除する
+    #             this_room.layers.player_layer.clean()
+    #             # プレイヤーインスタンスを次の部屋に移す
+    #             next_room.layers.player_layer.player = self.__player
+    #             # プレイヤーがいる部屋のポジションを更新
+    #             self.__playerRoom_position = next_room_position
+    #             # プレイヤーの部屋内のポジションを更新
 
-            return True
+    #             self.__player.position = in_room_position
 
-        # プレイヤーが部屋の中を移動するとき
-        else :
-            return (forward_is_not_corner_of_room and (forward_mass == Tile))
+    #         return True
+
+    #     # プレイヤーが部屋の中を移動するとき
+    #     else :
+    #         return (forward_is_not_corner_of_room and (forward_mass == Tile))
         
     
     # エネミーの行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)
-    def is_can_move_enemy(self, enemy, direction):
+    def is_can_move_character(self, character, direction):
         # 調査の結果、上の部屋に移動しようとしたときに移動先の座標がおかしい
-        print('エネミー部屋の番地:', enemy.room_address, ' 部屋内:', enemy.position, enemy)
+        print('エネミー部屋の番地:', character.room_address, ' 部屋内:', character.position, character)
         if (direction == 'right'):
-            enemy_at_end_of_the_room = enemy.position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
-            enemy_at_end_of_the_floor = enemy.room_address[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
+            enemy_at_end_of_the_room = character.position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
+            enemy_at_end_of_the_floor = character.room_address[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
             if (enemy_at_end_of_the_room):
                 if (enemy_at_end_of_the_floor): 
                     return False
-                next_room_mass_is_noneobj = self.__rooms[enemy.room_address[0]+1][enemy.room_address[1]].layers.is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, enemy.position[1])
-                this_room = self.__rooms[enemy.room_address[0]][enemy.room_address[1]]
-                next_room = self.__rooms[enemy.room_address[0]+1][enemy.room_address[1]]
-                next_room_position = [enemy.room_address[0]+1, enemy.room_address[1]]
-                in_room_position = [-1, enemy.position[1]]
+                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]+1][character.room_address[1]].layers.is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, character.position[1])
+                this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
+                next_room = self.__rooms[character.room_address[0]+1][character.room_address[1]]
+                next_room_position = [character.room_address[0]+1, character.room_address[1]]
+                in_room_position = [-1, character.position[1]]
             else :
-                forward_mass_is_noneobj = self.__rooms[enemy.room_address[0]][enemy.room_address[1]].layers.is_noneobj(enemy.position[0]+1, enemy.position[1])
-                forward_is_not_corner_of_room = enemy.position[0]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
+                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].layers.is_noneobj(character.position[0]+1, character.position[1])
+                forward_is_not_corner_of_room = character.position[0]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
         
         elif (direction == 'left'):
-            enemy_at_end_of_the_room = enemy.position[0] == 0
-            enemy_at_end_of_the_floor = enemy.room_address[0]-1 == -1
+            enemy_at_end_of_the_room = character.position[0] == 0
+            enemy_at_end_of_the_floor = character.room_address[0]-1 == -1
             if (enemy_at_end_of_the_room):
-                next_room_mass_is_noneobj = self.__rooms[enemy.room_address[0]-1][enemy.room_address[1]].layers.is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, enemy.position[1])
-                this_room = self.__rooms[enemy.room_address[0]][enemy.room_address[1]]
-                next_room = self.__rooms[enemy.room_address[0]-1][enemy.room_address[1]]
-                next_room_position = [enemy.room_address[0]-1, enemy.room_address[1]]
-                in_room_position = [Size.MAX_MASS_IN_ROOM_ONE_SIDE, enemy.position[1]]
+                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]-1][character.room_address[1]].layers.is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, character.position[1])
+                this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
+                next_room = self.__rooms[character.room_address[0]-1][character.room_address[1]]
+                next_room_position = [character.room_address[0]-1, character.room_address[1]]
+                in_room_position = [Size.MAX_MASS_IN_ROOM_ONE_SIDE, character.position[1]]
             else :
-                forward_mass_is_noneobj = self.__rooms[enemy.room_address[0]][enemy.room_address[1]].layers.is_noneobj(enemy.position[0]-1, enemy.position[1])
-                forward_is_not_corner_of_room = enemy.position[0]-1 > -1
+                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].layers.is_noneobj(character.position[0]-1, character.position[1])
+                forward_is_not_corner_of_room = character.position[0]-1 > -1
         
         elif (direction == 'up'):
-            enemy_at_end_of_the_room = enemy.position[1] == 0
-            enemy_at_end_of_the_floor = enemy.room_address[1]-1 == -1
+            enemy_at_end_of_the_room = character.position[1] == 0
+            enemy_at_end_of_the_floor = character.room_address[1]-1 == -1
             if (enemy_at_end_of_the_room):
-                next_room_mass_is_noneobj = self.__rooms[enemy.room_address[0]][enemy.room_address[1]-1].layers.is_noneobj(enemy.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
-                this_room = self.__rooms[enemy.room_address[0]][enemy.room_address[1]]
-                next_room = self.__rooms[enemy.room_address[0]][enemy.room_address[1]-1]
-                next_room_position = [enemy.room_address[0], enemy.room_address[1]-1]
-                in_room_position = [enemy.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE]
+                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]-1].layers.is_noneobj(character.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
+                this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
+                next_room = self.__rooms[character.room_address[0]][character.room_address[1]-1]
+                next_room_position = [character.room_address[0], character.room_address[1]-1]
+                in_room_position = [character.position[0], Size.MAX_MASS_IN_ROOM_ONE_SIDE]
             else :
-                forward_mass_is_noneobj = self.__rooms[enemy.room_address[0]][enemy.room_address[1]].layers.is_noneobj(enemy.position[0], enemy.position[1]-1)
-                forward_is_not_corner_of_room = enemy.position[1]-1 > -1
+                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].layers.is_noneobj(character.position[0], character.position[1]-1)
+                forward_is_not_corner_of_room = character.position[1]-1 > -1
 
         elif (direction == 'down'):
-            enemy_at_end_of_the_room = enemy.position[1] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
-            enemy_at_end_of_the_floor = enemy.room_address[1]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
+            enemy_at_end_of_the_room = character.position[1] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
+            enemy_at_end_of_the_floor = character.room_address[1]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
             if (enemy_at_end_of_the_room):
                 if (enemy_at_end_of_the_floor): 
                     return False
-                next_room_mass_is_noneobj = self.__rooms[enemy.room_address[0]][enemy.room_address[1]+1].layers.is_noneobj(enemy.position[0], enemy.position[1]-1)
-                this_room = self.__rooms[enemy.room_address[0]][enemy.room_address[1]]
-                next_room = self.__rooms[enemy.room_address[0]][enemy.room_address[1]+1]
-                next_room_position = [enemy.room_address[0], enemy.room_address[1]+1]
-                in_room_position = [enemy.position[0], -1]
+                next_room_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]+1].layers.is_noneobj(character.position[0], character.position[1]-1)
+                this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
+                next_room = self.__rooms[character.room_address[0]][character.room_address[1]+1]
+                next_room_position = [character.room_address[0], character.room_address[1]+1]
+                in_room_position = [character.position[0], -1]
             else :
-                forward_mass_is_noneobj = self.__rooms[enemy.room_address[0]][enemy.room_address[1]].layers.is_noneobj(enemy.position[0], enemy.position[1]+1)
-                forward_is_not_corner_of_room = enemy.position[1]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
+                forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].layers.is_noneobj(character.position[0], character.position[1]+1)
+                forward_is_not_corner_of_room = character.position[1]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
 
         
         # print('enemy at end of the room:', enemy_at_end_of_the_room)
@@ -335,13 +339,13 @@ class Floor:
                 # プレイヤーの移動に伴って部屋を掃除する
                 this_room.layers.enemy_layer.clean()
                 # プレイヤーインスタンスを次の部屋に移す
-                enemy.room_address = next_room_position
+                character.room_address = next_room_position
                 # next_room.layers.player_layer.player = self.__player  # これはいらない
                 # プレイヤーがいる部屋のポジションを更新
                 # self.__playerRoom_position = next_room_position # これはいらない
                 # プレイヤーの部屋内のポジションを更新
                 print('next_room')
-                enemy.position = in_room_position
+                character.position = in_room_position
 
             return True
 
@@ -350,7 +354,7 @@ class Floor:
             return (forward_is_not_corner_of_room and forward_mass_is_noneobj)
     
     def get_player_room_arounds(self):
-        player_room = self.__rooms[self.__playerRoom_position[0]][self.__playerRoom_position[1]]
+        player_room = self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]]
         player_rooms = self.__rooms # 5*5
         # room_position = [   [-1, -1], [-1, 0], [-1, +1],
         #                     [0, -1], [0, 0], [0, +1],

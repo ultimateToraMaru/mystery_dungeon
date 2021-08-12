@@ -17,10 +17,10 @@ class Player_layer():
 
         self.__tmp_player_position = [0, 0]
 
-        if (is_start_room):
-            self.__player = Player(Color.SKYPINK)
-        else:
-            self.__player = None_obj()
+        # if (is_start_room):
+        #     self.__player = Player(Color.SKYPINK)
+        # else:
+        #     self.__player = None_obj()
 
 
     @property
@@ -50,12 +50,12 @@ class Player_layer():
     def get_player_position(self):
         return self.__player.position
     
-    def set_player_position(self, x, y):
-        self.__tmp_player_position = [x, y]
-        self.__player.position = [x, y]
+    def set_player_position(self, player, x, y):
+        player.tmp_position = [x, y]
+        player.position = [x, y]
     
     # なんか同時に複数の部屋に現れちゃう。だけどプレイやーを配置で来た！すごい！すー
-    def set_start_position(self):
+    def set_start_position(self, player):
         # r_i = random.randint(0, len(self.__data)-1)
         # r_j = random.randint(0, len(self.__data)-1)
 
@@ -65,16 +65,16 @@ class Player_layer():
         r_j = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
 
         # self.__player.position = [r_i, r_j]
-        self.set_player_position(r_i, r_j)
-        self.__data[self.__player.position[0]][self.__player.position[1]] = self.__player
+        self.set_player_position(player, r_i, r_j)
+        self.__data[player.position[0]][player.position[1]] = player
 
-        return self.__player
+        return player
 
-    def set_position(self):
+    def set_position(self, player):
         # print(self.__tmp_player_position, self.__player.position)
-        self.__data[self.__tmp_player_position[0]][self.__tmp_player_position[1]] = None_obj()
-        self.__data[self.__player.position[0]][self.__player.position[1]] = self.__player
-        self.set_player_position(self.__player.position[0], self.__player.position[1])
+        self.__data[player.tmp_position[0]][player.tmp_position[1]] = None_obj()
+        self.__data[player.position[0]][player.position[1]] = player
+        self.set_player_position(player, player.position[0], player.position[1])
         
         # print(self.__data)
     
