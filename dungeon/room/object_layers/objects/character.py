@@ -4,10 +4,10 @@ import pyxel
 
 
 class Character(Obj):
-    def __init__(self, color):
+    def __init__(self, color, room_address, position):
         super().__init__(color)
-        self.__room_address = [0, 0]
-        self.__position = [0, 0]
+        self.__room_address = room_address
+        self.__position = position
         self.__tmp_position = [0, 0]
         self.__direction = 'down'
 

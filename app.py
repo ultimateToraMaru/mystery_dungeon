@@ -9,9 +9,9 @@ from dungeon.room.room import Room
 
 class App:
     def __init__(self):
-        pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=5)   # 5*5
+        # pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=5)   # 5*5
         # pyxel.init(200, 200, caption="mystery_dungeon", scale=2, fps=5)     # 10*10
-        # pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=10)     # 16*16
+        pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=10)     # 16*16
 
         pyxel.load("my_resource.pyxres")
         self.dungeon = Dungeon()

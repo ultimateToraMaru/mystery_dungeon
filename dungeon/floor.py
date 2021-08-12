@@ -17,9 +17,9 @@ class Floor:
             for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
                 self.__rooms[i][j] = Room('none')
 
-        # ***_room_addressをいつかなくす
+        # ***_room_addressをいつかなくす。でも、プレイヤーのスタートルームは必要そう。
         self.__player_start_room_address = [0, 0]
-        self.__player = Player(Color.BLACK)
+        self.__player = None_obj()
         self.__steps_room_address = [0, 0]
         self.__steps = None_obj()
         self.__enemys = []
@@ -86,11 +86,10 @@ class Floor:
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
             if (i == start_room):
-                rooms[r_x][r_y] = Room('normal')
                 self.__player_start_room_address = [r_x, r_y]
-                print('プレイヤーがいる部屋の座標', self.__player_start_room_address)
-            else :
-                rooms[r_x][r_y] = Room('normal')
+                print('スタート部屋のアドレス', self.__player_start_room_address)
+
+            rooms[r_x][r_y] = Room('normal')
         
         return rooms
 
@@ -118,14 +117,14 @@ class Floor:
                 
     # プレイヤーを生み出す。フロア到達時に一階だけ実行される。
     def spawn_player(self):
-        player = self.__rooms[self.__player_start_room_address[0]][self.__player_start_room_address[1]].layers.player_layer.set_start_position(self.__player)
-        self.__player = player
-        self.__player.room_address = self.__player_start_room_address
+        self.__player = self.__rooms[self.__player_start_room_address[0]][self.__player_start_room_address[1]].generate_player(self.__player_start_room_address[0], self.__player_start_room_address[1])
+        # player = self.__rooms[self.__player_start_room_address[0]][self.__player_start_room_address[1]].layers.player_layer.set_start_position(self.__player)
+        # self.__player = player
+        # self.__player.room_address = self.__player_start_room_address
         print('プレイヤーのいるお部屋', self.__player.room_address, '座標 :', self.__player.position)
     
     # 階段を生み出す。フロア到達時に一階だけ実行される。
     def spawn_steps(self):
-        
         while (True): 
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
@@ -261,7 +260,7 @@ class Floor:
     
     def get_player_room_arounds(self):
         player_room = self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]]
-        player_rooms = self.__rooms # 5*5
+        # player_rooms = self.__rooms # 5*5
         # room_position = [   [-1, -1], [-1, 0], [-1, +1],
         #                     [0, -1], [0, 0], [0, +1],
         #                     [+1, -1], [+1, 0], [+1, +1],
@@ -270,8 +269,8 @@ class Floor:
         # for pos in room_position :
         #     player_around_rooms.append(self.__rooms[self.__player_room_position[0]+pos[0]][self.__player_room_position[1]+pos[1]])
 
-        # return player_room    # 16*16
-        return player_rooms    # 5*5
+        return player_room    # 16*16
+        # return player_rooms    # 5*5
     
     def enemy_set_target(self):
         print('set_ready')

@@ -99,3 +99,7 @@ class Room:
                 enemys.append(enemy)
 
         return enemys
+
+    def generate_player(self, i, j):
+        player = Player(Color.BLACK, room_address=[i, j], position=[5, 5])
+        return player
