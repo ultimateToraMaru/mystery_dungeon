@@ -4,8 +4,8 @@ import pyxel
 from dungeon.room.object_layers.objects.obj import Obj
 
 class Steps(Obj):
-    def __init__(self):
-        super().__init__(Color.BLACK)
+    def __init__(self, room_address, position):
+        super().__init__(Color.BLACK, room_address, position)
     
     def create(self, x, y):
         w = Size.MASS_WIDTH

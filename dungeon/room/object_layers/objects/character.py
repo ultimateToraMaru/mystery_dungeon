@@ -5,10 +5,8 @@ import pyxel
 
 class Character(Obj):
     def __init__(self, color, room_address, position):
-        super().__init__(color)
-        self.__room_address = room_address
-        self.__position = position
-        self.__tmp_position = [0, 0]
+        super().__init__(color, room_address, position)
+        self.__tmp_position = [0, 0]    # 移動するオブジェクト(キャラクター)のみが持つ。
         self.__direction = 'down'
 
         # ステータス
@@ -20,30 +18,6 @@ class Character(Obj):
         self.__attack: int = 100
         self.__defense: int = 100
 
-
-    @property
-    def room_address(self):
-        pass
-
-    @room_address.getter
-    def room_address(self):
-        return self.__room_address
-
-    @room_address.setter
-    def room_address(self, room_address):
-        self.__room_address = room_address
-    
-    @property
-    def position(self):
-        pass
-
-    @position.getter
-    def position(self):
-        return self.__position
-
-    @position.setter
-    def position(self, position):
-        self.__position = position
     
     @property
     def tmp_position(self):

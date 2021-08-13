@@ -16,6 +16,30 @@ class Obj (metaclass=ABCMeta):
     @color.getter
     def color(self):
         return self.__color
+    
+    @property
+    def room_address(self):
+        pass
+
+    @room_address.getter
+    def room_address(self):
+        return self.__room_address
+
+    @room_address.setter
+    def room_address(self, room_address):
+        self.__room_address = room_address
+    
+    @property
+    def position(self):
+        pass
+
+    @position.getter
+    def position(self):
+        return self.__position
+
+    @position.setter
+    def position(self, position):
+        self.__position = position
 
     def create(self, x, y):
         w = Size.MASS_WIDTH
