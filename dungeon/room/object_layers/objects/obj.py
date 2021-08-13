@@ -3,8 +3,10 @@ from dungeon.const.size import Size
 import pyxel
 
 class Obj (metaclass=ABCMeta):
-    def __init__(self, color):
+    def __init__(self, color, room_address, position):
         self.__color = color
+        self.__room_address = room_address
+        self.__position = position
 
     # colorのプロパティ
     @property

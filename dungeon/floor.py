@@ -20,7 +20,7 @@ class Floor:
         #     for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
         #         self.__rooms[i][j] = Room('none')
         self.__room_numbers: int = random.randint(5, 10)
-        self.__rooms: list[Room] = self.__generate_room(self.__room_numbers)
+        self.__rooms: list[Room] = self.__generate_rooms(self.__room_numbers)
 
         self.__player_start_room_address = self.__select_start_room_address(self.__rooms)
         self.__player: Player = self.__spawn_player(self.__player_start_room_address)
@@ -44,7 +44,7 @@ class Floor:
         self.__rooms = rooms
 
     # ランダムな場所に部屋を生成
-    def __generate_room(self, room_numbers):
+    def __generate_rooms(self, room_numbers):
         rooms = [[Room('none')] * Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
         for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
             for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
@@ -90,8 +90,8 @@ class Floor:
         # print('部屋の数', room_numbers)
         return rooms
     
+    # スタートする部屋のアドレスをランダムで決める
     def __select_start_room_address(self, rooms):
-        # start_room = random.randint(0, len(rooms))    # startする部屋をランダムで選ぶ。上からr番目みたいな感じ。
         while True:
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
