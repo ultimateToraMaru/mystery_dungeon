@@ -19,10 +19,11 @@ class Floor:
         # for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
         #     for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
         #         self.__rooms[i][j] = Room('none')
-        self.__rooms = self.__generate_room()
+        self.__room_numbers: int = random.randint(5, 10)
+        self.__rooms: list[Room] = self.__generate_room(self.__room_numbers)
 
-        self.__player_start_room_address = [0, 0]
-        self.__player: Player = self.__spawn_player()
+        self.__player_start_room_address = self.__select_start_room_address(self.__rooms)
+        self.__player: Player = self.__spawn_player(self.__player_start_room_address)
         print('プレイヤーのいるお部屋', self.__player.room_address, '座標 :', self.__player.position)
         self.__steps_room_address = [0, 0]
         self.__steps: Obj = None_obj()
@@ -43,12 +44,7 @@ class Floor:
         self.__rooms = rooms
 
     # ランダムな場所に部屋を生成
-    def __generate_room(self):
-        rooms = []
-        min_rooms = 5
-        max_rooms = 10
-
-        room_qty = random.randint(min_rooms, max_rooms)
+    def __generate_room(self, room_numbers):
         rooms = [[Room('none')] * Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
         for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
             for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
@@ -84,23 +80,28 @@ class Floor:
                 # else :
                 #     rooms[i][j] = Room('none', False)
 
-        # print('部屋の数', room_qty)
-
-        start_room = random.randint(0, room_qty-1)    # startする部屋をランダムで選ぶ。上からr番目みたいな感じ。
-        for i in range(room_qty):
-            r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
+        # 部屋をランダムな場所に生成
+        for i in range(room_numbers):
+            r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
-            if (i == start_room):
-                self.__player_start_room_address = [r_x, r_y]
-                print('スタート部屋のアドレス', self.__player_start_room_address)
 
             rooms[r_x][r_y] = Room('normal')
-        
+
+        # print('部屋の数', room_numbers)
         return rooms
-        
+    
+    def __select_start_room_address(self, rooms):
+        # start_room = random.randint(0, len(rooms))    # startする部屋をランダムで選ぶ。上からr番目みたいな感じ。
+        while True:
+            r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
+            r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
+            if (rooms[r_x][r_y].type == 'normal'):
+                print('スタート部屋のアドレス', r_x, r_y)
+                return [r_x, r_y]
+
     # プレイヤーを生み出す。フロア到達時に一階だけ実行される。
-    def __spawn_player(self):
-        return self.__rooms[self.__player_start_room_address[0]][self.__player_start_room_address[1]].generate_player(self.__player_start_room_address[0], self.__player_start_room_address[1])
+    def __spawn_player(self, player_start_room_address):
+        return self.__rooms[player_start_room_address[0]][player_start_room_address[1]].generate_player(player_start_room_address[0], player_start_room_address[1])
     
     # 階段を生み出す。フロア到達時に一階だけ実行される。
     def spawn_steps(self):
