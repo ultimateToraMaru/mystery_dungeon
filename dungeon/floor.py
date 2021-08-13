@@ -92,7 +92,7 @@ class Floor:
     
     # スタートする部屋のアドレスをランダムで決める
     def __select_start_room_address(self, rooms):
-        while True:
+        while (True):
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
             if (rooms[r_x][r_y].type == 'normal'):
@@ -105,15 +105,14 @@ class Floor:
     
     # 階段を生み出す。フロア到達時に一階だけ実行される。
     def __spawn_steps(self):
-        while (True): 
+        steps: Steps
+        while (True):
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             if (self.__rooms[r_x][r_y].type == 'normal'):
-                # self.__steps_room_address = [r_x, r_y]
-                # self.__steps = Steps()
+                steps = self.__rooms[r_x][r_y].generate_steps(r_x, r_y)
                 break
 
-        steps = self.__rooms[r_x][r_y].generate_steps(r_x, r_y)
         print('階段のあるお部屋', steps.room_address)
         return steps
     
@@ -225,7 +224,9 @@ class Floor:
                 return False
             # 次の部屋のマスが床のとき(障害物がないとき)
             if (next_room_mass_is_noneobj):
+                print('次の部屋へ')
                 # キャラクターの移動に伴って部屋を掃除する(08/12, いつか、cleanメソッドをlayerクラスに作る)
+                # cleanがうまくいっていない!!!!!
                 this_room.layers.enemy_layer.clean()
                 this_room.layers.player_layer.clean()
                 # キャラクターを次の部屋に移す(ルームアドレスを更新)
@@ -233,7 +234,9 @@ class Floor:
                 # キャラクターの部屋内のポジションを更新
                 character.position = in_room_position
 
-            return True
+                return True
+            else: 
+                print('次の部屋の入り口に障害物があって進めません')
 
         # キャラクターが部屋の中を移動するとき
         else :

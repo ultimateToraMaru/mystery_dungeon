@@ -33,9 +33,6 @@ class Steps_layer():
         self.__steps_position = steps_position
     
     def draw(self, room_x, room_y):
-        # for文で__dataを回して、drawしていく
-        # print(room_x, room_y)
-        # print(self.__data[0][0])
         for x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[x][y].create(x+room_x, y+room_y)
