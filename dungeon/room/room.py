@@ -47,15 +47,17 @@ class Room:
         self.__type = type
     
     # 部屋内のランダムな場所に階段を設置する
-    def generate_steps(self, steps):
-        # self.__steps = steps
+    def generate_steps(self, i, j):
+        steps: Steps
         while (True):
             r_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
             if (type(self.__layers.terrain_layer.data[r_x][r_y]) == Tile):
-                self.__layers.steps_layer.steps_position = [r_x, r_y]
+                # self.__layers.steps_layer.steps_position = [r_x, r_y]
+                steps = Steps(room_address=[i, j], position=[r_x, r_y])
                 self.__layers.steps_layer.data[r_x][r_y] = steps
                 break
+        return steps
 
     # 部屋内のランダムな場所にランダムな数のエネミーを設置する
     def generate_enemys(self, i, j):
@@ -82,15 +84,15 @@ class Room:
         player = Player(Color.BLACK, room_address=[i, j], position=[5, 5])
         return player
     
-    # ??? プレイヤーが階段に到着したか確認する
-    def steps_check(self):
-        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                if (type(self.__layers.player_layer.data[i][j]) == Player and
-                    type(self.__layers.steps_layer.data[i][j]) == Steps):
-                    return True
+    # # ??? プレイヤーが階段に到着したか確認する
+    # def steps_check(self):
+    #     for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+    #         for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+    #             if (type(self.__layers.player_layer.data[i][j]) == Player and
+    #                 type(self.__layers.steps_layer.data[i][j]) == Steps):
+    #                 return True
 
-        return False
+    #     return False
     
     # 与えられた座標(x, y)の場所に、障害となるオブジェクト(敵、壁、プレイヤー)がないか判定する(ない: true, ある: false)
     def is_noneobj(self, x, y):

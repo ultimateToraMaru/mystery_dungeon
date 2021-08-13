@@ -25,8 +25,8 @@ class Floor:
         self.__player_start_room_address = self.__select_start_room_address(self.__rooms)
         self.__player: Player = self.__spawn_player(self.__player_start_room_address)
         print('プレイヤーのいるお部屋', self.__player.room_address, '座標 :', self.__player.position)
-        self.__steps_room_address = [0, 0]
-        self.__steps: Obj = None_obj()
+        # self.__steps_room_address = [0, 0]
+        self.__steps: Steps = self.__spawn_steps()
         self.__enemys: list[Enemy] = self.__spawn_enemys()
         
 
@@ -104,17 +104,18 @@ class Floor:
         return self.__rooms[player_start_room_address[0]][player_start_room_address[1]].generate_player(player_start_room_address[0], player_start_room_address[1])
     
     # 階段を生み出す。フロア到達時に一階だけ実行される。
-    def spawn_steps(self):
+    def __spawn_steps(self):
         while (True): 
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             if (self.__rooms[r_x][r_y].type == 'normal'):
-                self.__steps_room_address = [r_x, r_y]
-                self.__steps = Steps()
+                # self.__steps_room_address = [r_x, r_y]
+                # self.__steps = Steps()
                 break
 
-        print('階段のあるお部屋', self.__steps_room_address)
-        self.__rooms[r_x][r_y].generate_steps(self.__steps)
+        steps = self.__rooms[r_x][r_y].generate_steps(r_x, r_y)
+        print('階段のあるお部屋', steps.room_address)
+        return steps
     
     # エネミーをランダムな部屋に生み出す。エネミーが生まれる部屋をランダムで決める。
     def __spawn_enemys(self):
@@ -139,7 +140,12 @@ class Floor:
 
     # プレイヤーが階段の上にいるか検査する
     def is_player_on_steps(self):
-        return self.__rooms[self.__steps_room_address[0]][self.__steps_room_address[1]].steps_check()
+        # return self.__rooms[self.__steps.room_address[0]][self.__steps.room_address[1]].steps_check()
+        if (self.__player.room_address == self.__steps.room_address and
+            self.__player.position == self.__steps.position):
+            return True
+        
+        return False
 
     # プレイヤーを動かす
     def player_move(self, direction):
@@ -234,8 +240,8 @@ class Floor:
             return (forward_is_not_corner_of_room and forward_mass_is_noneobj)
     
     def get_player_room_arounds(self):
-        player_room = self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]]
-        # player_rooms = self.__rooms # 5*5
+        # player_room = self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]]
+        player_rooms = self.__rooms # 5*5
         # room_position = [   [-1, -1], [-1, 0], [-1, +1],
         #                     [0, -1], [0, 0], [0, +1],
         #                     [+1, -1], [+1, 0], [+1, +1],
@@ -244,8 +250,8 @@ class Floor:
         # for pos in room_position :
         #     player_around_rooms.append(self.__rooms[self.__player_room_position[0]+pos[0]][self.__player_room_position[1]+pos[1]])
 
-        return player_room    # 16*16
-        # return player_rooms    # 5*5
+        # return player_room    # 16*16
+        return player_rooms    # 5*5
     
     # ??? エネミーにターゲットをセットする
     def enemy_set_target(self, enemys):
