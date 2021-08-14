@@ -55,15 +55,15 @@ class Room:
         self.__room_address = room_address
     
     # 部屋内のランダムな場所に階段を設置する
-    def generate_steps(self, i, j):
+    def generate_steps(self, r_x, r_y):
         steps: Steps
         while (True):
-            r_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
-            r_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
-            if (type(self.__layers.terrain_layer.data[r_x][r_y]) == Tile):
+            p_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
+            p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
+            if (type(self.__layers.terrain_layer.data[p_x][p_y]) == Tile):
                 # self.__layers.steps_layer.steps_position = [r_x, r_y]
-                steps = Steps(room_address=[i, j], position=[r_x, r_y])
-                self.__layers.steps_layer.data[r_x][r_y] = steps
+                steps = Steps(room_address=[r_x, r_y], position=[p_x, p_y])
+                self.__layers.steps_layer.data[p_x][p_y] = steps
                 break
         return steps
 
