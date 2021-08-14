@@ -45,10 +45,10 @@ class Floor:
 
     # ランダムな場所に部屋を生成
     def __generate_rooms(self, room_numbers):
-        rooms = [[Room('none', [-1, -1])] * Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
-        for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
-            for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
-                rooms[i][j] = Room('none', [i, j])
+        rooms = [[Room(_type='none', room_address=[-1, -1])] * Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
+        for r_x in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+            for r_y in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+                rooms[r_x][r_y] = Room(_type='none', room_address=[r_x, r_y])
 
                 # フロアの端の部屋は行き止まりになる通路がない部屋を生成する
                 # if (j == 0) :
@@ -81,7 +81,7 @@ class Floor:
                 #     rooms[i][j] = Room('none', False)
 
         # 部屋をランダムな場所に生成
-        for i in range(room_numbers):
+        for not_use_index in range(room_numbers):
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
 
@@ -101,6 +101,7 @@ class Floor:
 
     # プレイヤーを生み出す。フロア到達時に一階だけ実行される。
     def __spawn_player(self, player_start_room_address):
+        # 下の関数の引数。配列をそのまま渡してもいいのでは？
         return self.__rooms[player_start_room_address[0]][player_start_room_address[1]].generate_player(player_start_room_address[0], player_start_room_address[1])
     
     # 階段を生み出す。フロア到達時に一階だけ実行される。
