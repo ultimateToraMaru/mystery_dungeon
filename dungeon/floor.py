@@ -45,10 +45,10 @@ class Floor:
 
     # ランダムな場所に部屋を生成
     def __generate_rooms(self, room_numbers):
-        rooms = [[Room('none')] * Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
+        rooms = [[Room('none', [-1, -1])] * Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
         for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
             for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
-                rooms[i][j] = Room('none')
+                rooms[i][j] = Room('none', [i, j])
 
                 # フロアの端の部屋は行き止まりになる通路がない部屋を生成する
                 # if (j == 0) :
@@ -85,7 +85,7 @@ class Floor:
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
 
-            rooms[r_x][r_y] = Room('normal')
+            rooms[r_x][r_y] = Room('normal', [r_x, r_y])
 
         # print('部屋の数', room_numbers)
         return rooms
@@ -95,7 +95,7 @@ class Floor:
         while (True):
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
-            if (rooms[r_x][r_y].type == 'normal'):
+            if (rooms[r_x][r_y]._type == 'normal'):
                 print('スタート部屋のアドレス', r_x, r_y)
                 return [r_x, r_y]
 
@@ -109,7 +109,7 @@ class Floor:
         while (True):
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
-            if (self.__rooms[r_x][r_y].type == 'normal'):
+            if (self.__rooms[r_x][r_y]._type == 'normal'):
                 steps = self.__rooms[r_x][r_y].generate_steps(r_x, r_y)
                 break
 
@@ -227,6 +227,7 @@ class Floor:
                 print('次の部屋へ')
                 # キャラクターの移動に伴って部屋を掃除する(08/12, いつか、cleanメソッドをlayerクラスに作る)
                 # cleanがうまくいっていない!!!!!
+                # print('クリーンした部屋:', this_room.room_address)
                 this_room.layers.enemy_layer.clean()
                 this_room.layers.player_layer.clean()
                 # キャラクターを次の部屋に移す(ルームアドレスを更新)
@@ -237,6 +238,7 @@ class Floor:
                 return True
             else: 
                 print('次の部屋の入り口に障害物があって進めません')
+                return False
 
         # キャラクターが部屋の中を移動するとき
         else :

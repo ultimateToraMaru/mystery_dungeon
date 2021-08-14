@@ -13,14 +13,10 @@ from dungeon.room.object_layers.layers import Layers
 
 
 class Room:
-    def __init__(self, type):
-        self.__type = type
-        self.__layers = Layers(type)
-        # self.__is_start_room = is_start_room
-
-        # roomはfloor内での自分自身の座標を持つべき。いらないかも?無駄かも？
-        # self.__i = 0
-        # self.__j = 0
+    def __init__(self, _type, room_address):
+        self.__type = _type
+        self.__layers = Layers(_type)
+        self.__room_address = room_address
 
     @property
     def layers(self):
@@ -35,16 +31,28 @@ class Room:
         self.__layers = layers
     
     @property
-    def type(self):
+    def _type(self):
         pass
 
-    @type.getter
-    def type(self):
+    @_type.getter
+    def _type(self):
         return self.__type
 
-    @type.setter
-    def type(self, type):
-        self.__type = type
+    @_type.setter
+    def _type(self, _type):
+        self.__type = _type
+    
+    @property
+    def room_address(self):
+        pass
+
+    @room_address.getter
+    def room_address(self):
+        return self.__room_address
+
+    @room_address.setter
+    def room_address(self, room_address):
+        self.__room_address = room_address
     
     # 部屋内のランダムな場所に階段を設置する
     def generate_steps(self, i, j):
@@ -97,7 +105,7 @@ class Room:
     # 与えられた座標(x, y)の場所に、障害となるオブジェクト(敵、壁、プレイヤー)がないか判定する(ない: true, ある: false)
     # バグは個々のメソッドが原因そう
     def is_noneobj(self, x, y):
-        print('移動しようとしているマスの状態 terrain:', type(self.layers.terrain_layer.data[x][y]), 'player:', type(self.layers.player_layer.data[x][y]), 'enemy:', type(self.layers.enemy_layer.data[x][y]))
+        print('移動しようとしているマス', [x, y], 'の状態 terrain:', type(self.layers.terrain_layer.data[x][y]), 'player:', type(self.layers.player_layer.data[x][y]), 'enemy:', type(self.layers.enemy_layer.data[x][y]))
         return (type(self.layers.terrain_layer.data[x][y]) == Tile and 
                 type(self.layers.player_layer.data[x][y]) == None_obj and 
                 type(self.layers.enemy_layer.data[x][y]) == None_obj)
