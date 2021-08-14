@@ -68,6 +68,7 @@ class Room:
         return steps
 
     # 部屋内のランダムな場所にランダムな数のエネミーを設置する
+    # testtest
     def generate_enemys(self, i, j):
         enemy_nums = random.randint(1, 5)
         # enemy_nums = 1
