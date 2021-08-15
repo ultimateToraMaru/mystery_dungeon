@@ -40,20 +40,23 @@ class Camera():
         pass
 
     def show(self):
-        # 5*5
         x = 0
         y = 0
-        for i in range(len(self.__target)):
-            for j in range(len(self.__target)):
-                x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-                y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-                self.__target[i][j].layers.terrain_layer.draw(x, y)
-                self.__target[i][j].layers.player_layer.draw(x, y)
-                self.__target[i][j].layers.player_layer.draw(x, y)
-                self.__target[i][j].layers.enemy_layer.draw(x, y)
-        
+        # 5*5
+        if (Size.MASS_HEIGHT == 5 and Size.MASS_WIDTH == 5):
+            for i in range(len(self.__target)):
+                for j in range(len(self.__target)):
+                    x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+                    y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+                    self.__target[i][j].layers.terrain_layer.draw(x, y)
+                    self.__target[i][j].layers.player_layer.draw(x, y)
+                    self.__target[i][j].layers.player_layer.draw(x, y)
+                    self.__target[i][j].layers.enemy_layer.draw(x, y)
+
         # 16*16
-        # self.__target.layers.terrain_layer.draw(x, y)
-        # self.__target.layers.steps_layer.draw(x, y)
-        # self.__target.layers.player_layer.draw(x, y)
-        # self.__target.layers.enemy_layer.draw(x, y)
+        elif (Size.MASS_HEIGHT == 16 and Size.MASS_WIDTH == 16):
+            self.__target.layers.terrain_layer.draw(x, y)
+            self.__target.layers.steps_layer.draw(x, y)
+            self.__target.layers.player_layer.draw(x, y)
+            self.__target.layers.enemy_layer.draw(x, y)
+        
