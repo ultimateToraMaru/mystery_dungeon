@@ -246,8 +246,13 @@ class Floor:
             return (forward_is_not_corner_of_room and forward_mass_is_noneobj)
     
     def get_player_room_arounds(self):
-        # player_room = self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]]
-        player_rooms = self.__rooms # 5*5
+        if (Size.MASS_HEIGHT == 5 and Size.MASS_WIDTH == 5):
+            player_rooms = self.__rooms
+            return player_rooms
+        elif (Size.MASS_HEIGHT == 16 and Size.MASS_WIDTH == 16):
+            player_room = self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]] 
+            return player_room
+
         # room_position = [   [-1, -1], [-1, 0], [-1, +1],
         #                     [0, -1], [0, 0], [0, +1],
         #                     [+1, -1], [+1, 0], [+1, +1],
@@ -256,8 +261,6 @@ class Floor:
         # for pos in room_position :
         #     player_around_rooms.append(self.__rooms[self.__player_room_position[0]+pos[0]][self.__player_room_position[1]+pos[1]])
 
-        # return player_room    # 16*16
-        return player_rooms    # 5*5
     
     # ??? エネミーにターゲットをセットする
     def enemy_set_target(self, enemys):
