@@ -11,9 +11,9 @@ from dungeon.const.color import Color
 class Player_layer():
     def __init__(self):
         self.__data = [[None_obj()] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
-        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[i][j] = None_obj()
+        for p_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for p_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                self.__data[p_x][p_y] = None_obj()
 
     @property
     def data(self):
@@ -32,13 +32,13 @@ class Player_layer():
         self.__player = player
 
 
-    def draw(self, room_x, room_y):
-        for x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[x][y].create(x+room_x, y+room_y)
+    def draw(self, p_x, p_y):
+        for r_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for r_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y)
 
-    def get_player_position(self):
-        return self.__player.position
+    # def get_player_position(self):
+    #     return self.__player.position
     
     def set_start_position(self, player):
         # r_i = random.randint(0, len(self.__data)-1)
@@ -46,10 +46,10 @@ class Player_layer():
 
         # ランダムじゃなくて、部央でもよくない？
         # しかも、中央は絶対部屋になってるぜよ
-        r_i = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
-        r_j = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
+        p_x = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
+        p_y = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
 
-        self.set_player_position(player, r_i, r_j)
+        self.set_player_position(player, p_x, p_y)
         self.__data[player.position[0]][player.position[1]] = player
 
         return player
@@ -62,6 +62,6 @@ class Player_layer():
     
     # プレイヤーの残像をきれいに掃除する
     def clean(self):
-        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[i][j] = None_obj()
+        for p_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for p_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                self.__data[p_x][p_y] = None_obj()

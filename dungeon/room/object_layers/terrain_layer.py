@@ -50,15 +50,15 @@ class Terrain_layer():
         r_end_y = random.randint(r_start_y+margin, end_point) 
 
         # Y軸の端っこに床を配置していく
-        for i in range(r_start_y, r_end_y):
-            for j in range(r_start_x, r_end_x):
+        for r_x in range(r_start_y, r_end_y):
+            for r_y in range(r_start_x, r_end_x):
                 # print(i, j)
-                data[i][j] = Tile()
+                data[r_x][r_y] = Tile()
 
         # X軸の端っこに床を配置していく
-        for i in range(r_start_x, r_end_x):
-            for j in range(r_start_y, r_end_y):
-                data[j][i] = Tile()
+        for r_x in range(r_start_x, r_end_x):
+            for r_y in range(r_start_y, r_end_y):
+                data[r_y][r_x] = Tile()
             
         return data
 
@@ -76,10 +76,10 @@ class Terrain_layer():
         return data
 
     # 地形をキャンバスに描画する関数
-    def draw(self, room_x, room_y):
-        for x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[x][y].create(x+room_x, y+room_y)
+    def draw(self, p_x, p_y):
+        for r_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for r_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y)
 
     # 入り口出口は部屋が持つべきだよね。ってことで、地形データ(terrain_layer)に持ってきたのだ
     # 部屋間の道はその道が通る部屋が持つべきだよね。
@@ -138,9 +138,9 @@ class Terrain_layer():
         
         return data
     
-    # pass_findingはfloor()でやるべきなのでは？
-    def path_finding():
-        pass
+    # # pass_findingはfloor()でやるべきなのでは？
+    # def path_finding():
+    #     pass
 
     def set_point(self):
         self.__data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Wall(Color.GREEN)

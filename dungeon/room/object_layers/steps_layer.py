@@ -10,7 +10,7 @@ from dungeon.const.color import Color
 class Steps_layer():
     def __init__(self):
         self.__data = [[None_obj()] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
-        self.__steps_position = [0, 0]
+        # self.__steps_position = [0, 0]
     
     @property
     def data(self):
@@ -20,22 +20,22 @@ class Steps_layer():
     def data(self):
         return self.__data
     
-    @property
-    def steps_position(self):
-        pass
+    # @property
+    # def steps_position(self):
+    #     pass
 
-    @steps_position.getter
-    def steps_position(self):
-        return self.__steps_position
+    # @steps_position.getter
+    # def steps_position(self):
+    #     return self.__steps_position
 
-    @steps_position.setter
-    def steps_position(self, steps_position):
-        self.__steps_position = steps_position
+    # @steps_position.setter
+    # def steps_position(self, steps_position):
+    #     self.__steps_position = steps_position
     
-    def draw(self, room_x, room_y):
-        for x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[x][y].create(x+room_x, y+room_y)
+    def draw(self, p_x, p_y):
+        for r_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for r_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y)
     
     # @property
     # def steps(self):
