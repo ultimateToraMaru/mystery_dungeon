@@ -11,9 +11,9 @@ from dungeon.const.color import Color
 class Enemy_layer():
     def __init__(self):
         self.__data = [[None_obj()] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)] 
-        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[i][j] = None_obj()
+        for r_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for r_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                self.__data[r_x][r_y] = None_obj()
 
     @property
     def data(self):
@@ -32,10 +32,10 @@ class Enemy_layer():
         self.__player = player
 
 
-    def draw(self, room_x, room_y):
-        for x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[x][y].create(x+room_x, y+room_y)
+    def draw(self, p_x, p_y):
+        for r_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for r_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y)
 
     def set_position(self, enemy):
         if (enemy.position[0] < 0 or 9 < enemy.position[0]):
@@ -50,6 +50,6 @@ class Enemy_layer():
     
     # エネミーの残像をきれいに掃除する
     def clean(self):
-        for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[i][j] = None_obj()
+        for p_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for p_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                self.__data[p_x][p_y] = None_obj()
