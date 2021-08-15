@@ -120,11 +120,11 @@ class Floor:
     # エネミーをランダムな部屋に生み出す。エネミーが生まれる部屋をランダムで決める。
     def __spawn_enemys(self):
         enemys: list[Enemy] = []
-        for i in range(len(self.__rooms)):
-            for j in range(len(self.__rooms)):
+        for r_x in range(len(self.__rooms)):
+            for r_y in range(len(self.__rooms)):
                 is_enemy_spawn = random.randint(0, 1)
                 if (is_enemy_spawn):
-                    enemys.extend(self.__rooms[i][j].generate_enemys(i, j))
+                    enemys.extend(self.__rooms[r_x][r_y].generate_enemys(r_x, r_y))
         
         self.enemy_set_target(enemys)
         return enemys
