@@ -161,7 +161,7 @@ class Floor:
     # キャラクターが行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)
     def is_can_move_character(self, character, direction):
         # 調査の結果、上の部屋に移動しようとしたときに移動先の座標がおかしい
-        print('部屋の番地:', character.room_address, ' 部屋内:', character.position, character)
+        # print('部屋の番地:', character.room_address, ' 部屋内:', character.position, character)
         if (direction == 'right'):
             character_at_end_of_the_room = character.position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
             character_at_end_of_the_floor = character.room_address[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
@@ -225,7 +225,7 @@ class Floor:
                 return False
             # 次の部屋のマスが床のとき(障害物がないとき)
             if (next_room_mass_is_noneobj):
-                print('次の部屋へ')
+                # print('次の部屋へ')
                 # キャラクターの移動に伴って部屋を掃除する(08/12, いつか、cleanメソッドをlayerクラスに作る)
                 # cleanがうまくいっていない!!!!!
                 # print('クリーンした部屋:', this_room.room_address)
@@ -238,7 +238,7 @@ class Floor:
 
                 return True
             else: 
-                print('次の部屋の入り口に障害物があって進めません')
+                # print('次の部屋の入り口に障害物があって進めません')
                 return False
 
         # キャラクターが部屋の中を移動するとき

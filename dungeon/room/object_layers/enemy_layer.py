@@ -38,10 +38,10 @@ class Enemy_layer():
                 self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y)
 
     def set_position(self, enemy):
-        if (enemy.position[0] < 0 or 9 < enemy.position[0]):
-            print('enemy.position[0]に異常な値がセットされました: ', enemy.room_address, enemy.position, 'エネミー: ', enemy)
-        elif (enemy.position[1] < 0 or 9 < enemy.position[1]):
-            print('enemy.position[1]に異常な値がセットされました: ', enemy.room_address, enemy.position, 'エネミー: ', enemy)
+        # if (enemy.position[0] < 0 or 9 < enemy.position[0]):
+        #     print('enemy.position[0]に異常な値がセットされました: ', enemy.room_address, enemy.position, 'エネミー: ', enemy)
+        # elif (enemy.position[1] < 0 or 9 < enemy.position[1]):
+        #     print('enemy.position[1]に異常な値がセットされました: ', enemy.room_address, enemy.position, 'エネミー: ', enemy)
 
         self.__data[enemy.tmp_position[0]][enemy.tmp_position[1]] = None_obj()
         self.__data[enemy.position[0]][enemy.position[1]] = enemy

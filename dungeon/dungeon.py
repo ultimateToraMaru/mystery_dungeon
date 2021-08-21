@@ -41,8 +41,8 @@ class Dungeon:
         # self.__floors[self.__now_floor_index].__spawn_player()
         # self.__floors[self.__now_floor_index].spawn_steps()
         # self.__floors[self.__now_floor_index].spawn_enemys()
-
         Display.show_number_of_floors(self.__now_floor_index+1)
+        print('ターン:', self.__turn)
     
     # ターンを進める
     def forward_turn(self):

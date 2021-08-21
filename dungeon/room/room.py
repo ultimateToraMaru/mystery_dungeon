@@ -105,7 +105,7 @@ class Room:
     # 与えられた座標(x, y)の場所に、障害となるオブジェクト(敵、壁、プレイヤー)がないか判定する(ない: true, ある: false)
     # バグは個々のメソッドが原因そう
     def is_noneobj(self, p_x, p_y):
-        print('移動しようとしているマス', [p_x, p_y], 'の状態 terrain:', type(self.layers.terrain_layer.data[p_x][p_y]), 'player:', type(self.layers.player_layer.data[p_x][p_y]), 'enemy:', type(self.layers.enemy_layer.data[p_x][p_y]))
+        # print('移動しようとしているマス', [p_x, p_y], 'の状態 terrain:', type(self.layers.terrain_layer.data[p_x][p_y]), 'player:', type(self.layers.player_layer.data[p_x][p_y]), 'enemy:', type(self.layers.enemy_layer.data[p_x][p_y]))
         return (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile and 
                 type(self.layers.player_layer.data[p_x][p_y]) == None_obj and 
                 type(self.layers.enemy_layer.data[p_x][p_y]) == None_obj)
