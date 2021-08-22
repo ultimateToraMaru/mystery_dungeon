@@ -22,13 +22,13 @@ class Floor:
         self.__room_numbers: int = random.randint(5, 10)
         self.__rooms: list[Room] = self.__generate_rooms(self.__room_numbers)
 
+        # TODO: playerはdungeonクラスが持つべきでは？まあ、いつか直そう
         self.__player_start_room_address = self.__select_start_room_address(self.__rooms)
         self.__player: Player = self.__spawn_player(self.__player_start_room_address)
         print('プレイヤーのいるお部屋', self.__player.room_address, '座標 :', self.__player.position)
         # self.__steps_room_address = [0, 0]
         self.__steps: Steps = self.__spawn_steps()
         self.__enemys: list[Enemy] = self.__spawn_enemys()
-        
 
 
     @property
@@ -54,7 +54,7 @@ class Floor:
                 # if (j == 0) :
                 #     rooms[i][j] = Room('top_end', False)
                 #     print('top')
-                
+
                 # elif (j == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
                 #     rooms[i][j] = Room('bottom_end', False)
 
@@ -66,7 +66,7 @@ class Floor:
                     #     rooms[i][j] = Room('bottom_left_corner', False)
                     # else :
                     #     rooms[i][j] = Room('left_end', False)
-                
+
                 ################ xが4の部屋に横から移動しようとしたときに落ちる
 
                 # elif (i == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
@@ -271,3 +271,11 @@ class Floor:
     def enemy_mind(self):
         for i in range(len(self.__enemys)):
             self.__enemys[i].mind()
+
+
+    def player_get_command(self):
+        self.__player.command()
+
+    def enemy_get_command(self):
+        for i in range(len(self.__enemys)):
+            self.__enemys[i].command()

@@ -29,5 +29,13 @@ class Enemy(Character):
         super().create(x, y, u=16, v=64)
     
     def mind(self):
-        print('ターゲットは部屋番号', self.__target.room_address,'の', self.__target.position, 'にいます！' )
+        print('ターゲットは部屋番号', self.__target.room_address,'の', self.__target.position, 'にいます！')
+    
+    
+    def get_target_address_and_pos(self):
+        target_address_and_pos: list[int]
+        target_address_and_pos[0] = self.__target.room_address[0] + self.__target.position[0]
+        target_address_and_pos[1] = self.__target.room_address[1] + self.__target.position[1]
+
+        return target_address_and_pos
                 

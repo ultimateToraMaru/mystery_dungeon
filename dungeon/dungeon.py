@@ -11,12 +11,12 @@ class Dungeon:
 
         self.__FLOOR_NUMBERS: int = 5
         self.__floors: list[Floor] = self.generate_floors(self.__FLOOR_NUMBERS)
-        
+
         self.__now_floor_index: int = -1
         self.__turn: int = 1
 
         self.__camera = Camera()
-    
+
     @property
     def floors(self):
         pass
@@ -49,7 +49,7 @@ class Dungeon:
         self.__camera.target = self.__floors[self.__now_floor_index].get_player_room_arounds()
         self.__camera.show()
 
-        self.input_check()
+        self.player_turn()
 
         if (self.__floors[self.__now_floor_index].is_player_on_steps() == True):
             print('next')
@@ -60,7 +60,7 @@ class Dungeon:
     
     # 入力されたキーをチェックする
     # 現在は方向キーだけ実装済み
-    def input_check(self):
+    def player_turn(self):
         if pyxel.btnp(pyxel.KEY_D):
             self.__turn += 1
             print('ターン:', self.__turn)
@@ -85,6 +85,21 @@ class Dungeon:
         elif pyxel.btnp(pyxel.KEY_F):
             self.__floors[self.__now_floor_index].enemy_mind()
     
+    """
+    TODO: 08/22 敵の命令を実装しないといけない
+    1. ターゲット(プレイヤー)の座標を認識する
+    2. ターゲットの座標と自分自身の座標を比べて
+    3. 自分自身が進むべき方向を選定する
+
+    * nマス以内にターゲットがいるときは、距離を詰める
+    * プレイヤーの入力をチェックするみたいに実装したい
+    * プレイヤーとエネミークラスの親クラスである、characterクラスに
+        command抽象メソッドを実装して、それぞれのクラスで実装すればいいのでは？
+        プレイヤークラスでは、キーボード入力をチェック
+        エネミークラスでは、上のようにする
+    """
+    def enemys_turn(self):
+        self.__floors.enemy
     # def instruction_enemy(self):
 
             

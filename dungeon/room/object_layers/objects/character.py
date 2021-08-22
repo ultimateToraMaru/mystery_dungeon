@@ -160,3 +160,6 @@ class Character(Obj):
 
         elif (direction == 'down'):
             self.position[1] = self.position[1]+1
+    
+    def command(self):
+        pass
