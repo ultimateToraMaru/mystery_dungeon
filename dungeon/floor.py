@@ -23,6 +23,7 @@ class Floor:
         self.__rooms: list[Room] = self.__generate_rooms(self.__room_numbers)
 
         # TODO: playerはdungeonクラスが持つべきでは？まあ、いつか直そう
+        # TODO: playerとenemyのメソッドが多くなりすぎた。Character_controllerクラスを作って、Player_controllerとかにメソッドを移したほうがいいかも
         self.__player_start_room_address = self.__select_start_room_address(self.__rooms)
         self.__player: Player = self.__spawn_player(self.__player_start_room_address)
         print('プレイヤーのいるお部屋', self.__player.room_address, '座標 :', self.__player.position)
@@ -83,18 +84,18 @@ class Floor:
         # 部屋をランダムな場所に生成
         for not_use_index in range(room_numbers):
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
-            r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
+            r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
 
             rooms[r_x][r_y] = Room('normal', [r_x, r_y])
 
         # print('部屋の数', room_numbers)
         return rooms
-    
+
     # スタートする部屋のアドレスをランダムで決める
     def __select_start_room_address(self, rooms):
         while (True):
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
-            r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) 
+            r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             if (rooms[r_x][r_y]._type == 'normal'):
                 print('スタート部屋のアドレス', r_x, r_y)
                 return [r_x, r_y]
@@ -103,7 +104,7 @@ class Floor:
     def __spawn_player(self, player_start_room_address):
         # 下の関数の引数。配列をそのまま渡してもいいのでは？
         return self.__rooms[player_start_room_address[0]][player_start_room_address[1]].generate_player(player_start_room_address[0], player_start_room_address[1])
-    
+
     # 階段を生み出す。フロア到達時に一階だけ実行される。
     def __spawn_steps(self):
         steps: Steps
@@ -116,7 +117,7 @@ class Floor:
 
         print('階段のあるお部屋', steps.room_address)
         return steps
-    
+
     # エネミーをランダムな部屋に生み出す。エネミーが生まれる部屋をランダムで決める。
     def __spawn_enemys(self):
         enemys: list[Enemy] = []
@@ -125,14 +126,14 @@ class Floor:
                 is_enemy_spawn = random.randint(0, 1)
                 if (is_enemy_spawn):
                     enemys.extend(self.__rooms[r_x][r_y].generate_enemys(r_x, r_y))
-        
+
         self.enemy_set_target(enemys)
         return enemys
-                    
+
     # ??? プレイヤー自身の座標を受け取って、セットする
     def player_set_position(self):
         self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]].layers.player_layer.set_position(self.__player)
-    
+
     # ??? エネミー自身の座標を受け取って、セットする
     def enemy_set_position(self):
         for i in range(len(self.__enemys)):
@@ -144,20 +145,25 @@ class Floor:
         if (self.__player.room_address == self.__steps.room_address and
             self.__player.position == self.__steps.position):
             return True
-        
+
         return False
 
     # プレイヤーを動かす
     def player_move(self, direction):
         if (self.is_can_move_character(self.__player, direction)):
             self.__player.move(direction)
-    
+
     # エネミーを動かす
     def enemy_move(self, direction):
         for i in range(len(self.__enemys)):
+            direction = self.__enemy_mind(self.__enemys[i])
             if (self.is_can_move_character(self.__enemys[i], direction)):
                 self.__enemys[i].move(direction)
-        
+
+    # ??? エネミーのターゲットの位置を報告してもらう
+    def __enemy_mind(self, enemy):
+        return enemy.command()
+
     # キャラクターが行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)
     def is_can_move_character(self, character, direction):
         # 調査の結果、上の部屋に移動しようとしたときに移動先の座標がおかしい
@@ -166,7 +172,7 @@ class Floor:
             character_at_end_of_the_room = character.position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
             character_at_end_of_the_floor = character.room_address[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
             if (character_at_end_of_the_room):
-                if (character_at_end_of_the_floor): 
+                if (character_at_end_of_the_floor):
                     return False
                 next_room_mass_is_noneobj = self.__rooms[character.room_address[0]+1][character.room_address[1]].is_noneobj(Size.MAX_MASS_IN_ROOM_ONE_SIDE-1, character.position[1])
                 this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
@@ -176,7 +182,7 @@ class Floor:
             else :
                 forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].is_noneobj(character.position[0]+1, character.position[1])
                 forward_is_not_corner_of_room = character.position[0]+1 < Size.MAX_MASS_IN_ROOM_ONE_SIDE
-        
+
         elif (direction == 'left'):
             character_at_end_of_the_room = character.position[0] == 0
             character_at_end_of_the_floor = character.room_address[0]-1 == -1
@@ -189,7 +195,7 @@ class Floor:
             else :
                 forward_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]].is_noneobj(character.position[0]-1, character.position[1])
                 forward_is_not_corner_of_room = character.position[0]-1 > -1
-        
+
         elif (direction == 'up'):
             character_at_end_of_the_room = character.position[1] == 0
             character_at_end_of_the_floor = character.room_address[1]-1 == -1
@@ -207,7 +213,7 @@ class Floor:
             character_at_end_of_the_room = character.position[1] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1
             character_at_end_of_the_floor = character.room_address[1]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE
             if (character_at_end_of_the_room):
-                if (character_at_end_of_the_floor): 
+                if (character_at_end_of_the_floor):
                     return False
                 next_room_mass_is_noneobj = self.__rooms[character.room_address[0]][character.room_address[1]+1].is_noneobj(character.position[0], character.position[1]-1)
                 this_room = self.__rooms[character.room_address[0]][character.room_address[1]]
@@ -237,20 +243,20 @@ class Floor:
                 character.position = in_room_position
 
                 return True
-            else: 
+            else:
                 # print('次の部屋の入り口に障害物があって進めません')
                 return False
 
         # キャラクターが部屋の中を移動するとき
         else :
             return (forward_is_not_corner_of_room and forward_mass_is_noneobj)
-    
+
     def get_player_room_arounds(self):
         if (Size.MASS_HEIGHT == 5 and Size.MASS_WIDTH == 5):
             player_rooms = self.__rooms
             return player_rooms
         elif (Size.MASS_HEIGHT == 16 and Size.MASS_WIDTH == 16):
-            player_room = self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]] 
+            player_room = self.__rooms[self.__player.room_address[0]][self.__player.room_address[1]]
             return player_room
 
         # room_position = [   [-1, -1], [-1, 0], [-1, +1],
@@ -261,21 +267,17 @@ class Floor:
         # for pos in room_position :
         #     player_around_rooms.append(self.__rooms[self.__player_room_position[0]+pos[0]][self.__player_room_position[1]+pos[1]])
 
-    
+
     # ??? エネミーにターゲットをセットする
     def enemy_set_target(self, enemys):
         for i in range(len(enemys)):
             enemys[i].target = self.__player
-    
-    # ??? エネミーのターゲットの位置を報告してもらう
-    def enemy_mind(self):
-        for i in range(len(self.__enemys)):
-            self.__enemys[i].mind()
 
 
-    def player_get_command(self):
-        self.__player.command()
 
-    def enemy_get_command(self):
-        for i in range(len(self.__enemys)):
-            self.__enemys[i].command()
+    # def player_get_command(self):
+    #     self.__player.command()
+
+    # def enemy_get_command(self):
+    #     for i in range(len(self.__enemys)):
+    #         self.__enemys[i].command()

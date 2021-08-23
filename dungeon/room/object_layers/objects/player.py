@@ -13,4 +13,3 @@ class Player(Character):
     
     def create(self, x, y):
         super().create(x, y, u=16, v=32)
-                

@@ -18,7 +18,7 @@ class Character(Obj):
         self.__attack: int = 100
         self.__defense: int = 100
 
-    
+
     @property
     def tmp_position(self):
         pass
@@ -30,7 +30,7 @@ class Character(Obj):
     @tmp_position.setter
     def tmp_position(self, tmp_position):
         self.__tmp_position = tmp_position
-    
+
     @property
     def direction(self):
         pass
@@ -66,7 +66,7 @@ class Character(Obj):
     @hp.setter
     def hp(self, hp):
         self.__hp = hp
-    
+
     @property
     def MAX_HP(self):
         pass
@@ -78,7 +78,7 @@ class Character(Obj):
     @MAX_HP.setter
     def MAX_HP(self, MAX_HP):
         self.__MAX_HP = MAX_HP
-    
+
     @property
     def mp(self):
         pass
@@ -126,12 +126,12 @@ class Character(Obj):
     @defense.setter
     def defense(self, defense):
         self.__defense = defense
-    
+
     def create(self, x, y, u, v):
         w = Size.MASS_WIDTH
         h = Size.MASS_HEIGHT
-        
-        if (Size.MASS_HEIGHT == 5): 
+
+        if (Size.MASS_HEIGHT == 5):
             # pyxel.rect(x*w, y*h, w, h, Color.CLOUDBLUE)    # 仮の色を渡しておく
             pyxel.blt(x*w, y*h, img=1, u=0, v=0, w=5, h=5)    # 5*5
         elif (Size.MASS_HEIGHT == 10):
@@ -145,7 +145,7 @@ class Character(Obj):
                 pyxel.blt(x*w, y*h, img=1, u=u, v=v-16, w=16, h=16, colkey=0)    # 10*10
             elif (self.__direction == 'down'):
                 pyxel.blt(x*w, y*h, img=1, u=u, v=v, w=16, h=16, colkey=0)    # 10*10
-    
+
     def move(self, direction):
         # # print('move')
         self.__direction = direction
@@ -160,6 +160,3 @@ class Character(Obj):
 
         elif (direction == 'down'):
             self.position[1] = self.position[1]+1
-    
-    def command(self):
-        pass
