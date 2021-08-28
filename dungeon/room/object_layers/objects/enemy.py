@@ -1,3 +1,4 @@
+import random
 from dungeon.display import Display
 from dungeon.room.object_layers.objects.character import Character
 from dungeon.room.object_layers.objects.none_obj import None_obj
@@ -52,13 +53,22 @@ class Enemy(Character):
         target_address_and_pos = self.__get_target_address_and_pos()
         self_address_and_pos = self.__get_self_address_and_pos()
 
-        if (target_address_and_pos[0] > self_address_and_pos[0]):
-            direction = 'right'
-        elif (target_address_and_pos[0] < self_address_and_pos[0]):
-            direction = 'left'
-        elif (target_address_and_pos[1] > self_address_and_pos[1]):
-            direction = 'down'
-        elif (target_address_and_pos[1] > self_address_and_pos[1]):
-            direction = 'up'
+        print('ターゲット', target_address_and_pos, '自分', self_address_and_pos)
 
+        willingness = random.randint(0, 10)  # やる気
+        if (willingness > 3):
+            if (target_address_and_pos[0] > self_address_and_pos[0]):
+                direction = 'right'
+            if (target_address_and_pos[0] < self_address_and_pos[0]):
+                direction = 'left'
+            if (target_address_and_pos[1] > self_address_and_pos[1]):
+                direction = 'down'
+            if (target_address_and_pos[1] > self_address_and_pos[1]):
+                direction = 'up'
+        else :
+            com = ['right', 'left', 'down', 'up']
+            r = random.randint(0, 3)
+            direction = com[r]
+
+        print(direction)
         return direction

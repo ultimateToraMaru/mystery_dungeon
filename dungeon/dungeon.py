@@ -24,15 +24,15 @@ class Dungeon:
     @floors.getter
     def floors(self):
         return self.__floors
-    
+
     # フロアをfloor_numbers階分生成する
     def generate_floors(self, floor_numbers):
         floors = []
         for i in range(floor_numbers):
             floors.append(Floor(_id=i))
-        
+
         return floors
-    
+
     # フロア到着時に一回だけ呼び出される
     def start_turn(self):
         # self.__now_floor = self.get_next_floor()
@@ -43,7 +43,7 @@ class Dungeon:
         # self.__floors[self.__now_floor_index].spawn_enemys()
         Display.show_number_of_floors(self.__now_floor_index+1)
         print('ターン:', self.__turn)
-    
+
     # ターンを進める
     def forward_turn(self):
         self.__camera.target = self.__floors[self.__now_floor_index].get_player_room_arounds()
@@ -57,7 +57,7 @@ class Dungeon:
 
         self.__floors[self.__now_floor_index].player_set_position()
         self.__floors[self.__now_floor_index].enemy_set_position()
-    
+
     # 入力されたキーをチェックする
     # 現在は方向キーだけ実装済み
     def player_turn(self):
@@ -81,10 +81,10 @@ class Dungeon:
             print('ターン:', self.__turn)
             self.__floors[self.__now_floor_index].player_move('down')
             self.__floors[self.__now_floor_index].enemy_move('up')
-        
+
         elif pyxel.btnp(pyxel.KEY_F):
             self.__floors[self.__now_floor_index].enemy_mind()
-    
+
     """
     TODO: 08/22 敵の命令を実装しないといけない
     1. ターゲット(プレイヤー)の座標を認識する
@@ -98,8 +98,6 @@ class Dungeon:
         プレイヤークラスでは、キーボード入力をチェック
         エネミークラスでは、上のようにする
     """
-    def enemys_turn(self):
-        self.__floors.enemy
+    # def enemys_turn(self):
+    #     self.__floors.enemy
     # def instruction_enemy(self):
-
-            

@@ -156,13 +156,15 @@ class Floor:
     # エネミーを動かす
     def enemy_move(self, direction):
         for i in range(len(self.__enemys)):
-            direction = self.__enemy_mind(self.__enemys[i])
+            direction = self.__enemys[i].command()
+            while(not(self.is_can_move_character(self.__enemys[i], direction))):
+                direction = self.__enemys[i].command()
             if (self.is_can_move_character(self.__enemys[i], direction)):
                 self.__enemys[i].move(direction)
 
     # ??? エネミーのターゲットの位置を報告してもらう
-    def __enemy_mind(self, enemy):
-        return enemy.command()
+    # def __enemy_mind(self, enemy):
+    #     return enemy.command()
 
     # キャラクターが行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)
     def is_can_move_character(self, character, direction):
