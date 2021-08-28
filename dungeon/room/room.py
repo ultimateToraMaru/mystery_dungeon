@@ -109,9 +109,3 @@ class Room:
         return (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile and
                 type(self.layers.player_layer.data[p_x][p_y]) == None_obj and
                 type(self.layers.enemy_layer.data[p_x][p_y]) == None_obj)
-
-    def set_damage(self, p_x, p_y, damage_point):
-        if (type(self.__layers.enemy_layer.data[p_x][p_y]) == Enemy):
-            self.__layers.enemy_layer.data[p_x][p_y].damage(damage_point)
-        else :
-            print('攻撃は空ぶった')

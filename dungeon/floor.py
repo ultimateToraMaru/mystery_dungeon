@@ -160,7 +160,9 @@ class Floor:
     def player_attack(self):
         targer_room_address_and_position = self.get_forward_mass(self.__player, self.__player.direction)
         print(targer_room_address_and_position)
-        self.__rooms[targer_room_address_and_position[0]][targer_room_address_and_position[1]].set_damage(targer_room_address_and_position[2], targer_room_address_and_position[3], self.__player.attack)
+        target_room_address = [targer_room_address_and_position[0], targer_room_address_and_position[1]]
+        target_position = [targer_room_address_and_position[2], targer_room_address_and_position[3]]
+        self.__rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layer.set_damage(target_position[0], target_position[1], self.__player.attack)
 
     # エネミーを動かす
     def enemy_move(self, direction):
@@ -264,18 +266,34 @@ class Floor:
             return (forward_is_not_corner_of_room and forward_mass_is_noneobj)
 
     def get_forward_mass(self, character, direction):
-        if (direction == 'right'):
-            room_address = character.room_address
-            position = character.position
+        room_address = character.room_address
+        position = character.position
+        room_address_and_position = []
 
-            # 前方マスが世界の果てだった時
-            if (room_address[0] == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
-                return [-1, -1, -1, -1]
+        if (direction == 'right'):
             # 前方マスが次の部屋だった時
-            elif (position[0]+1 == Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                return [room_address[0]+1, room_address[1], 0, position[1]]
+            if (position[0]+1 == Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                room_address_and_position = [room_address[0]+1, room_address[1], 0, position[1]]
+
+                # 前方マスが世界の果てだった時
+                if (room_address[0]+1 == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+                    room_address_and_position = [-1, -1, -1, -1]
             else :
-                return [room_address[0], room_address[1], position[0]+1, position[1]]
+                room_address_and_position = [room_address[0], room_address[1], position[0]+1, position[1]]
+
+        if (direction == 'left'):
+            # 前方マスが次の部屋だった時
+            if (position[0]-1 == -1):
+                room_address_and_position = [room_address[0]-1, room_address[1], 0, position[1]]
+
+                # 前方マスが世界の果てだった時
+                if (room_address[0]-1 == -1):
+                    room_address_and_position = [-1, -1, -1, -1]
+            else :
+                room_address_and_position = [room_address[0], room_address[1], position[0]-1, position[1]]
+
+
+        return room_address_and_position
 
 
     def get_player_room_arounds(self):
