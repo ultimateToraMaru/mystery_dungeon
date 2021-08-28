@@ -53,8 +53,6 @@ class Enemy(Character):
         target_address_and_pos = self.__get_target_address_and_pos()
         self_address_and_pos = self.__get_self_address_and_pos()
 
-        print('ターゲット', target_address_and_pos, '自分', self_address_and_pos)
-
         willingness = random.randint(0, 10)  # やる気
         if (willingness > 3):
             if (target_address_and_pos[0] > self_address_and_pos[0]):
@@ -63,12 +61,17 @@ class Enemy(Character):
                 direction = 'left'
             if (target_address_and_pos[1] > self_address_and_pos[1]):
                 direction = 'down'
-            if (target_address_and_pos[1] > self_address_and_pos[1]):
+            if (target_address_and_pos[1] < self_address_and_pos[1]):
                 direction = 'up'
+            # else :
+            #     com = ['right', 'left', 'down', 'up']
+            #     r = random.randint(0, 3)
+            #     direction = com[r]
         else :
             com = ['right', 'left', 'down', 'up']
             r = random.randint(0, 3)
             direction = com[r]
+            print('魔が差しました')
 
-        print(direction)
+        print('ターゲット', target_address_and_pos, '自分', self_address_and_pos, '方向', direction)
         return direction

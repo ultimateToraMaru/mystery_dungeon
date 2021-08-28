@@ -55,8 +55,8 @@ class Dungeon:
             print('next')
             self.start_turn()
 
-        self.__floors[self.__now_floor_index].player_set_position()
-        self.__floors[self.__now_floor_index].enemy_set_position()
+        # self.__floors[self.__now_floor_index].player_set_position()
+        # self.__floors[self.__now_floor_index].enemy_set_position()
 
     # 入力されたキーをチェックする
     # 現在は方向キーだけ実装済み
@@ -65,25 +65,36 @@ class Dungeon:
             self.__turn += 1
             print('ターン:', self.__turn)
             self.__floors[self.__now_floor_index].player_move('right')
+            self.__floors[self.__now_floor_index].player_set_position()
             self.__floors[self.__now_floor_index].enemy_move('left')
+            self.__floors[self.__now_floor_index].enemy_set_position()
         elif pyxel.btnp(pyxel.KEY_A):
             self.__turn += 1
             print('ターン:', self.__turn)
             self.__floors[self.__now_floor_index].player_move('left')
+            self.__floors[self.__now_floor_index].player_set_position()
             self.__floors[self.__now_floor_index].enemy_move('right')
+            self.__floors[self.__now_floor_index].enemy_set_position()
         elif pyxel.btnp(pyxel.KEY_W):
             self.__turn += 1
             print('ターン:', self.__turn)
             self.__floors[self.__now_floor_index].player_move('up')
+            self.__floors[self.__now_floor_index].player_set_position()
             self.__floors[self.__now_floor_index].enemy_move('down')
+            self.__floors[self.__now_floor_index].enemy_set_position()
         elif pyxel.btnp(pyxel.KEY_S):
             self.__turn += 1
             print('ターン:', self.__turn)
             self.__floors[self.__now_floor_index].player_move('down')
+            self.__floors[self.__now_floor_index].player_set_position()
             self.__floors[self.__now_floor_index].enemy_move('up')
+            self.__floors[self.__now_floor_index].enemy_set_position()
 
         elif pyxel.btnp(pyxel.KEY_F):
             self.__floors[self.__now_floor_index].enemy_mind()
+
+        elif pyxel.btnp(pyxel.KEY_E):
+            self.__floors[self.__now_floor_index].player_attack()
 
     """
     TODO: 08/22 敵の命令を実装しないといけない

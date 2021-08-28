@@ -29,7 +29,7 @@ class Room:
     @layers.setter
     def layers(self, layers):
         self.__layers = layers
-    
+
     @property
     def _type(self):
         pass
@@ -41,7 +41,7 @@ class Room:
     @_type.setter
     def _type(self, _type):
         self.__type = _type
-    
+
     @property
     def room_address(self):
         pass
@@ -53,7 +53,7 @@ class Room:
     @room_address.setter
     def room_address(self, room_address):
         self.__room_address = room_address
-    
+
     # 部屋内のランダムな場所に階段を設置する
     def generate_steps(self, r_x, r_y):
         steps: Steps
@@ -76,9 +76,9 @@ class Room:
         for index in range(enemy_nums):
             p_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
             p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
-            if (type(self.__layers.terrain_layer.data[p_x][p_y]) == Tile and 
-                type(self.__layers.player_layer.data[p_x][p_y]) == None_obj and 
-                type(self.__layers.steps_layer.data[p_x][p_y]) == None_obj and 
+            if (type(self.__layers.terrain_layer.data[p_x][p_y]) == Tile and
+                type(self.__layers.player_layer.data[p_x][p_y]) == None_obj and
+                type(self.__layers.steps_layer.data[p_x][p_y]) == None_obj and
                 type(self.__layers.enemy_layer.data[p_x][p_y]) == None_obj):
 
                 enemy = Enemy(Color.BLACK, room_address=[r_x, r_y], position=[p_x, p_y])
@@ -91,7 +91,7 @@ class Room:
     def generate_player(self, r_x, r_y):
         player = Player(Color.BLACK, room_address=[r_x, r_y], position=[5, 5])
         return player
-    
+
     # # ??? プレイヤーが階段に到着したか確認する
     # def steps_check(self):
     #     for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
@@ -101,11 +101,17 @@ class Room:
     #                 return True
 
     #     return False
-    
+
     # 与えられた座標(x, y)の場所に、障害となるオブジェクト(敵、壁、プレイヤー)がないか判定する(ない: true, ある: false)
     # バグは個々のメソッドが原因そう
     def is_noneobj(self, p_x, p_y):
         # print('移動しようとしているマス', [p_x, p_y], 'の状態 terrain:', type(self.layers.terrain_layer.data[p_x][p_y]), 'player:', type(self.layers.player_layer.data[p_x][p_y]), 'enemy:', type(self.layers.enemy_layer.data[p_x][p_y]))
-        return (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile and 
-                type(self.layers.player_layer.data[p_x][p_y]) == None_obj and 
+        return (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile and
+                type(self.layers.player_layer.data[p_x][p_y]) == None_obj and
                 type(self.layers.enemy_layer.data[p_x][p_y]) == None_obj)
+
+    def set_damage(self, p_x, p_y, damage_point):
+        if (type(self.__layers.enemy_layer.data[p_x][p_y]) == Enemy):
+            self.__layers.enemy_layer.data[p_x][p_y].damage(damage_point)
+        else :
+            print('攻撃は空ぶった')

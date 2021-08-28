@@ -160,3 +160,21 @@ class Character(Obj):
 
         elif (direction == 'down'):
             self.position[1] = self.position[1]+1
+
+    # def attack(self):
+    #     return self.attack
+    #     if (direction == 'right'):
+
+    #     elif (direction == 'left'):
+
+    #     elif (direction == 'up'):
+
+    #     elif (direction == 'down'):
+
+    def damage(self, damage_point):
+        self.__hp = self.__hp - damage_point
+        if (self.__hp <= 0):
+            print(self, 'は倒れた')
+
+    def destroy(self):
+        pass

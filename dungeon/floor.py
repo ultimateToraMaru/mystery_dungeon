@@ -120,12 +120,16 @@ class Floor:
 
     # エネミーをランダムな部屋に生み出す。エネミーが生まれる部屋をランダムで決める。
     def __spawn_enemys(self):
+        # 一個目の部屋の中心にエネミーを生成
         enemys: list[Enemy] = []
-        for r_x in range(len(self.__rooms)):
-            for r_y in range(len(self.__rooms)):
-                is_enemy_spawn = random.randint(0, 1)
-                if (is_enemy_spawn):
-                    enemys.extend(self.__rooms[r_x][r_y].generate_enemys(r_x, r_y))
+        enemys.extend(self.__rooms[0][0].generate_enemys(0, 0))
+
+        # enemys: list[Enemy] = []
+        # for r_x in range(len(self.__rooms)):
+        #     for r_y in range(len(self.__rooms)):
+        #         is_enemy_spawn = random.randint(0, 1)
+        #         if (is_enemy_spawn):
+        #             enemys.extend(self.__rooms[r_x][r_y].generate_enemys(r_x, r_y))
 
         self.enemy_set_target(enemys)
         return enemys
@@ -153,10 +157,16 @@ class Floor:
         if (self.is_can_move_character(self.__player, direction)):
             self.__player.move(direction)
 
+    def player_attack(self):
+        targer_room_address_and_position = self.get_forward_mass(self.__player, self.__player.direction)
+        print(targer_room_address_and_position)
+        self.__rooms[targer_room_address_and_position[0]][targer_room_address_and_position[1]].set_damage(targer_room_address_and_position[2], targer_room_address_and_position[3], self.__player.attack)
+
     # エネミーを動かす
     def enemy_move(self, direction):
         for i in range(len(self.__enemys)):
             direction = self.__enemys[i].command()
+            # 行き止まりに行こうとしたら、考えを改めてもらう
             while(not(self.is_can_move_character(self.__enemys[i], direction))):
                 direction = self.__enemys[i].command()
             if (self.is_can_move_character(self.__enemys[i], direction)):
@@ -252,6 +262,21 @@ class Floor:
         # キャラクターが部屋の中を移動するとき
         else :
             return (forward_is_not_corner_of_room and forward_mass_is_noneobj)
+
+    def get_forward_mass(self, character, direction):
+        if (direction == 'right'):
+            room_address = character.room_address
+            position = character.position
+
+            # 前方マスが世界の果てだった時
+            if (room_address[0] == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
+                return [-1, -1, -1, -1]
+            # 前方マスが次の部屋だった時
+            elif (position[0]+1 == Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                return [room_address[0]+1, room_address[1], 0, position[1]]
+            else :
+                return [room_address[0], room_address[1], position[0]+1, position[1]]
+
 
     def get_player_room_arounds(self):
         if (Size.MASS_HEIGHT == 5 and Size.MASS_WIDTH == 5):
