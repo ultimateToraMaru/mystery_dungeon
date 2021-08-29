@@ -122,14 +122,14 @@ class Floor:
     def __spawn_enemys(self):
         # 一個目の部屋の中心にエネミーを生成
         enemys: list[Enemy] = []
-        enemys.extend(self.__rooms[0][0].generate_enemys(0, 0))
+        # enemys.extend(self.__rooms[0][0].generate_enemys(0, 0))
 
-        # enemys: list[Enemy] = []
-        # for r_x in range(len(self.__rooms)):
-        #     for r_y in range(len(self.__rooms)):
-        #         is_enemy_spawn = random.randint(0, 1)
-        #         if (is_enemy_spawn):
-        #             enemys.extend(self.__rooms[r_x][r_y].generate_enemys(r_x, r_y))
+        enemys: list[Enemy] = []
+        for r_x in range(len(self.__rooms)):
+            for r_y in range(len(self.__rooms)):
+                is_enemy_spawn = random.randint(0, 1)
+                if (is_enemy_spawn):
+                    enemys.extend(self.__rooms[r_x][r_y].generate_enemys(r_x, r_y))
 
         self.enemy_set_target(enemys)
         return enemys
@@ -154,6 +154,7 @@ class Floor:
 
     # プレイヤーを動かす
     def player_move(self, direction):
+        self.__player.set_direction(direction)
         if (self.is_can_move_character(self.__player, direction)):
             self.__player.move(direction)
 
@@ -165,12 +166,13 @@ class Floor:
         self.__rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layer.set_damage(target_position[0], target_position[1], self.__player.attack)
 
     # エネミーを動かす
-    def enemy_move(self, direction):
+    def enemy_move(self):
         for i in range(len(self.__enemys)):
             direction = self.__enemys[i].command()
             # 行き止まりに行こうとしたら、考えを改めてもらう
             while(not(self.is_can_move_character(self.__enemys[i], direction))):
                 direction = self.__enemys[i].command()
+                self.__enemys[i].set_direction(direction)
             if (self.is_can_move_character(self.__enemys[i], direction)):
                 self.__enemys[i].move(direction)
 
@@ -281,7 +283,7 @@ class Floor:
             else :
                 room_address_and_position = [room_address[0], room_address[1], position[0]+1, position[1]]
 
-        if (direction == 'left'):
+        elif (direction == 'left'):
             # 前方マスが次の部屋だった時
             if (position[0]-1 == -1):
                 room_address_and_position = [room_address[0]-1, room_address[1], 0, position[1]]
@@ -292,6 +294,27 @@ class Floor:
             else :
                 room_address_and_position = [room_address[0], room_address[1], position[0]-1, position[1]]
 
+        elif (direction == 'up'):
+            # 前方マスが次の部屋だった時
+            if (position[1]-1 == -1):
+                room_address_and_position = [room_address[0], room_address[1]-1, position[0], 0]
+
+                # 前方マスが世界の果てだった時
+                if (room_address[1]-1 == -1):
+                    room_address_and_position = [-1, -1, -1, -1]
+            else :
+                room_address_and_position = [room_address[0], room_address[1], position[0], position[1]-1]
+
+        elif (direction == 'down'):
+            # 前方マスが次の部屋だった時
+            if (position[1]+1 == Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                room_address_and_position = [room_address[0], room_address[1]+1, position[0], 0]
+
+                # 前方マスが世界の果てだった時
+                if (room_address[1]+1 == Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                    room_address_and_position = [-1, -1, -1, -1]
+            else :
+                room_address_and_position = [room_address[0], room_address[1], position[0], position[1]+1]
 
         return room_address_and_position
 

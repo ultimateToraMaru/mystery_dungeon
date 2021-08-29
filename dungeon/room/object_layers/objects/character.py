@@ -146,6 +146,9 @@ class Character(Obj):
             elif (self.__direction == 'down'):
                 pyxel.blt(x*w, y*h, img=1, u=u, v=v, w=16, h=16, colkey=0)    # 10*10
 
+    def set_direction(self, direction):
+        self.__direction = direction
+
     def move(self, direction):
         # # print('move')
         self.__direction = direction
@@ -174,7 +177,8 @@ class Character(Obj):
     def damage(self, damage_point):
         self.__hp = self.__hp - damage_point
         if (self.__hp <= 0):
-            print(self, 'は倒れた')
+            self.__destroy
 
-    def destroy(self):
-        pass
+    # TODO: 0828 倒れたらインスタンスやfloorが持っているエネミーリストから削除しないといけない
+    def __destroy(self):
+        print(self, 'は倒れた')

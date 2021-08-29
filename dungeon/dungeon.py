@@ -43,6 +43,7 @@ class Dungeon:
         # self.__floors[self.__now_floor_index].spawn_enemys()
         Display.show_number_of_floors(self.__now_floor_index+1)
         print('ターン:', self.__turn)
+        self.__floors[self.__now_floor_index].player_set_position()
 
     # ターンを進める
     def forward_turn(self):
@@ -55,46 +56,50 @@ class Dungeon:
             print('next')
             self.start_turn()
 
-        # self.__floors[self.__now_floor_index].player_set_position()
-        # self.__floors[self.__now_floor_index].enemy_set_position()
+        self.__floors[self.__now_floor_index].enemy_set_position()
 
     # 入力されたキーをチェックする
     # 現在は方向キーだけ実装済み
     def player_turn(self):
+        # TODO: 0829 プレイヤーが動いた後に、エネミーが動くようにしたい。
         if pyxel.btnp(pyxel.KEY_D):
             self.__turn += 1
             print('ターン:', self.__turn)
-            self.__floors[self.__now_floor_index].player_move('right')
+            player_direction = 'right'
+            self.__floors[self.__now_floor_index].player_move(player_direction)
             self.__floors[self.__now_floor_index].player_set_position()
-            self.__floors[self.__now_floor_index].enemy_move('left')
-            self.__floors[self.__now_floor_index].enemy_set_position()
+            self.__floors[self.__now_floor_index].enemy_move()
+
         elif pyxel.btnp(pyxel.KEY_A):
             self.__turn += 1
             print('ターン:', self.__turn)
-            self.__floors[self.__now_floor_index].player_move('left')
+            player_direction = 'left'
+            self.__floors[self.__now_floor_index].player_move(player_direction)
             self.__floors[self.__now_floor_index].player_set_position()
-            self.__floors[self.__now_floor_index].enemy_move('right')
-            self.__floors[self.__now_floor_index].enemy_set_position()
+            self.__floors[self.__now_floor_index].enemy_move()
+
         elif pyxel.btnp(pyxel.KEY_W):
             self.__turn += 1
             print('ターン:', self.__turn)
-            self.__floors[self.__now_floor_index].player_move('up')
+            player_direction = 'up'
+            self.__floors[self.__now_floor_index].player_move(player_direction)
             self.__floors[self.__now_floor_index].player_set_position()
-            self.__floors[self.__now_floor_index].enemy_move('down')
-            self.__floors[self.__now_floor_index].enemy_set_position()
+            self.__floors[self.__now_floor_index].enemy_move()
+
         elif pyxel.btnp(pyxel.KEY_S):
             self.__turn += 1
             print('ターン:', self.__turn)
-            self.__floors[self.__now_floor_index].player_move('down')
+            player_direction = 'down'
+            self.__floors[self.__now_floor_index].player_move(player_direction)
             self.__floors[self.__now_floor_index].player_set_position()
-            self.__floors[self.__now_floor_index].enemy_move('up')
-            self.__floors[self.__now_floor_index].enemy_set_position()
+            self.__floors[self.__now_floor_index].enemy_move()
 
         elif pyxel.btnp(pyxel.KEY_F):
             self.__floors[self.__now_floor_index].enemy_mind()
 
         elif pyxel.btnp(pyxel.KEY_E):
             self.__floors[self.__now_floor_index].player_attack()
+
 
     """
     TODO: 08/22 敵の命令を実装しないといけない
