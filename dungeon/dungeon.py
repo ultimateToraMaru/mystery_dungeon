@@ -17,6 +17,10 @@ class Dungeon:
 
         self.__camera = Camera()
 
+        # TODO: 0829 managers
+        # character_manager
+        # floor_manager
+
     @property
     def floors(self):
         pass
