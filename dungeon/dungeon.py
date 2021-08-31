@@ -1,3 +1,5 @@
+from manager.player_manager import Player_manager
+from manager.floor_manager import Floor_manager
 from dungeon.display import Display
 from dungeon.camera import Camera
 from dungeon.floor import Floor
@@ -20,6 +22,9 @@ class Dungeon:
         # TODO: 0829 managers
         # character_manager
         # floor_manager
+        self.__floor_manager: Floor_manager
+        self.__player_manager: Player_manager
+
 
     @property
     def floors(self):
@@ -45,9 +50,12 @@ class Dungeon:
         # self.__floors[self.__now_floor_index].__spawn_player()
         # self.__floors[self.__now_floor_index].spawn_steps()
         # self.__floors[self.__now_floor_index].spawn_enemys()
+
         Display.show_number_of_floors(self.__now_floor_index+1)
         print('ターン:', self.__turn)
-        self.__floors[self.__now_floor_index].player_set_position()
+        self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_index])
+        self.__player_manager = Player_manager(self.__floor_manager.spawn_player())
+        self.__floor_manager.player_set_position(self.__player_manager.player)  # self.__floors[self.__now_floor_index].player_set_position()
 
     # ターンを進める
     def forward_turn(self):
@@ -56,11 +64,14 @@ class Dungeon:
 
         self.player_turn()
 
+        """
         if (self.__floors[self.__now_floor_index].is_player_on_steps() == True):
             print('next')
             self.start_turn()
 
         self.__floors[self.__now_floor_index].enemy_set_position()
+        """
+
 
     # 入力されたキーをチェックする
     # 現在は方向キーだけ実装済み
