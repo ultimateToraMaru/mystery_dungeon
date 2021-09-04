@@ -1,3 +1,5 @@
+from dungeon.room.object_layers.objects.none_obj import None_obj
+from dungeon.room.object_layers.objects.tile import Tile
 import random
 from dungeon.room.room import Room
 from dungeon.const.size import Size
@@ -8,6 +10,18 @@ class Floor_manager():
         self.__floor = floor
         self.__floor.rooms = self.__generate_rooms(self.__floor.room_numbers)
         self.__player_start_room_address = self.__select_start_room_address(self.__floor.rooms)
+
+    @property
+    def floor(self):
+        pass
+
+    @floor.getter
+    def floor(self):
+        return self.__floor
+
+    @floor.setter
+    def floor(self, floor):
+        self.__floor = floor
 
     # キャラクターが行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)
     def is_can_move_character(self, character, direction):
@@ -94,6 +108,24 @@ class Floor_manager():
         # キャラクターが部屋の中を移動するとき
         else :
             return (forward_is_not_corner_of_room and forward_mass_is_noneobj)
+
+    # 座標を引数で与えて、そこが空いてるかどうかをture, falseで返す
+    def is_can_move_neo(self, room_address, position):
+        r_x = room_address[0]
+        r_y = room_address[1]
+        p_x = position[0]
+        p_y = position[1]
+        try:
+            return (
+                type(self.__floor.rooms[r_x][r_y].layers.terrain_layer.data[p_x][p_y]) == Tile and
+                type(self.__floor.rooms[r_x][r_y].layers.player_layer.data[p_x][p_y]) == None_obj and
+                type(self.__floor.rooms[r_x][r_y].layers.enemy_layer.data[p_x][p_y]) == None_obj
+            )
+        # listのIndexErrorが発生するroom_addressとpositionは、そもそも移動できない場所なので
+        # try-catchでキャッチしてもらい、強制的にFalseを返す
+        except IndexError as e:
+            print('*************キャッチしました', e)
+            return False
 
     def get_forward_mass(self, character, direction):
         room_address = character.room_address
@@ -212,7 +244,7 @@ class Floor_manager():
     def spawn_player(self):
             return self.__floor.rooms[self.__player_start_room_address[0]][self.__player_start_room_address[1]].generate_player(self.__player_start_room_address[0], self.__player_start_room_address[1])
 
-    def player_set_position(self, player):
+    def set_layer_player(self, player):
         self.__floor.rooms[player.room_address[0]][player.room_address[1]].layers.player_layer.set_position(player)
 
     def enemy_set_position(self, enemys):

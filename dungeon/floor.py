@@ -28,8 +28,8 @@ class Floor:
         """
             これで囲った部分は他のところにまだ、実装していない
         """
+        #self.__player: Player = self.__spawn_player(self.__player_start_room_address)
         """
-        self.__player: Player = self.__spawn_player(self.__player_start_room_address)
         print('プレイヤーのいるお部屋', self.__player.room_address, '座標 :', self.__player.position)
         # self.__steps_room_address = [0, 0]
         self.__steps: Steps = self.__spawn_steps()
