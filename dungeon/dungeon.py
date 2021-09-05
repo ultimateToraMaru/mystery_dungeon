@@ -113,8 +113,21 @@ class Dungeon:
         for i, enemy_manager in enumerate(self.__enemy_manager_list):
             enemy_direction = enemy_manager.get_input()
             enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position(enemy_direction)
-            enemy_manager.set_position(room_address=enemy_want_to_move_position[0], position=enemy_want_to_move_position[1])
-            self.__floor_manager.set_layer_enemy(enemy_manager.character)
+            # 行き止まりに行こうとしたら、考えを改めてもらう(行き止まりじゃない選択肢が出るまでループ)
+            while (True):
+                enemy_direction = enemy_manager.get_input()
+                enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position(enemy_direction)
+                if (self.__floor_manager.is_can_move_neo(enemy_want_to_move_position[0], enemy_want_to_move_position[1])):
+                    enemy_manager.set_position(room_address=enemy_want_to_move_position[0], position=enemy_want_to_move_position[1])
+                    self.__floor_manager.set_layer_enemy(enemy_manager.character)
+                    break
+
+            # 行き止まりに行こうとしたら、考えを改めてもらう
+            # while(not(self.is_can_move_character(self.__enemys[i], direction))):
+            #     direction = self.__enemys[i].command()
+            #     self.__enemys[i].set_direction(direction)
+            # if (self.is_can_move_character(self.__enemys[i], direction)):
+            #     self.__enemys[i].move(direction)
             # enemy_manager.print_status()
 
 

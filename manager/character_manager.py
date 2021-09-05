@@ -30,7 +30,7 @@ class Character_manager():
         pass
 
     def get_want_to_move_room_address_and_position(self, direction):
-        # そのまま代入すると、参照渡し担ってしまうため、deepcopy
+        # そのまま代入すると、参照渡しになってしまうため、deepcopy
         room_address =  copy.deepcopy(self.__character.room_address)
         position = copy.deepcopy(self.__character.position)
 
