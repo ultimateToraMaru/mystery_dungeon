@@ -185,15 +185,15 @@ class Floor:
     #     self.__rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layer.set_damage(target_position[0], target_position[1], self.__player.attack)
 
     # エネミーを動かす
-    def enemy_move(self):
-        for i in range(len(self.__enemys)):
-            direction = self.__enemys[i].command()
-            # 行き止まりに行こうとしたら、考えを改めてもらう
-            while(not(self.is_can_move_character(self.__enemys[i], direction))):
-                direction = self.__enemys[i].command()
-                self.__enemys[i].set_direction(direction)
-            if (self.is_can_move_character(self.__enemys[i], direction)):
-                self.__enemys[i].move(direction)
+    # def enemy_move(self):
+    #     for i in range(len(self.__enemys)):
+    #         direction = self.__enemys[i].command()
+    #         # 行き止まりに行こうとしたら、考えを改めてもらう
+    #         while(not(self.is_can_move_character(self.__enemys[i], direction))):
+    #             direction = self.__enemys[i].command()
+    #             self.__enemys[i].set_direction(direction)
+    #         if (self.is_can_move_character(self.__enemys[i], direction)):
+    #             self.__enemys[i].move(direction)
 
     # ??? エネミーのターゲットの位置を報告してもらう
     # def __enemy_mind(self, enemy):
@@ -359,9 +359,9 @@ class Floor:
 
 
     # ??? エネミーにターゲットをセットする
-    def enemy_set_target(self, enemys):
-        for i in range(len(enemys)):
-            enemys[i].target = self.__player
+    # def enemy_set_target(self, enemys):
+    #     for i in range(len(enemys)):
+    #         enemys[i].target = self.__player
 
 
 

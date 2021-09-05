@@ -56,20 +56,25 @@ class Dungeon:
 
         Display.show_number_of_floors(self.__now_floor_index+1)
         print('ターン:', self.__turn)
+
+        # manager
         self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_index])
-        self.__player_manager = Character_manager(self.__floor_manager.spawn_player())
+        self.__player_manager = Player_manager(self.__floor_manager.spawn_player())
         self.__floor_manager.set_layer_player(self.__player_manager.character)  # self.__floors[self.__now_floor_index].player_set_position()
 
         enemys = self.__floor_manager.spawn_enemys()
         for i, enemy in enumerate(enemys):
-            self.__enemy_manager_list.append(Character_manager(enemy))
+            enemys[i].target = self.__player_manager.character
+            self.__enemy_manager_list.append(Enemy_manager(enemy))
 
     # ターンを進める
     def forward_turn(self):
         self.__camera.target = self.__floors[self.__now_floor_index].get_player_room_arounds()
         self.__camera.show()
 
-        self.player_turn()
+        if  (pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_S)):
+            self.player_turn()
+            self.enemys_turn()
 
         """
         if (self.__floors[self.__now_floor_index].is_player_on_steps() == True):
@@ -84,37 +89,33 @@ class Dungeon:
     # 現在は方向キーだけ実装済み
     def player_turn(self):
         # TODO: 0829 プレイヤーが動いた後に、エネミーが動くようにしたい。
-        if  (pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_S)):
-            self.__turn += 1
-            print('ターン:', self.__turn)
+        self.__turn += 1
+        print('ターン:', self.__turn)
 
-            if pyxel.btnp(pyxel.KEY_D):
-                player_direction = 'right'
-
-            elif pyxel.btnp(pyxel.KEY_A):
-                player_direction = 'left'
-
-            elif pyxel.btnp(pyxel.KEY_W):
-                player_direction = 'up'
-
-            elif pyxel.btnp(pyxel.KEY_S):
-                player_direction = 'down'
-
-            want_to_move_position:list = self.__player_manager.get_want_to_move_room_address_and_position(player_direction)
-            if (self.__floor_manager.is_can_move_neo(want_to_move_position[0], want_to_move_position[1])):
-                self.__floor_manager.clean_floor()
-                self.__player_manager.set_position(room_address=want_to_move_position[0], position=want_to_move_position[1])
-                self.__floor_manager.set_layer_player(self.__player_manager.character)
-                # self.__player_manager.move_instruction(player_direction) #self.__floors[self.__now_floor_index].player_move(player_direction)
-            self.__player_manager.print_status()
-            # self.__floors[self.__now_floor_index].player_set_position()
+        player_direction = self.__player_manager.get_input()
+        player_want_to_move_position:list = self.__player_manager.get_want_to_move_room_address_and_position(player_direction)
+        if (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
+            self.__floor_manager.clean_floor()
+            self.__player_manager.set_position(room_address=player_want_to_move_position[0], position=player_want_to_move_position[1])
+            self.__floor_manager.set_layer_player(self.__player_manager.character)
             # self.__floors[self.__now_floor_index].enemy_move()
+
+        self.__player_manager.print_status()
+
 
         # elif pyxel.btnp(pyxel.KEY_F):
         #     self.__floors[self.__now_floor_index].enemy_mind()
 
         # elif pyxel.btnp(pyxel.KEY_E):
         #     self.__floors[self.__now_floor_index].player_attack()
+
+    def enemys_turn(self):
+        for i, enemy_manager in enumerate(self.__enemy_manager_list):
+            enemy_direction = enemy_manager.get_input()
+            enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position(enemy_direction)
+            enemy_manager.set_position(room_address=enemy_want_to_move_position[0], position=enemy_want_to_move_position[1])
+            self.__floor_manager.set_layer_enemy(enemy_manager.character)
+            # enemy_manager.print_status()
 
 
     """

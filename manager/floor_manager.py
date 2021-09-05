@@ -264,9 +264,12 @@ class Floor_manager():
     def set_layer_player(self, player):
         self.__floor.rooms[player.room_address[0]][player.room_address[1]].layers.player_layer.set_position(player)
 
-    def enemy_set_position(self, enemys):
-        for i in range(len(enemys)):
-            self.__floor.rooms[enemys[i].room_address[0]][enemys[i].room_address[1]].layers.enemy_layer.set_position(enemys[i])
+    def set_layer_enemy(self, enemy):
+        self.__floor.rooms[enemy.room_address[0]][enemy.room_address[1]].layers.enemy_layer.set_position(enemy)
+
+    # def enemy_set_position(self, enemys):
+    #     for i in range(len(enemys)):
+    #         self.__floor.rooms[enemys[i].room_address[0]][enemys[i].room_address[1]].layers.enemy_layer.set_position(enemys[i])
 
     def clean_floor(self):
         for i in range(len(self.__floor.rooms)):
