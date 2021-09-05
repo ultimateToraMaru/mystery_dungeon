@@ -1,3 +1,4 @@
+from manager.enemy_manager import Enemy_manager
 from manager.player_manager import Player_manager
 from manager.character_manager import Character_manager
 from manager.floor_manager import Floor_manager
@@ -25,6 +26,7 @@ class Dungeon:
         # floor_manager
         self.__floor_manager: Floor_manager
         self.__player_manager: Player_manager
+        self.__enemy_manager_list: list[Enemy_manager] = []
 
 
     @property
@@ -57,6 +59,10 @@ class Dungeon:
         self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_index])
         self.__player_manager = Character_manager(self.__floor_manager.spawn_player())
         self.__floor_manager.set_layer_player(self.__player_manager.character)  # self.__floors[self.__now_floor_index].player_set_position()
+
+        enemys = self.__floor_manager.spawn_enemys()
+        for i, enemy in enumerate(enemys):
+            self.__enemy_manager_list.append(Character_manager(enemy))
 
     # ターンを進める
     def forward_turn(self):
@@ -103,32 +109,6 @@ class Dungeon:
             self.__player_manager.print_status()
             # self.__floors[self.__now_floor_index].player_set_position()
             # self.__floors[self.__now_floor_index].enemy_move()
-
-
-
-        # elif pyxel.btnp(pyxel.KEY_A):
-        #     self.__turn += 1
-        #     print('ターン:', self.__turn)
-        #     player_direction = 'left'
-        #     self.__floors[self.__now_floor_index].player_move(player_direction)
-        #     self.__floors[self.__now_floor_index].player_set_position()
-        #     self.__floors[self.__now_floor_index].enemy_move()
-
-        # elif pyxel.btnp(pyxel.KEY_W):
-        #     self.__turn += 1
-        #     print('ターン:', self.__turn)
-        #     player_direction = 'up'
-        #     self.__floors[self.__now_floor_index].player_move(player_direction)
-        #     self.__floors[self.__now_floor_index].player_set_position()
-        #     self.__floors[self.__now_floor_index].enemy_move()
-
-        # elif pyxel.btnp(pyxel.KEY_S):
-        #     self.__turn += 1
-        #     print('ターン:', self.__turn)
-        #     player_direction = 'down'
-        #     self.__floors[self.__now_floor_index].player_move(player_direction)
-        #     self.__floors[self.__now_floor_index].player_set_position()
-        #     self.__floors[self.__now_floor_index].enemy_move()
 
         # elif pyxel.btnp(pyxel.KEY_F):
         #     self.__floors[self.__now_floor_index].enemy_mind()

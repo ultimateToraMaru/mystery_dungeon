@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.enemy import Enemy
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.objects.tile import Tile
 import random
@@ -248,7 +249,17 @@ class Floor_manager():
                 return [r_x, r_y]
 
     def spawn_player(self):
-            return self.__floor.rooms[self.__player_start_room_address[0]][self.__player_start_room_address[1]].generate_player(self.__player_start_room_address[0], self.__player_start_room_address[1])
+        return self.__floor.rooms[self.__player_start_room_address[0]][self.__player_start_room_address[1]].generate_player(self.__player_start_room_address[0], self.__player_start_room_address[1])
+
+    def spawn_enemys(self):
+        enemys: list[Enemy] = []
+        for r_x in range(len(self.__floor.rooms)):
+            for r_y in range(len(self.__floor.rooms)):
+                is_enemy_spawn = random.randint(0, 1)
+                if (is_enemy_spawn):
+                    enemys.extend(self.__floor.rooms[r_x][r_y].generate_enemys())
+
+        return enemys
 
     def set_layer_player(self, player):
         self.__floor.rooms[player.room_address[0]][player.room_address[1]].layers.player_layer.set_position(player)

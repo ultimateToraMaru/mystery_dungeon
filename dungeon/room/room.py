@@ -68,7 +68,7 @@ class Room:
         return steps
 
     # 部屋内のランダムな場所にランダムな数のエネミーを設置する
-    def generate_enemys(self, r_x, r_y):
+    def generate_enemys(self):
         enemy_nums = random.randint(1, 5)
         # enemy_nums = 1
         enemys = []
@@ -81,7 +81,7 @@ class Room:
                 type(self.__layers.steps_layer.data[p_x][p_y]) == None_obj and
                 type(self.__layers.enemy_layer.data[p_x][p_y]) == None_obj):
 
-                enemy = Enemy(Color.BLACK, room_address=[r_x, r_y], position=[p_x, p_y])
+                enemy = Enemy(Color.BLACK, room_address=[self.__room_address[0],self.__room_address[1]], position=[p_x, p_y])
                 self.__layers.enemy_layer.data[p_x][p_y] = enemy
                 enemys.append(enemy)
 
