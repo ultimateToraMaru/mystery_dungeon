@@ -39,15 +39,15 @@ class Player_layer():
 
     # def get_player_position(self):
     #     return self.__player.position
-    
+
     def set_start_position(self, player):
         # r_i = random.randint(0, len(self.__data)-1)
         # r_j = random.randint(0, len(self.__data)-1)
 
         # ランダムじゃなくて、部央でもよくない？
         # しかも、中央は絶対部屋になってるぜよ
-        p_x = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
-        p_y = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2) 
+        p_x = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)
+        p_y = math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)
 
         self.set_player_position(player, p_x, p_y)
         self.__data[player.position[0]][player.position[1]] = player
@@ -55,11 +55,11 @@ class Player_layer():
         return player
 
     def set_position(self, player):
-        self.__data[player.tmp_position[0]][player.tmp_position[1]] = None_obj()
+        # self.__data[player.tmp_position[0]][player.tmp_position[1]] = None_obj()
         self.__data[player.position[0]][player.position[1]] = player
         player.tmp_position = [player.position[0], player.position[1]]
         player.position = [player.position[0], player.position[1]]
-    
+
     # プレイヤーの残像をきれいに掃除する
     def clean(self):
         for p_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
