@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.steps import Steps
 from dungeon.room.object_layers.objects.enemy import Enemy
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.objects.tile import Tile
@@ -11,6 +12,8 @@ class Floor_manager():
         self.__floor = floor
         self.__floor.rooms = self.__generate_rooms(self.__floor.room_numbers)
         self.__player_start_room_address = self.__select_start_room_address(self.__floor.rooms)
+
+        self.__steps = self.__spawn_steps()
 
     @property
     def floor(self):
@@ -261,6 +264,18 @@ class Floor_manager():
 
         return enemys
 
+    def __spawn_steps(self):
+        steps: Steps
+        while (True):
+            r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
+            r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
+            if (self.__floor.rooms[r_x][r_y]._type == 'normal'):
+                steps = self.__floor.rooms[r_x][r_y].generate_steps(r_x, r_y)
+                break
+
+        print('階段のあるお部屋', steps.room_address)
+        return steps
+
     def set_layer_player(self, player):
         self.__floor.rooms[player.room_address[0]][player.room_address[1]].layers.player_layer.set_position(player)
 
@@ -271,8 +286,25 @@ class Floor_manager():
     #     for i in range(len(enemys)):
     #         self.__floor.rooms[enemys[i].room_address[0]][enemys[i].room_address[1]].layers.enemy_layer.set_position(enemys[i])
 
+    def is_player_on_steps(self, player):
+        if (player.room_address == self.__steps.room_address and
+            player.position == self.__steps.position):
+            return True
+
+        return False
+
     def clean_floor(self):
         for i in range(len(self.__floor.rooms)):
             for j in range(len(self.__floor.rooms)):
                 self.__floor.rooms[i][j].layers.enemy_layer.clean()
                 self.__floor.rooms[i][j].layers.player_layer.clean()
+
+    def get_player_room_arounds(self, player):
+        if (Size.MASS_HEIGHT == 5 and Size.MASS_WIDTH == 5):
+            player_rooms = self.__floor.rooms
+            return player_rooms
+
+            # 一時的にコメントしておく
+        elif (Size.MASS_HEIGHT == 16 and Size.MASS_WIDTH == 16):
+            player_room = self.__floor.rooms[player.room_address[0]][player.room_address[1]]
+            return player_room

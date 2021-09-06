@@ -69,20 +69,18 @@ class Dungeon:
 
     # ターンを進める
     def forward_turn(self):
-        self.__camera.target = self.__floors[self.__now_floor_index].get_player_room_arounds()
+        self.__camera.target = self.__floor_manager.get_player_room_arounds(self.__player_manager.character)
         self.__camera.show()
 
         if  (pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_S)):
             self.player_turn()
             self.enemys_turn()
 
-        """
-        if (self.__floors[self.__now_floor_index].is_player_on_steps() == True):
+
+        if (self.__floor_manager.is_player_on_steps(self.__player_manager.character) == True):
             print('next')
             self.start_turn()
 
-        self.__floors[self.__now_floor_index].enemy_set_position()
-        """
 
 
     # 入力されたキーをチェックする
