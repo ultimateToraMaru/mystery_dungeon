@@ -72,7 +72,7 @@ class Dungeon:
         self.__camera.target = self.__floor_manager.get_player_room_arounds(self.__player_manager.character)
         self.__camera.show()
 
-        if  (pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_S)):
+        if  (pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_S)  or pyxel.btnp(pyxel.KEY_E)):
             self.player_turn()
             self.enemys_turn()
 
@@ -90,9 +90,12 @@ class Dungeon:
         self.__turn += 1
         print('ターン:', self.__turn)
 
-        player_direction = self.__player_manager.get_input()
-        player_want_to_move_position:list = self.__player_manager.get_want_to_move_room_address_and_position(player_direction)
-        if (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
+        player_action = self.__player_manager.get_input()
+        player_want_to_move_position:list = self.__player_manager.get_want_to_move_room_address_and_position()
+        if (player_action == 'attack'):
+            self.__floor_manager.attack(player_want_to_move_position[0], player_want_to_move_position[1], self.__player_manager.character)
+
+        elif (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
             self.__floor_manager.clean_floor()
             self.__player_manager.set_position(room_address=player_want_to_move_position[0], position=player_want_to_move_position[1])
             self.__floor_manager.set_layer_player(self.__player_manager.character)
@@ -110,11 +113,13 @@ class Dungeon:
     def enemys_turn(self):
         for i, enemy_manager in enumerate(self.__enemy_manager_list):
             enemy_direction = enemy_manager.get_input()
-            enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position(enemy_direction)
+            enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position()
             # 行き止まりに行こうとしたら、考えを改めてもらう(行き止まりじゃない選択肢が出るまでループ)
+            # TODO: ここで無限ループが発生
             while (True):
                 enemy_direction = enemy_manager.get_input()
-                enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position(enemy_direction)
+                enemy_manager.character.set_direction(enemy_direction)
+                enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position()
                 if (self.__floor_manager.is_can_move_neo(enemy_want_to_move_position[0], enemy_want_to_move_position[1])):
                     enemy_manager.set_position(room_address=enemy_want_to_move_position[0], position=enemy_want_to_move_position[1])
                     self.__floor_manager.set_layer_enemy(enemy_manager.character)

@@ -304,7 +304,9 @@ class Floor_manager():
             player_rooms = self.__floor.rooms
             return player_rooms
 
-            # 一時的にコメントしておく
         elif (Size.MASS_HEIGHT == 16 and Size.MASS_WIDTH == 16):
             player_room = self.__floor.rooms[player.room_address[0]][player.room_address[1]]
             return player_room
+
+    def attack(self, target_room_address, target_position, character):
+        self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layer.set_damage(target_position[0], target_position[1], character.attack)

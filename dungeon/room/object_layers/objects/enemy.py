@@ -71,7 +71,7 @@ class Enemy(Character):
             com = ['right', 'left', 'down', 'up']
             r = random.randint(0, 3)
             direction = com[r]
-            print('魔が差しました')
+            # print('魔が差しました')
 
-        print('ターゲット', target_address_and_pos, '自分', self_address_and_pos, '方向', direction)
+        # print('ターゲット', target_address_and_pos, '自分', self_address_and_pos, '方向', direction)
         return direction

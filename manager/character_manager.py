@@ -29,12 +29,13 @@ class Character_manager():
     def set_target(self):
         pass
 
-    def get_want_to_move_room_address_and_position(self, direction):
+    def get_want_to_move_room_address_and_position(self):
         # そのまま代入すると、参照渡しになってしまうため、deepcopy
         room_address =  copy.deepcopy(self.__character.room_address)
         position = copy.deepcopy(self.__character.position)
 
-        if (direction == 'right'):
+        # 移動
+        if (self.__character.direction == 'right'):
 
             # 次の部屋に移動するとき
             if (position[0] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1):
@@ -44,7 +45,7 @@ class Character_manager():
             else :
                 position[0] = position[0]+1
 
-        elif (direction == 'left'):
+        elif (self.__character.direction == 'left'):
 
             # 次の部屋に移動するとき
             if (position[0] == 0):
@@ -54,7 +55,7 @@ class Character_manager():
             else :
                 position[0] = position[0]-1
 
-        elif (direction == 'up'):
+        elif (self.__character.direction == 'up'):
 
             # 次の部屋に移動するとき
             if (position[1] == 0):
@@ -64,7 +65,7 @@ class Character_manager():
             else :
                 position[1] = position[1]-1
 
-        elif (direction == 'down'):
+        elif (self.__character.direction == 'down'):
 
             # 次の部屋に移動するとき
             if (position[1] == Size.MAX_MASS_IN_ROOM_ONE_SIDE-1):
