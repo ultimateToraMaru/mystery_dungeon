@@ -96,3 +96,6 @@ class Character_manager():
     def print_status(self):
         print('room_address', self.__character.room_address)
         print('position', self.__character.position)
+
+    def checkAlive(self):
+        return self.__character.alive

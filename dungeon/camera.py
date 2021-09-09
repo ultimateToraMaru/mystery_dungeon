@@ -3,18 +3,19 @@ from dungeon.room.object_layers.objects.player import Player
 from dungeon.const.size import Size
 from dungeon.room.room import Room
 from dungeon.room.object_layers.objects.none_obj import None_obj
+import time
 
 
 class Camera():
     def __init__(self):
         self.__CAMERA_SCALE = 5
-        self.__target = [[None_obj()] * self.__CAMERA_SCALE for i in range(self.__CAMERA_SCALE)] 
+        self.__target = [[None_obj()] * self.__CAMERA_SCALE for i in range(self.__CAMERA_SCALE)]
         for i in range(self.__CAMERA_SCALE):
             for j in range(self.__CAMERA_SCALE):
                 self.__target[i][j] = None_obj()
         # self.__target = []
         self.__player_position = [0, 0]
-    
+
     @property
     def target(self):
         pass
@@ -22,7 +23,7 @@ class Camera():
     @target.setter
     def target(self, target):
         self.__target = target
-    
+
     @property
     def player_position(self):
         pass
@@ -30,11 +31,11 @@ class Camera():
     @player_position.setter
     def player_position(self, player_position):
         self.__player_position = player_position
-    
+
     # cameraに表示したいレイヤーをセットしていく(プレイヤーを中心として上下左右5マス程度？)
     def set_camera(self):
         pass
-    
+
     # 複数のレイヤーを合成して、一つの配列を作成する
     def create_view(self):
         pass
@@ -59,4 +60,3 @@ class Camera():
             self.__target.layers.steps_layer.draw(x, y)
             self.__target.layers.player_layer.draw(x, y)
             self.__target.layers.enemy_layer.draw(x, y)
-        

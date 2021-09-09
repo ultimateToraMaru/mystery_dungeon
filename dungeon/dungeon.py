@@ -6,6 +6,7 @@ from dungeon.display import Display
 from dungeon.camera import Camera
 from dungeon.floor import Floor
 import pyxel
+import time
 
 
 class Dungeon:
@@ -124,6 +125,10 @@ class Dungeon:
                     enemy_manager.set_position(room_address=enemy_want_to_move_position[0], position=enemy_want_to_move_position[1])
                     self.__floor_manager.set_layer_enemy(enemy_manager.character)
                     break
+
+            # enemyが死んだら、マネージャーはお役御免
+            if (enemy_manager.checkAlive() == False):
+                del self.__enemy_manager_list[i]
 
             # 行き止まりに行こうとしたら、考えを改めてもらう
             # while(not(self.is_can_move_character(self.__enemys[i], direction))):

@@ -18,6 +18,8 @@ class Character(Obj):
         self.__attack: int = 100
         self.__defense: int = 100
 
+        self.__alive: bool = True
+
 
     @property
     def tmp_position(self):
@@ -127,6 +129,18 @@ class Character(Obj):
     def defense(self, defense):
         self.__defense = defense
 
+    @property
+    def alive(self):
+        pass
+
+    @alive.getter
+    def alive(self):
+        return self.__alive
+
+    @alive.setter
+    def defense(self, alive):
+        self.__alive = alive
+
     def create(self, x, y, u, v):
         w = Size.MASS_WIDTH
         h = Size.MASS_HEIGHT
@@ -181,8 +195,13 @@ class Character(Obj):
         self.__hp = self.__hp - damage_point
         print(self, 'に', damage_point, 'のダメージ！')
         if (self.__hp <= 0):
-            self.__destroy
+            self.__destroy()
 
     # TODO: 0828 倒れたらインスタンスやfloorが持っているエネミーリストから削除しないといけない
     def __destroy(self):
         print(self, 'は倒れた')
+        self.__alive = False
+    #     del self
+
+    # def __del__(self):
+    #     print('destractor')
