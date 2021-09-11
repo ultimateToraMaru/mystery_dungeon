@@ -7,7 +7,7 @@ class Player_manager(Character_manager):
         super().__init__(player)
 
     def get_input(self):
-        action = 'none'
+        super().character.action = 'none'
         if pyxel.btnp(pyxel.KEY_D):
             super().character.direction = 'right'
 
@@ -21,6 +21,4 @@ class Player_manager(Character_manager):
             super().character.direction = 'down'
 
         elif pyxel.btnp(pyxel.KEY_E):
-            action = 'attack'
-
-        return action
+            super().character.action = 'attack'

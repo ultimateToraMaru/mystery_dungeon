@@ -33,7 +33,7 @@ class Enemy(Character):
         print('ターゲットは部屋番号', self.__target.room_address,'の', self.__target.position, 'にいます！')
 
 
-    def __get_target_address_and_pos(self):
+    def get_target_address_and_pos(self):
         target_address_and_pos: list[int] = [0, 0]
         target_address_and_pos[0] = self.__target.room_address[0] + self.__target.position[0]
         target_address_and_pos[1] = self.__target.room_address[1] + self.__target.position[1]
@@ -41,37 +41,42 @@ class Enemy(Character):
         return target_address_and_pos
 
 
-    def __get_self_address_and_pos(self):
+    def get_self_address_and_pos(self):
         self_address_and_pos: list[int] = [0, 0]
         self_address_and_pos[0] = self.room_address[0] + self.position[0]
         self_address_and_pos[1] = self.room_address[1] + self.position[1]
 
         return self_address_and_pos
 
-    def command(self):
-        direction = 'down'
-        target_address_and_pos = self.__get_target_address_and_pos()
-        self_address_and_pos = self.__get_self_address_and_pos()
+    # def command(self):
+        # direction = 'down'
+        # super().action = 'none'
+        # target_address_and_pos = self.__get_target_address_and_pos()
+        # self_address_and_pos = self.__get_self_address_and_pos()
 
-        willingness = random.randint(0, 10)  # やる気
-        if (willingness > 3):
-            if (target_address_and_pos[0] > self_address_and_pos[0]):
-                direction = 'right'
-            if (target_address_and_pos[0] < self_address_and_pos[0]):
-                direction = 'left'
-            if (target_address_and_pos[1] > self_address_and_pos[1]):
-                direction = 'down'
-            if (target_address_and_pos[1] < self_address_and_pos[1]):
-                direction = 'up'
-            # else :
-            #     com = ['right', 'left', 'down', 'up']
-            #     r = random.randint(0, 3)
-            #     direction = com[r]
-        else :
-            com = ['right', 'left', 'down', 'up']
-            r = random.randint(0, 3)
-            direction = com[r]
-            # print('魔が差しました')
+        # if (target_address_and_pos[0] == self_address_and_pos[0]+1 or
+        #     target_address_and_pos[0] == self_address_and_pos[0]-1 or
+        #     target_address_and_pos[1] == self_address_and_pos[1]+1 or
+        #     target_address_and_pos[1] == self_address_and_pos[1]-1):
+        #     super().action = 'attack'
 
-        # print('ターゲット', target_address_and_pos, '自分', self_address_and_pos, '方向', direction)
-        return direction
+        # willingness = random.randint(0, 10)  # やる気
+        # if (willingness > 3):
+        #     if (target_address_and_pos[0] > self_address_and_pos[0]):
+        #         super().direction = 'right'
+        #     if (target_address_and_pos[0] < self_address_and_pos[0]):
+        #         super().direction = 'left'
+        #     if (target_address_and_pos[1] > self_address_and_pos[1]):
+        #         super().direction = 'down'
+        #     if (target_address_and_pos[1] < self_address_and_pos[1]):
+        #         super().direction = 'up'
+        #     # else :
+        #     #     com = ['right', 'left', 'down', 'up']
+        #     #     r = random.randint(0, 3)
+        #     #     direction = com[r]
+        # else :
+        #     com = ['right', 'left', 'down', 'up']
+        #     r = random.randint(0, 3)
+        #     super().direction = com[r]
+
+        # return super().direction

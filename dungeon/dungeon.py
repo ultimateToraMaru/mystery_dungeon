@@ -70,13 +70,10 @@ class Dungeon:
 
     # ターンを進める
     def forward_turn(self):
-        self.__camera.target = self.__floor_manager.get_player_room_arounds(self.__player_manager.character)
-        self.__camera.show()
 
         if  (pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_S)  or pyxel.btnp(pyxel.KEY_E)):
             self.player_turn()
             self.enemys_turn()
-
 
         if (self.__floor_manager.is_player_on_steps(self.__player_manager.character) == True):
             print('next')
@@ -93,28 +90,30 @@ class Dungeon:
 
         player_action = self.__player_manager.get_input()
         player_want_to_move_position:list = self.__player_manager.get_want_to_move_room_address_and_position()
-        if (player_action == 'attack'):
+        if (self.__player_manager.character.action == 'attack'):
             self.__floor_manager.attack(player_want_to_move_position[0], player_want_to_move_position[1], self.__player_manager.character)
 
         elif (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
             self.__floor_manager.clean_floor()
             self.__player_manager.set_position(room_address=player_want_to_move_position[0], position=player_want_to_move_position[1])
             self.__floor_manager.set_layer_player(self.__player_manager.character)
-            # self.__floors[self.__now_floor_index].enemy_move()
 
         self.__player_manager.print_status()
 
-
-        # elif pyxel.btnp(pyxel.KEY_F):
-        #     self.__floors[self.__now_floor_index].enemy_mind()
-
-        # elif pyxel.btnp(pyxel.KEY_E):
-        #     self.__floors[self.__now_floor_index].player_attack()
-
     def enemys_turn(self):
         for i, enemy_manager in enumerate(self.__enemy_manager_list):
+
+            # enemyが死んだら、マネージャーはお役御免
+            if (enemy_manager.checkAlive() == False):
+                del self.__enemy_manager_list[i]
+                return
+
             enemy_direction = enemy_manager.get_input()
             enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position()
+
+            if (enemy_manager.character.action == 'attack'):
+                self.__floor_manager.attack(enemy_want_to_move_position[0], enemy_want_to_move_position[1], enemy_manager.character)
+
             # 行き止まりに行こうとしたら、考えを改めてもらう(行き止まりじゃない選択肢が出るまでループ)
             # TODO: ここで無限ループが発生
             while (True):
@@ -126,32 +125,6 @@ class Dungeon:
                     self.__floor_manager.set_layer_enemy(enemy_manager.character)
                     break
 
-            # enemyが死んだら、マネージャーはお役御免
-            if (enemy_manager.checkAlive() == False):
-                del self.__enemy_manager_list[i]
-
-            # 行き止まりに行こうとしたら、考えを改めてもらう
-            # while(not(self.is_can_move_character(self.__enemys[i], direction))):
-            #     direction = self.__enemys[i].command()
-            #     self.__enemys[i].set_direction(direction)
-            # if (self.is_can_move_character(self.__enemys[i], direction)):
-            #     self.__enemys[i].move(direction)
-            # enemy_manager.print_status()
-
-
-    """
-    TODO: 08/22 敵の命令を実装しないといけない
-    1. ターゲット(プレイヤー)の座標を認識する
-    2. ターゲットの座標と自分自身の座標を比べて
-    3. 自分自身が進むべき方向を選定する
-
-    * nマス以内にターゲットがいるときは、距離を詰める
-    * プレイヤーの入力をチェックするみたいに実装したい
-    * プレイヤーとエネミークラスの親クラスである、characterクラスに
-        command抽象メソッドを実装して、それぞれのクラスで実装すればいいのでは？
-        プレイヤークラスでは、キーボード入力をチェック
-        エネミークラスでは、上のようにする
-    """
-    # def enemys_turn(self):
-    #     self.__floors.enemy
-    # def instruction_enemy(self):
+    def camera_show(self):
+        self.__camera.target = self.__floor_manager.get_player_room_arounds(self.__player_manager.character)
+        self.__camera.show()

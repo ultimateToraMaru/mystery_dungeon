@@ -26,18 +26,19 @@ class App:
         pyxel.run(self.update, self.draw)
 
     def update(self):
+        self.dungeon.forward_turn()
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
 
     def draw(self):
-        self.dungeon.forward_turn()
+        self.dungeon.camera_show()
         # self.camera.target = self.floor.get_player_room_arounds()
         # self.camera.show()
     #     self.floor.terrain_draw()
     #     self.input_check()
     #     self.floor.player_set_position()
     #     self.floor.player_draw()
-    
+
     # def input_check(self):
     #     if pyxel.btnp(pyxel.KEY_D):
     #         self.__now_floor.player_move('right')

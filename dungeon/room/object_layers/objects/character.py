@@ -8,6 +8,7 @@ class Character(Obj):
         super().__init__(color, room_address, position)
         self.__tmp_position = [0, 0]    # 移動するオブジェクト(キャラクター)のみが持つ。
         self.__direction = 'down'
+        self.__action = 'none'
 
         # ステータス
         self.__level = 1
@@ -44,6 +45,18 @@ class Character(Obj):
     @direction.setter
     def direction(self, direction):
         self.__direction = direction
+
+    @property
+    def action(self):
+        pass
+
+    @action.getter
+    def action(self):
+        return self.__action
+
+    @action.setter
+    def action(self, action):
+        self.__action = action
 
     @property
     def level(self):
@@ -152,13 +165,23 @@ class Character(Obj):
             pyxel.blt(x*w, y*h, img=1, u=8, v=0, w=10, h=10, colkey=0)    # 10*10
         elif (Size.MASS_HEIGHT == 16):
             if (self.__direction == 'right'):
-                pyxel.blt(x*w, y*h, img=1, u=u+16, v=v, w=16, h=16, colkey=0)    # 10*10
+                pyxel.blt(x*w, y*h, img=1, u=u+16, v=v, w=16, h=16, colkey=0)
             elif (self.__direction == 'left'):
-                pyxel.blt(x*w, y*h, img=1, u=u-16, v=v, w=16, h=16, colkey=0)    # 10*10
+                pyxel.blt(x*w, y*h, img=1, u=u-16, v=v, w=16, h=16, colkey=0)
             elif (self.__direction == 'up'):
-                pyxel.blt(x*w, y*h, img=1, u=u, v=v-16, w=16, h=16, colkey=0)    # 10*10
+                pyxel.blt(x*w, y*h, img=1, u=u, v=v-16, w=16, h=16, colkey=0)
             elif (self.__direction == 'down'):
-                pyxel.blt(x*w, y*h, img=1, u=u, v=v, w=16, h=16, colkey=0)    # 10*10
+                pyxel.blt(x*w, y*h, img=1, u=u, v=v, w=16, h=16, colkey=0)
+
+            if (self.__action == 'attack'):
+                if (self.__direction == 'right'):
+                    pyxel.blt(x*w+16, y*h, img=0, u=16, v=32, w=16, h=16, colkey=0)
+                elif (self.__direction == 'left'):
+                    pyxel.blt(x*w-16, y*h, img=0, u=16, v=32, w=16, h=16, colkey=0)
+                elif (self.__direction == 'up'):
+                    pyxel.blt(x*w, y*h-16, img=0, u=16, v=32, w=16, h=16, colkey=0)
+                elif (self.__direction == 'down'):
+                    pyxel.blt(x*w, y*h+16, img=0, u=16, v=32, w=16, h=16, colkey=0)
 
             # elif (self.__direction == 'attack'):
             #     pyxel.blt(x*w, y*h, img=1, u=u+16, v=v+32, w=16, h=16, colkey=0)    # 10*10
