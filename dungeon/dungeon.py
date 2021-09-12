@@ -90,13 +90,14 @@ class Dungeon:
 
         player_action = self.__player_manager.get_input()
         player_want_to_move_position:list = self.__player_manager.get_want_to_move_room_address_and_position()
-        if (self.__player_manager.character.action == 'attack'):
-            self.__floor_manager.attack(player_want_to_move_position[0], player_want_to_move_position[1], self.__player_manager.character)
+        if (self.__player_manager.character.action != 'none'):
+            if (self.__player_manager.character.action == 'attack'):
+                self.__floor_manager.attack(player_want_to_move_position[0], player_want_to_move_position[1], self.__player_manager.character)
 
-        elif (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
-            self.__floor_manager.clean_floor()
-            self.__player_manager.set_position(room_address=player_want_to_move_position[0], position=player_want_to_move_position[1])
-            self.__floor_manager.set_layer_player(self.__player_manager.character)
+            elif (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
+                self.__floor_manager.clean_floor()
+                self.__player_manager.set_position(room_address=player_want_to_move_position[0], position=player_want_to_move_position[1])
+                self.__floor_manager.set_layer_player(self.__player_manager.character)
 
         self.__player_manager.print_status()
 
@@ -116,7 +117,7 @@ class Dungeon:
 
             # 行き止まりに行こうとしたら、考えを改めてもらう(行き止まりじゃない選択肢が出るまでループ)
             # TODO: ここで無限ループが発生
-            while (True):
+            for i in range(10):
                 enemy_direction = enemy_manager.get_input()
                 enemy_manager.character.set_direction(enemy_direction)
                 enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position()

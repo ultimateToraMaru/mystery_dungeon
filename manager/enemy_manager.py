@@ -8,7 +8,7 @@ class Enemy_manager(Character_manager):
         super().__init__(enemy)
 
     def get_input(self):
-        super().character.action = 'none'
+        super().character.action = 'move'
         target_address_and_pos = super().character.get_target_address_and_pos()
         self_address_and_pos = super().character.get_self_address_and_pos()
 

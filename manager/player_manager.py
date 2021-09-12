@@ -1,5 +1,6 @@
 from manager.character_manager import Character_manager
 import pyxel
+import pygame
 
 
 class Player_manager(Character_manager):
@@ -7,17 +8,24 @@ class Player_manager(Character_manager):
         super().__init__(player)
 
     def get_input(self):
-        super().character.action = 'none'
-        if pyxel.btnp(pyxel.KEY_D):
+        keys=pygame.key.get_pressed()
+
+        super().character.action = 'move'
+
+        if keys[pygame.K_LSHIFT]:
+            print('shift')
+            super().character.action = 'none'
+
+        if keys[pygame.K_d]:
             super().character.direction = 'right'
 
-        elif pyxel.btnp(pyxel.KEY_A):
+        elif keys[pygame.K_a]:
             super().character.direction = 'left'
 
-        elif pyxel.btnp(pyxel.KEY_W):
+        elif keys[pygame.K_w]:
             super().character.direction = 'up'
 
-        elif pyxel.btnp(pyxel.KEY_S):
+        elif keys[pygame.K_s]:
             super().character.direction = 'down'
 
         elif pyxel.btnp(pyxel.KEY_E):
