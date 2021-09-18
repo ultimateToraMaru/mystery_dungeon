@@ -11,8 +11,34 @@ class Enemy(Character):
     def __init__(self, color, room_address, position):
         super().__init__(color, room_address, position)
 
+        self.__u = 16
+        self.__v = 64
         # Display.show_status(self.level, self.hp, self.MAX_HP, self.mp, self.MAX_MP, self.attack, self.defense)
         self.__target = None_obj()
+
+    @property
+    def v(self):
+        pass
+
+    @v.getter
+    def v(self):
+        return self.__v
+
+    @v.setter
+    def v(self, v):
+        self.__v = v
+
+    @property
+    def u(self):
+        pass
+
+    @u.getter
+    def u(self):
+        return self.__u
+
+    @u.setter
+    def u(self, u):
+        self.__u = u
 
     @property
     def target(self):
@@ -27,7 +53,7 @@ class Enemy(Character):
         self.__target = target
 
     def create(self, x, y):
-        super().create(x, y, u=16, v=64)
+        super().create(x, y, u=self.__u, v=self.__v)
 
     def mind(self):
         print('ターゲットは部屋番号', self.__target.room_address,'の', self.__target.position, 'にいます！')

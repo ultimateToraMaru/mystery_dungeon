@@ -4,20 +4,22 @@ import pyxel
 
 
 class Character(Obj):
-    def __init__(self, color, room_address, position):
+    def __init__(self, color, room_address, position, name='hoge', level=1, max_hp=100, max_mp=100, attack=100, defence=100):
         super().__init__(color, room_address, position)
+
         self.__tmp_position = [0, 0]    # 移動するオブジェクト(キャラクター)のみが持つ。
         self.__direction = 'down'
         self.__action = 'none'
 
         # ステータス
-        self.__level = 1
-        self.__hp: int = 100
-        self.__MAX_HP: int = self.__hp
-        self.__mp: int = 100
-        self.__MAX_MP: int = self.__mp
-        self.__attack: int = 100
-        self.__defense: int = 100
+        self.__name = name
+        self.__level = level
+        self.__hp: int = max_hp
+        self.__MAX_HP: int = max_hp
+        self.__mp: int = max_mp
+        self.__MAX_MP: int = max_mp
+        self.__attack: int = attack
+        self.__defense: int = defence
 
         self.__alive: bool = True
 
@@ -57,6 +59,18 @@ class Character(Obj):
     @action.setter
     def action(self, action):
         self.__action = action
+
+    @property
+    def name(self):
+        pass
+
+    @name.getter
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, name):
+        self.__name = name
 
     @property
     def level(self):
