@@ -6,7 +6,6 @@ from dungeon.display import Display
 from dungeon.camera import Camera
 from dungeon.floor import Floor
 import pyxel
-import time
 
 
 class Dungeon:
@@ -81,6 +80,7 @@ class Dungeon:
 
 
 
+
     # 入力されたキーをチェックする
     # 現在は方向キーだけ実装済み
     def player_turn(self):
@@ -88,11 +88,17 @@ class Dungeon:
         self.__turn += 1
         print('ターン:', self.__turn)
 
+        # playerが死んだら、マネージャーはお役御免
+        if (self.__player_manager.character.alive == False):
+            del self.__player_manager
+            print('********** GAME OVER **********')
+            return
+
         player_action = self.__player_manager.get_input()
         player_want_to_move_position:list = self.__player_manager.get_want_to_move_room_address_and_position()
         if (self.__player_manager.character.action != 'none'):
             if (self.__player_manager.character.action == 'attack'):
-                self.__floor_manager.attack(player_want_to_move_position[0], player_want_to_move_position[1], self.__player_manager.character)
+                self.__floor_manager.attack_enemy(player_want_to_move_position[0], player_want_to_move_position[1], self.__player_manager.character)
 
             elif (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
                 self.__floor_manager.clean_floor()
@@ -105,21 +111,19 @@ class Dungeon:
         for i, enemy_manager in enumerate(self.__enemy_manager_list):
 
             # enemyが死んだら、マネージャーはお役御免
-            if (enemy_manager.checkAlive() == False):
+            if (enemy_manager.character.alive == False):
                 del self.__enemy_manager_list[i]
                 return
 
-            enemy_direction = enemy_manager.get_input()
             enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position()
 
             if (enemy_manager.character.action == 'attack'):
-                self.__floor_manager.attack(enemy_want_to_move_position[0], enemy_want_to_move_position[1], enemy_manager.character)
+                self.__floor_manager.attack_player(enemy_want_to_move_position[0], enemy_want_to_move_position[1], enemy_manager.character)
 
             # 行き止まりに行こうとしたら、考えを改めてもらう(行き止まりじゃない選択肢が出るまでループ)
             # TODO: ここで無限ループが発生
             for i in range(10):
                 enemy_direction = enemy_manager.get_input()
-                enemy_manager.character.set_direction(enemy_direction)
                 enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position()
                 if (self.__floor_manager.is_can_move_neo(enemy_want_to_move_position[0], enemy_want_to_move_position[1])):
                     enemy_manager.set_position(room_address=enemy_want_to_move_position[0], position=enemy_want_to_move_position[1])

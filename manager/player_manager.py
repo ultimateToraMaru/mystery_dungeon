@@ -28,5 +28,5 @@ class Player_manager(Character_manager):
         elif keys[pygame.K_s]:
             super().character.direction = 'down'
 
-        elif pyxel.btnp(pyxel.KEY_E):
+        elif keys[pygame.K_e]:
             super().character.action = 'attack'

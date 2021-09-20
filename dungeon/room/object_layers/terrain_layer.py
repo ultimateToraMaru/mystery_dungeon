@@ -1,3 +1,4 @@
+import time
 from dungeon.room.object_layers.objects.none_obj import None_obj
 import math
 from dungeon.const.size import Size
@@ -12,20 +13,20 @@ class Terrain_layer():
         # 地形データ(木や壁)や落ちてるアイテム(アイテムは取得したら床オブジェクトを設置)を表す変数
         # そうすればterrain_dataとterrainを分ける必要はない！
         if (type == 'normal' ):
-        # or type == 'top_end' or type == 'bottom_end' or  
+        # or type == 'top_end' or type == 'bottom_end' or
         #     type == 'top_left_corner' or type == 'bottom_left_corner' or type == 'left_end' or
         #     type == 'top_right_corner' or type == 'bottom_right_corner' or type == 'right_end'):
 
-            self.__data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]      
+            self.__data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
             self.__data = self.generate(self.__data, Size.MAX_MASS_IN_ROOM_ONE_SIDE)
             self.__data = self.setExportPoints(self.__data, Size.MAX_MASS_IN_ROOM_ONE_SIDE, type)
-            
+
         elif(type == 'none'):
             self.__data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
             self.__data = self.generate_none_room(self.__data)
-        
 
-    
+
+
     @property
     def data(self):
         pass
@@ -42,12 +43,12 @@ class Terrain_layer():
         start_point = 2
         margin = MAXMASS - (MAXMASS/2)
         end_point = MAXMASS-1
-        
+
         # 四角形の4点をランダムで決める
-        r_start_x = random.randint(start_point, start_point+1) 
-        r_end_x = random.randint(r_start_x+margin, end_point) 
-        r_start_y = random.randint(start_point, start_point+1) 
-        r_end_y = random.randint(r_start_y+margin, end_point) 
+        r_start_x = random.randint(start_point, start_point+1)
+        r_end_x = random.randint(r_start_x+margin, end_point)
+        r_start_y = random.randint(start_point, start_point+1)
+        r_end_y = random.randint(r_start_y+margin, end_point)
 
         # Y軸の端っこに床を配置していく
         for r_x in range(r_start_y, r_end_y):
@@ -59,7 +60,7 @@ class Terrain_layer():
         for r_x in range(r_start_x, r_end_x):
             for r_y in range(r_start_y, r_end_y):
                 data[r_y][r_x] = Tile()
-            
+
         return data
 
     # 壁だけの部屋を生成。部屋ではない。。。
@@ -71,7 +72,6 @@ class Terrain_layer():
         for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             data[i][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Tile()
             data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][i] = Tile()
-    
 
         return data
 
@@ -118,7 +118,7 @@ class Terrain_layer():
                     data[center+i][center] = Tile() # 右方
                     data[center][0+i] = Tile()      # 上方
                     data[center][center+i] = Tile() # 下方
-                
+
                 elif(type == 'top_right_corner'):
                     data[0+i][center] = Tile()      # 左方
                     data[center][center+i] = Tile() # 下方
@@ -131,18 +131,16 @@ class Terrain_layer():
                     data[0+i][center] = Tile()      # 左方
                     data[center][0+i] = Tile()      # 上方
                     data[center][center+i] = Tile() # 下方
-                    
 
-        
+
+
         # path_finding()
-        
+
         return data
-    
+
     # # pass_findingはfloor()でやるべきなのでは？
     # def path_finding():
     #     pass
 
     def set_point(self):
         self.__data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Wall(Color.GREEN)
-
-    

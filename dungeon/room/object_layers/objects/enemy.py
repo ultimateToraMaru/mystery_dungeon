@@ -73,36 +73,3 @@ class Enemy(Character):
         self_address_and_pos[1] = self.room_address[1] + self.position[1]
 
         return self_address_and_pos
-
-    # def command(self):
-        # direction = 'down'
-        # super().action = 'none'
-        # target_address_and_pos = self.__get_target_address_and_pos()
-        # self_address_and_pos = self.__get_self_address_and_pos()
-
-        # if (target_address_and_pos[0] == self_address_and_pos[0]+1 or
-        #     target_address_and_pos[0] == self_address_and_pos[0]-1 or
-        #     target_address_and_pos[1] == self_address_and_pos[1]+1 or
-        #     target_address_and_pos[1] == self_address_and_pos[1]-1):
-        #     super().action = 'attack'
-
-        # willingness = random.randint(0, 10)  # やる気
-        # if (willingness > 3):
-        #     if (target_address_and_pos[0] > self_address_and_pos[0]):
-        #         super().direction = 'right'
-        #     if (target_address_and_pos[0] < self_address_and_pos[0]):
-        #         super().direction = 'left'
-        #     if (target_address_and_pos[1] > self_address_and_pos[1]):
-        #         super().direction = 'down'
-        #     if (target_address_and_pos[1] < self_address_and_pos[1]):
-        #         super().direction = 'up'
-        #     # else :
-        #     #     com = ['right', 'left', 'down', 'up']
-        #     #     r = random.randint(0, 3)
-        #     #     direction = com[r]
-        # else :
-        #     com = ['right', 'left', 'down', 'up']
-        #     r = random.randint(0, 3)
-        #     super().direction = com[r]
-
-        # return super().direction

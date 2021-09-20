@@ -40,6 +40,12 @@ class Enemy_manager(Character_manager):
         enemy.id = self.__info_data[_id][0]
         enemy.name = self.__info_data[_id][1]
         enemy.level = self.__info_data[_id][2]
+        enemy.hp = self.__info_data[_id][3]
+        enemy.max_hp = self.__info_data[_id][3]
+        enemy.mp = self.__info_data[_id][4]
+        enemy.max_mp = self.__info_data[_id][4]
+        enemy.attack = self.__info_data[_id][5]
+        enemy.defense = self.__info_data[_id][6]
 
         enemy.u = self.__info_data[_id][7]
         enemy.v = self.__info_data[_id][8]
@@ -48,16 +54,11 @@ class Enemy_manager(Character_manager):
         super().character.action = 'move'
         target_address_and_pos = super().character.get_target_address_and_pos()
         self_address_and_pos = super().character.get_self_address_and_pos()
-
-        # if (target_address_and_pos[0] == self_address_and_pos[0]+1 or
-        #     target_address_and_pos[0] == self_address_and_pos[0]-1 or
-        #     target_address_and_pos[1] == self_address_and_pos[1]+1 or
-        #     target_address_and_pos[1] == self_address_and_pos[1]-1):
-        #     super().character.action = 'attack'
-        #     return
+        target_pos = super().character.target.position
+        self_pos = super().character.position
 
         willingness = random.randint(0, 10)  # やる気
-        if (willingness > 3):
+        if (willingness > 1):
             if (target_address_and_pos[0] > self_address_and_pos[0]):
                 super().character.direction = 'right'
             if (target_address_and_pos[0] < self_address_and_pos[0]):
@@ -66,13 +67,18 @@ class Enemy_manager(Character_manager):
                 super().character.direction = 'down'
             if (target_address_and_pos[1] < self_address_and_pos[1]):
                 super().character.direction = 'up'
-            # else :
-            #     com = ['right', 'left', 'down', 'up']
-            #     r = random.randint(0, 3)
-            #     direction = com[r]
         else :
             com = ['right', 'left', 'down', 'up']
             r = random.randint(0, 3)
             super().character.direction = com[r]
 
-        return super().character.direction
+        if (self.__target_room_together()):
+            if (target_pos[0] == self_pos[0]+1 or
+                target_pos[0] == self_pos[0]-1 or
+                target_pos[1] == self_pos[1]+1 or
+                target_pos[1] == self_pos[1]-1):
+
+                super().character.action = 'attack'
+
+    def __target_room_together(self):
+        return super().character.target.room_address[0] == super().character.room_address[0] and super().character.target.room_address[1] == super().character.room_address[1]

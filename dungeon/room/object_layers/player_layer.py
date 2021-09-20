@@ -65,3 +65,9 @@ class Player_layer():
         for p_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for p_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[p_x][p_y] = None_obj()
+
+    def set_damage(self, p_x, p_y, damage_point):
+        if (type(self.__data[p_x][p_y]) == Player):
+            self.__data[p_x][p_y].damage(damage_point)
+        else :
+            print('攻撃は空ぶった')

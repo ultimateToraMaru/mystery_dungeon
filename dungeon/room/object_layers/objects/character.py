@@ -1,6 +1,7 @@
 from dungeon.const.size import Size
 from dungeon.room.object_layers.objects.obj import Obj
 import pyxel
+import time
 
 
 class Character(Obj):
@@ -117,7 +118,7 @@ class Character(Obj):
         return self.__mp
 
     @mp.setter
-    def hp(self, mp):
+    def mp(self, mp):
         self.__mp = mp
 
     @property
@@ -188,8 +189,14 @@ class Character(Obj):
                 pyxel.blt(x*w, y*h, img=1, u=u, v=v, w=16, h=16, colkey=0)
 
             if (self.__action == 'attack'):
+                # print('attack draw')
                 if (self.__direction == 'right'):
                     pyxel.blt(x*w+16, y*h, img=0, u=16, v=32, w=16, h=16, colkey=0)
+                    # time.sleep(1)
+                    pyxel.blt(x*w+16, y*h, img=0, u=32, v=32, w=16, h=16, colkey=0)
+                    # time.sleep(1)
+                    pyxel.blt(x*w+16, y*h, img=0, u=48, v=32, w=16, h=16, colkey=0)
+                    # time.sleep(1)
                 elif (self.__direction == 'left'):
                     pyxel.blt(x*w-16, y*h, img=0, u=16, v=32, w=16, h=16, colkey=0)
                 elif (self.__direction == 'up'):
@@ -230,13 +237,13 @@ class Character(Obj):
 
     def damage(self, damage_point):
         self.__hp = self.__hp - damage_point
-        print(self, 'に', damage_point, 'のダメージ！')
+        print(self.name, 'に', damage_point, 'のダメージ！')
         if (self.__hp <= 0):
             self.__destroy()
 
     # TODO: 0828 倒れたらインスタンスやfloorが持っているエネミーリストから削除しないといけない
     def __destroy(self):
-        print(self, 'は倒れた')
+        print(self.name, 'は倒れた')
         self.__alive = False
     #     del self
 

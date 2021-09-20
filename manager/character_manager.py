@@ -6,14 +6,6 @@ class Character_manager():
     def __init__(self, character):
         self.__character = character
 
-    # floor_managerに移した
-    # def __spawn(self):
-    #     pass
-
-    # floor_managerに移した
-    # def set_position(self):
-    #     pass
-
     @property
     def character(self):
         pass
@@ -81,17 +73,13 @@ class Character_manager():
         self.__character.room_address = room_address
         self.__character.position = position
 
-    # def move_instruction(self, direction, floor):
-    #     self.__character.set_direction(direction)
-    #     if (floor.is_can_move_character(self.__character, direction)):
-    #         self.__character.move(direction)
 
-    def attack_instruction(self, targer_room_address_and_position, ):
-        # targer_room_address_and_position = self.get_forward_mass(self.__character, self.__character.direction)
-        print(targer_room_address_and_position)
-        target_room_address = [targer_room_address_and_position[0], targer_room_address_and_position[1]]
-        target_position = [targer_room_address_and_position[2], targer_room_address_and_position[3]]
-        # self.__rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layer.set_damage(target_position[0], target_position[1], self.__character.attack)
+    # def attack_instruction(self, targer_room_address_and_position, ):
+    #     # targer_room_address_and_position = self.get_forward_mass(self.__character, self.__character.direction)
+    #     print(targer_room_address_and_position)
+    #     target_room_address = [targer_room_address_and_position[0], targer_room_address_and_position[1]]
+    #     target_position = [targer_room_address_and_position[2], targer_room_address_and_position[3]]
+    #     # self.__rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layer.set_damage(target_position[0], target_position[1], self.__character.attack)
 
     def print_status(self):
         print('room_address', self.__character.room_address)
