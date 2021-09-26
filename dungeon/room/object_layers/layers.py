@@ -15,7 +15,14 @@ class Layers:
         self.__terrain_layer = Terrain_layer(type)
         self.__player_layer = Player_layer()
         self.__steps_layer = Steps_layer()
-        self.__enemy_layer = Enemy_layer()
+        # self.__enemy_layer = Enemy_layer()
+        self.__enemy_layers: list[Enemy_layer] = []
+
+
+    # def create_enemy_layers(self, enemy_nums_in_floor):
+    #     for i in range(enemy_nums_in_floor):
+    #         self.__enemy_layers = Enemy_layer()
+    #         # print(i)
 
     @property
     def terrain_layer(self):
@@ -28,7 +35,7 @@ class Layers:
     @terrain_layer.setter
     def terrain_layer(self, terrain_layer):
         self.__terrain_layer = terrain_layer
-    
+
     @property
     def player_layer(self):
         pass
@@ -41,7 +48,7 @@ class Layers:
     def player_layer(self, player_layer):
         self.__player_layer = player_layer
 
-    
+
     @property
     def steps_layer(self):
         pass
@@ -54,15 +61,27 @@ class Layers:
     def steps_layer(self, steps_layer):
         self.__steps_layer = steps_layer
 
-    
+    # @property
+    # def enemy_layer(self):
+    #     pass
+
+    # @enemy_layer.getter
+    # def enemy_layer(self):
+    #     return self.__enemy_layer
+
+    # @enemy_layer.setter
+    # def enemy_layer(self, enemy_layer):
+    #     self.__enemy_layer = enemy_layer
+
+
     @property
-    def enemy_layer(self):
+    def enemy_layers(self):
         pass
 
-    @enemy_layer.getter
-    def enemy_layer(self):
-        return self.__enemy_layer
+    @enemy_layers.getter
+    def enemy_layers(self):
+        return self.__enemy_layers
 
-    @enemy_layer.setter
-    def enemy_layer(self, enemy_layer):
-        self.__enemy_layer = enemy_layer
+    @enemy_layers.setter
+    def enemy_layers(self, enemy_layers):
+        self.__enemy_layers = enemy_layers

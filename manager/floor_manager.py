@@ -126,11 +126,14 @@ class Floor_manager():
             return False
 
         try:
-            return (
-                type(self.__floor.rooms[r_x][r_y].layers.terrain_layer.data[p_x][p_y]) == Tile and
-                type(self.__floor.rooms[r_x][r_y].layers.player_layer.data[p_x][p_y]) == None_obj and
-                type(self.__floor.rooms[r_x][r_y].layers.enemy_layer.data[p_x][p_y]) == None_obj
-            )
+            if (type(self.__floor.rooms[r_x][r_y].layers.terrain_layer.data[p_x][p_y]) == Tile and
+                type(self.__floor.rooms[r_x][r_y].layers.player_layer.data[p_x][p_y]) == None_obj):
+
+                for i in range(len(self.__floor.rooms[r_x][r_y].layers.enemy_layers)):
+                    if (type(self.__floor.rooms[r_x][r_y].layers.enemy_layers[i].data[p_x][p_y]) != None_obj):
+                        return False
+
+            return True
 
         # listのIndexErrorが発生するroom_addressとpositionは、そもそも移動できない場所なので
         # try-catchでキャッチしてもらい、強制的にFalseを返す
@@ -260,7 +263,7 @@ class Floor_manager():
             for r_y in range(len(self.__floor.rooms)):
                 is_enemy_spawn = random.randint(0, 1)
                 if (is_enemy_spawn):
-                    enemys.extend(self.__floor.rooms[r_x][r_y].generate_enemys())
+                    enemys.extend(self.__floor.rooms[r_x][r_y].generate_enemys(len(enemys)))
 
         return enemys
 
@@ -279,8 +282,9 @@ class Floor_manager():
     def set_layer_player(self, player):
         self.__floor.rooms[player.room_address[0]][player.room_address[1]].layers.player_layer.set_position(player)
 
-    def set_layer_enemy(self, enemy):
-        self.__floor.rooms[enemy.room_address[0]][enemy.room_address[1]].layers.enemy_layer.set_position(enemy)
+    def set_layer_enemy(self, enemy, index):
+        print('index', index)
+        self.__floor.rooms[enemy.room_address[0]][enemy.room_address[1]].layers.enemy_layers[index].set_position(enemy)
 
     def is_player_on_steps(self, player):
         if (player.room_address == self.__steps.room_address and
@@ -294,6 +298,16 @@ class Floor_manager():
             for j in range(len(self.__floor.rooms)):
                 self.__floor.rooms[i][j].layers.enemy_layer.clean()
                 self.__floor.rooms[i][j].layers.player_layer.clean()
+
+    def clean_player_layer(self):
+        for i in range(len(self.__floor.rooms)):
+            for j in range(len(self.__floor.rooms)):
+                self.__floor.rooms[i][j].layers.player_layer.clean()
+
+    def clean_enemy_layer(self):
+        for i in range(len(self.__floor.rooms)):
+            for j in range(len(self.__floor.rooms)):
+                self.__floor.rooms[i][j].layers.enemy_layer.clean()
 
     def get_player_room_arounds(self, player):
         if (Size.MASS_HEIGHT == 5 and Size.MASS_WIDTH == 5):
@@ -311,3 +325,8 @@ class Floor_manager():
     # playerに攻撃！
     def attack_player(self, target_room_address, target_position, character):
         self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.player_layer.set_damage(target_position[0], target_position[1], character.attack)
+
+    def generate_enemy_layers(self, enemy_nums_in_floor):
+        for i in range(len(self.__floor.rooms)):
+            for j in range(len(self.__floor.rooms)):
+                self.__floor.rooms[i][j].layers.create_enemy_layers(enemy_nums_in_floor)

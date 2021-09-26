@@ -13,7 +13,6 @@ class Player_manager(Character_manager):
         super().character.action = 'move'
 
         if keys[pygame.K_LSHIFT]:
-            print('shift')
             super().character.action = 'none'
 
         if keys[pygame.K_d]:

@@ -57,7 +57,16 @@ class Enemy_manager(Character_manager):
         target_pos = super().character.target.position
         self_pos = super().character.position
 
-        willingness = random.randint(0, 10)  # やる気
+        if (self.__target_room_together()):
+            if (target_pos[0] == self_pos[0]+1 or
+                target_pos[0] == self_pos[0]-1 or
+                target_pos[1] == self_pos[1]+1 or
+                target_pos[1] == self_pos[1]-1):
+
+                super().character.action = 'attack'
+                return
+
+        willingness = random.randint(0, 100)  # やる気
         if (willingness > 1):
             if (target_address_and_pos[0] > self_address_and_pos[0]):
                 super().character.direction = 'right'
@@ -72,13 +81,6 @@ class Enemy_manager(Character_manager):
             r = random.randint(0, 3)
             super().character.direction = com[r]
 
-        if (self.__target_room_together()):
-            if (target_pos[0] == self_pos[0]+1 or
-                target_pos[0] == self_pos[0]-1 or
-                target_pos[1] == self_pos[1]+1 or
-                target_pos[1] == self_pos[1]-1):
-
-                super().character.action = 'attack'
 
     def __target_room_together(self):
         return super().character.target.room_address[0] == super().character.room_address[0] and super().character.target.room_address[1] == super().character.room_address[1]

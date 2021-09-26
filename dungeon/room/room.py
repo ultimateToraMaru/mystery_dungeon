@@ -1,5 +1,6 @@
 
 # floor内の一個一個の部屋を表すクラス
+from dungeon.room.object_layers.enemy_layer import Enemy_layer
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.objects.enemy import Enemy
 from dungeon.room.object_layers.objects.steps import Steps
@@ -68,21 +69,29 @@ class Room:
         return steps
 
     # 部屋内のランダムな場所にランダムな数のエネミーを設置する
-    def generate_enemys(self):
+    def generate_enemys(self, total_enemy_nums):
         enemy_nums = random.randint(1, 5)
         # enemy_nums = 1
         enemys = []
         # ランダムな場所に生成
-        for index in range(enemy_nums):
+        for i in range(enemy_nums):
             p_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
             p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
-            if (type(self.__layers.terrain_layer.data[p_x][p_y]) == Tile and
-                type(self.__layers.player_layer.data[p_x][p_y]) == None_obj and
-                type(self.__layers.steps_layer.data[p_x][p_y]) == None_obj and
-                type(self.__layers.enemy_layer.data[p_x][p_y]) == None_obj):
+
+            if (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile and
+                type(self.layers.player_layer.data[p_x][p_y]) == None_obj and
+                type(self.layers.steps_layer.data[p_x][p_y]) == None_obj):
 
                 enemy = Enemy(Color.BLACK, room_address=[self.__room_address[0],self.__room_address[1]], position=[p_x, p_y])
-                self.__layers.enemy_layer.data[p_x][p_y] = enemy
+
+                # 今まで生成されたエネミー分のレイヤーを作っておく
+                for i in range(total_enemy_nums):
+                    self.__layers.enemy_layers.append(Enemy_layer())
+
+                enemy_layer = Enemy_layer()
+                enemy_layer.data[p_x][p_y] = enemy
+                self.__layers.enemy_layers.append(enemy_layer)
+
                 enemys.append(enemy)
 
         return enemys
@@ -106,6 +115,13 @@ class Room:
     # バグは個々のメソッドが原因そう
     def is_noneobj(self, p_x, p_y):
         # print('移動しようとしているマス', [p_x, p_y], 'の状態 terrain:', type(self.layers.terrain_layer.data[p_x][p_y]), 'player:', type(self.layers.player_layer.data[p_x][p_y]), 'enemy:', type(self.layers.enemy_layer.data[p_x][p_y]))
-        return (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile and
-                type(self.layers.player_layer.data[p_x][p_y]) == None_obj and
-                type(self.layers.enemy_layer.data[p_x][p_y]) == None_obj)
+        if (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile and
+            type(self.layers.player_layer.data[p_x][p_y]) == None_obj):
+
+            for i in range(len(self.__layers.enemy_layers)):
+                if (type(self.__layers.enemy_layers[i].data[p_x][p_y]) != None_obj):
+                    return False
+
+            return True
+
+        return False
