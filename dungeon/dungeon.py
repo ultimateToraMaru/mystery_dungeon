@@ -68,7 +68,9 @@ class Dungeon:
             self.__enemy_manager_list.append(Enemy_manager(enemy))
 
         # self.__floor_manager.generate_enemy_layers(len(enemys))
-        # print('enemylayers', len(self.__floor_manager.floor.rooms[0][0].layers.enemy_layers))
+        for k in range(len(self.__floor_manager.floor.rooms)):
+            for j in range(len(self.__floor_manager.floor.rooms)):
+                print('enemylayers', k, j, '個数', len(self.__floor_manager.floor.rooms[k][j].layers.enemy_layers))
 
     # ターンを進める
     def forward_turn(self):
@@ -144,22 +146,23 @@ class Dungeon:
 
             enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position()
 
-
+            enemy_manager.get_input()
             # 行き止まりに行こうとしたら、考えを改めてもらう(行き止まりじゃない選択肢が出るまでループ)
             # TODO: ここで無限ループが発生
             if (enemy_manager.character.action == 'attack'):
                 self.__floor_manager.attack_player(enemy_want_to_move_position[0], enemy_want_to_move_position[1], enemy_manager.character)
-                return
+                continue
 
             for j in range(100):
                 enemy_manager.get_input()
                 enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position()
                 if (self.__floor_manager.is_can_move_neo(enemy_want_to_move_position[0], enemy_want_to_move_position[1])):
                     # if (enemy_manager.character.action == 'move'):
-                    #     self.__floor_manager.clean_enemy_layer()
+                    self.__floor_manager.clean_enemy_layer(index)
                     enemy_manager.set_position(room_address=enemy_want_to_move_position[0], position=enemy_want_to_move_position[1])
                     self.__floor_manager.set_layer_enemy(enemy_manager.character, index)
                     break
+
 
     def camera_show(self):
         self.__camera.target = self.__floor_manager.get_player_room_arounds(self.__player_manager.character)

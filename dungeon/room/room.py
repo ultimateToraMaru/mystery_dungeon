@@ -73,6 +73,11 @@ class Room:
         enemy_nums = random.randint(1, 5)
         # enemy_nums = 1
         enemys = []
+
+        # 今まで生成されたエネミー分のレイヤーを作っておく
+        for i in range(total_enemy_nums):
+            self.__layers.enemy_layers.append(Enemy_layer())
+
         # ランダムな場所に生成
         for i in range(enemy_nums):
             p_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
@@ -84,9 +89,6 @@ class Room:
 
                 enemy = Enemy(Color.BLACK, room_address=[self.__room_address[0],self.__room_address[1]], position=[p_x, p_y])
 
-                # 今まで生成されたエネミー分のレイヤーを作っておく
-                for i in range(total_enemy_nums):
-                    self.__layers.enemy_layers.append(Enemy_layer())
 
                 enemy_layer = Enemy_layer()
                 enemy_layer.data[p_x][p_y] = enemy
