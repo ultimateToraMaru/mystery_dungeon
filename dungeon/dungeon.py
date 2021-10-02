@@ -55,7 +55,7 @@ class Dungeon:
         # self.__floors[self.__now_floor_index].spawn_enemys()
 
         Display.show_number_of_floors(self.__now_floor_index+1)
-        print('ターン:', self.__turn)
+        print('スタートターン:', self.__turn)
 
         # manager
         self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_index])
@@ -63,14 +63,17 @@ class Dungeon:
         self.__floor_manager.set_layer_player(self.__player_manager.character)  # self.__floors[self.__now_floor_index].player_set_position()
 
         enemys = self.__floor_manager.spawn_enemys()
+        self.__enemy_manager_list: list[Enemy_manager] = []
         for i, enemy in enumerate(enemys):
             enemys[i].target = self.__player_manager.character
             self.__enemy_manager_list.append(Enemy_manager(enemy))
 
+        print('このフロアの敵の数', len(enemys))
+
         # self.__floor_manager.generate_enemy_layers(len(enemys))
-        for k in range(len(self.__floor_manager.floor.rooms)):
-            for j in range(len(self.__floor_manager.floor.rooms)):
-                print('enemylayers', k, j, '個数', len(self.__floor_manager.floor.rooms[k][j].layers.enemy_layers))
+        # for k in range(len(self.__floor_manager.floor.rooms)):
+        #     for j in range(len(self.__floor_manager.floor.rooms)):
+        #         print('enemylayers', k, j, '個数', len(self.__floor_manager.floor.rooms[k][j].layers.enemy_layers))
 
     # ターンを進める
     def forward_turn(self):

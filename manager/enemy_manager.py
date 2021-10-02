@@ -36,7 +36,7 @@ class Enemy_manager(Character_manager):
 
     def __set_status(self, _id):
         enemy = super().character
-        print('_id', _id)
+        # print('_id', _id)
         enemy.id = self.__info_data[_id][0]
         enemy.name = self.__info_data[_id][1]
         enemy.level = self.__info_data[_id][2]

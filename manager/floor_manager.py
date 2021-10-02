@@ -293,7 +293,7 @@ class Floor_manager():
         self.__floor.rooms[player.room_address[0]][player.room_address[1]].layers.player_layer.set_position(player)
 
     def set_layer_enemy(self, enemy, index):
-        print('index', index)
+        # print('index', index)
         self.__floor.rooms[enemy.room_address[0]][enemy.room_address[1]].layers.enemy_layers[index].set_position(enemy)
 
     def is_player_on_steps(self, player):
@@ -315,6 +315,7 @@ class Floor_manager():
                 self.__floor.rooms[i][j].layers.player_layer.clean()
 
     def clean_enemy_layer(self, index):
+        print('enemy_layersの長さ', len(self.__floor.rooms[0][0].layers.enemy_layers))
         for i in range(len(self.__floor.rooms)):
             for j in range(len(self.__floor.rooms)):
                 self.__floor.rooms[i][j].layers.enemy_layers[index].clean()
@@ -330,7 +331,8 @@ class Floor_manager():
 
     # enemyに攻撃！
     def attack_enemy(self, target_room_address, target_position, character):
-        self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layer.set_damage(target_position[0], target_position[1], character.attack)
+        for not_use_index, enemy_layer in enumerate(self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layers):
+            enemy_layer.set_damage(target_position[0], target_position[1], character.attack)
 
     # playerに攻撃！
     def attack_player(self, target_room_address, target_position, character):

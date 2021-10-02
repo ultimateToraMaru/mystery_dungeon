@@ -5,7 +5,7 @@ import time
 
 
 class Character(Obj):
-    def __init__(self, color, room_address, position, name='hoge', level=1, max_hp=100, max_mp=100, attack=100, defence=100):
+    def __init__(self, color, room_address, position, name='hoge', level=1, max_hp=1000, max_mp=100, attack=100, defence=100):
         super().__init__(color, room_address, position)
 
         self.__tmp_position = [0, 0]    # 移動するオブジェクト(キャラクター)のみが持つ。
