@@ -22,8 +22,6 @@ class Floor:
         self.__room_numbers: int = random.randint(5, 10)
         # self.__rooms: list[Room] = self.__generate_rooms(self.__room_numbers)
 
-        # TODO: playerはdungeonクラスが持つべきでは？まあ、いつか直そう
-        # TODO: playerとenemyのメソッドが多くなりすぎた。Character_controllerクラスを作って、Player_controllerとかにメソッドを移したほうがいいかも
         # self.__player_start_room_address = self.__select_start_room_address(self.__rooms)
         """
             これで囲った部分は他のところにまだ、実装していない

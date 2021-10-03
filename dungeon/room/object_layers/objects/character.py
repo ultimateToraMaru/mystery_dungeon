@@ -24,6 +24,8 @@ class Character(Obj):
 
         self.__alive: bool = True
 
+        self.__loop_index = 0 # 0~2の範囲で描画(create)されるたびに値が変わるindex. loop_animationで使用。
+        # self.
 
     @property
     def tmp_position(self):
@@ -169,7 +171,9 @@ class Character(Obj):
     def defense(self, alive):
         self.__alive = alive
 
+    # TODO: create()内で呼べれている攻撃エフェクトの描画を、objectクラスを継承したattack_effect()を作成するべきだ
     def create(self, x, y, u, v):
+
         w = Size.MASS_WIDTH
         h = Size.MASS_HEIGHT
 
@@ -188,21 +192,20 @@ class Character(Obj):
             elif (self.__direction == 'down'):
                 pyxel.blt(x*w, y*h, img=1, u=u, v=v, w=16, h=16, colkey=0)
 
-            if (self.__action == 'attack'):
-                # print('attack draw')
-                if (self.__direction == 'right'):
-                    pyxel.blt(x*w+16, y*h, img=0, u=16, v=32, w=16, h=16, colkey=0)
-                    # time.sleep(1)
-                    pyxel.blt(x*w+16, y*h, img=0, u=32, v=32, w=16, h=16, colkey=0)
-                    # time.sleep(1)
-                    pyxel.blt(x*w+16, y*h, img=0, u=48, v=32, w=16, h=16, colkey=0)
-                    # time.sleep(1)
-                elif (self.__direction == 'left'):
-                    pyxel.blt(x*w-16, y*h, img=0, u=16, v=32, w=16, h=16, colkey=0)
-                elif (self.__direction == 'up'):
-                    pyxel.blt(x*w, y*h-16, img=0, u=16, v=32, w=16, h=16, colkey=0)
-                elif (self.__direction == 'down'):
-                    pyxel.blt(x*w, y*h+16, img=0, u=16, v=32, w=16, h=16, colkey=0)
+            # if (self.__action == 'attack'):
+            #     if (self.__direction == 'right'):
+            #         if (self.__loop_index == 0):
+            #             pyxel.blt(x*w+16, y*h, img=0, u=16, v=32, w=16, h=16, colkey=0)
+            #         elif (self.__loop_index == 1):
+            #             pyxel.blt(x*w+16, y*h, img=0, u=32, v=32, w=16, h=16, colkey=0)
+            #         elif (self.__loop_index == 2):
+            #             pyxel.blt(x*w+16, y*h, img=0, u=48, v=32, w=16, h=16, colkey=0)
+            #     elif (self.__direction == 'left'):
+            #         pyxel.blt(x*w-16, y*h, img=0, u=16, v=32, w=16, h=16, colkey=0)
+            #     elif (self.__direction == 'up'):
+            #         pyxel.blt(x*w, y*h-16, img=0, u=16, v=32, w=16, h=16, colkey=0)
+            #     elif (self.__direction == 'down'):
+            #         pyxel.blt(x*w, y*h+16, img=0, u=16, v=32, w=16, h=16, colkey=0)
 
             # elif (self.__direction == 'attack'):
             #     pyxel.blt(x*w, y*h, img=1, u=u+16, v=v+32, w=16, h=16, colkey=0)    # 10*10
@@ -242,7 +245,6 @@ class Character(Obj):
         if (self.__hp <= 0):
             self.__destroy()
 
-    # TODO: 0828 倒れたらインスタンスやfloorが持っているエネミーリストから削除しないといけない
     def __destroy(self):
         print(self.name, 'は倒れた')
         self.__alive = False

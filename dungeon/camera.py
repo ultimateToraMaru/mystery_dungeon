@@ -59,5 +59,6 @@ class Camera():
             self.__target.layers.terrain_layer.draw(x, y)
             self.__target.layers.steps_layer.draw(x, y)
             self.__target.layers.player_layer.draw(x, y)
+            # time.sleep(1)
             for i in range(len(self.__target.layers.enemy_layers)):
                 self.__target.layers.enemy_layers[i].draw(x, y)

@@ -21,7 +21,6 @@ class Dungeon:
 
         self.__camera = Camera()
 
-        # TODO: 0829 managers
         # character_manager
         # floor_manager
         self.__floor_manager: Floor_manager
@@ -151,7 +150,6 @@ class Dungeon:
 
             enemy_manager.get_input()
             # 行き止まりに行こうとしたら、考えを改めてもらう(行き止まりじゃない選択肢が出るまでループ)
-            # TODO: ここで無限ループが発生
             if (enemy_manager.character.action == 'attack'):
                 self.__floor_manager.attack_player(enemy_want_to_move_position[0], enemy_want_to_move_position[1], enemy_manager.character)
                 continue

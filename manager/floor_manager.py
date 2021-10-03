@@ -7,7 +7,6 @@ import random
 from dungeon.room.room import Room
 from dungeon.const.size import Size
 
-# TODO: 0829HEAD ____floorを管理するfloor_managerを実装中
 class Floor_manager():
     def __init__(self, floor) -> None:
         self.__floor = floor
@@ -296,6 +295,10 @@ class Floor_manager():
         # print('index', index)
         self.__floor.rooms[enemy.room_address[0]][enemy.room_address[1]].layers.enemy_layers[index].set_position(enemy)
 
+    def set_layer_effect(self, effect):
+        self.__floor.rooms[effect.room_address[0]][effect.room_address[1]].layers.player_layer.set_position(effect)
+
+
     def is_player_on_steps(self, player):
         if (player.room_address == self.__steps.room_address and
             player.position == self.__steps.position):
@@ -334,9 +337,15 @@ class Floor_manager():
         for not_use_index, enemy_layer in enumerate(self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layers):
             enemy_layer.set_damage(target_position[0], target_position[1], character.attack)
 
+        attack_effect = self.__floor.rooms[target_room_address[0]][target_room_address[1]].generate_attack_effect(target_position[0], target_position[1])
+        self.set_layer_effect(attack_effect)
+
     # playerに攻撃！
     def attack_player(self, target_room_address, target_position, character):
         self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.player_layer.set_damage(target_position[0], target_position[1], character.attack)
+
+        attack_effect = self.__floor.rooms[target_room_address[0]][target_room_address[1]].generate_attack_effect(target_position[0], target_position[1])
+        self.set_layer_effect(attack_effect)
 
     # def generate_enemy_layers(self, enemy_nums_in_floor):
     #     for i in range(len(self.__floor.rooms)):

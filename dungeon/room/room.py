@@ -1,5 +1,6 @@
 
 # floor内の一個一個の部屋を表すクラス
+from dungeon.room.object_layers.objects.attack_effect import Attack_effect
 from dungeon.room.object_layers.enemy_layer import Enemy_layer
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.objects.enemy import Enemy
@@ -102,6 +103,10 @@ class Room:
     def generate_player(self, r_x, r_y):
         player = Player(Color.BLACK, room_address=[r_x, r_y], position=[5, 5])
         return player
+
+    def generate_attack_effect(self, p_x, p_y):
+        attack_effect = Attack_effect(room_address=self.__room_address, position=[p_x, p_y], isMove=False)
+        return attack_effect
 
     # # ??? プレイヤーが階段に到着したか確認する
     # def steps_check(self):
