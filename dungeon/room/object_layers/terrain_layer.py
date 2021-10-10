@@ -76,10 +76,10 @@ class Terrain_layer():
         return data
 
     # 地形をキャンバスに描画する関数
-    def draw(self, p_x, p_y):
+    def draw(self, p_x, p_y, size):
         for r_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for r_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y)
+                self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y, size)
 
     # 入り口出口は部屋が持つべきだよね。ってことで、地形データ(terrain_layer)に持ってきたのだ
     # 部屋間の道はその道が通る部屋が持つべきだよね。

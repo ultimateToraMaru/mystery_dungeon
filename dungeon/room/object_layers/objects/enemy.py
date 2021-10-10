@@ -52,8 +52,8 @@ class Enemy(Character):
     def target(self, target):
         self.__target = target
 
-    def create(self, x, y):
-        super().create(x, y, u=self.__u, v=self.__v)
+    def create(self, x, y, size):
+        super().create(x, y, u=self.__u, v=self.__v, size=size)
 
     def mind(self):
         print('ターゲットは部屋番号', self.__target.room_address,'の', self.__target.position, 'にいます！')

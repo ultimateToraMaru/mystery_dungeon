@@ -7,5 +7,5 @@ class None_obj(Obj):
     def __init__(self):
         super().__init__(Color.BLACK, [-1, -1], [-1, -1])
 
-    def create(self, x, y):
+    def create(self, x, y, size):
         pass

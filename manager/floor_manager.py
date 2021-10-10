@@ -191,7 +191,7 @@ class Floor_manager():
 
         return room_address_and_position
 
-    def get_player_room_arounds(self, player_room_address):
+    def get_player_room_data(self, player_room_address):
         if (Size.MASS_HEIGHT == 5 and Size.MASS_WIDTH == 5):
             player_rooms = self.__floor.rooms
             return player_rooms
@@ -296,7 +296,7 @@ class Floor_manager():
         self.__floor.rooms[enemy.room_address[0]][enemy.room_address[1]].layers.enemy_layers[index].set_position(enemy)
 
     def set_layer_effect(self, effect):
-        self.__floor.rooms[effect.room_address[0]][effect.room_address[1]].layers.player_layer.set_position(effect)
+        self.__floor.rooms[effect.room_address[0]][effect.room_address[1]].layers.effect_layer.set_position(effect)
 
 
     def is_player_on_steps(self, player):
@@ -306,31 +306,34 @@ class Floor_manager():
 
         return False
 
-    def clean_floor(self):
-        for i in range(len(self.__floor.rooms)):
-            for j in range(len(self.__floor.rooms)):
-                self.__floor.rooms[i][j].layers.enemy_layer.clean()
-                self.__floor.rooms[i][j].layers.player_layer.clean()
+    # def clean_floor(self):
+    #     for i in range(len(self.__floor.rooms)):
+    #         for j in range(len(self.__floor.rooms)):
+    #             self.__floor.rooms[i][j].layers.enemy_layer.clean()
+    #             self.__floor.rooms[i][j].layers.player_layer.clean()
 
     def clean_player_layer(self):
         for i in range(len(self.__floor.rooms)):
             for j in range(len(self.__floor.rooms)):
                 self.__floor.rooms[i][j].layers.player_layer.clean()
+                self.__floor.rooms[i][j].layers.effect_layer.clean()
 
     def clean_enemy_layer(self, index):
-        print('enemy_layersの長さ', len(self.__floor.rooms[0][0].layers.enemy_layers))
+        # print('enemy_layersの長さ', len(self.__floor.rooms[0][0].layers.enemy_layers))
         for i in range(len(self.__floor.rooms)):
             for j in range(len(self.__floor.rooms)):
                 self.__floor.rooms[i][j].layers.enemy_layers[index].clean()
 
-    def get_player_room_arounds(self, player):
+    def get_player_room_data(self, player):
         if (Size.MASS_HEIGHT == 5 and Size.MASS_WIDTH == 5):
-            player_rooms = self.__floor.rooms
-            return player_rooms
+            return self.__floor.rooms
 
         elif (Size.MASS_HEIGHT == 16 and Size.MASS_WIDTH == 16):
             player_room = self.__floor.rooms[player.room_address[0]][player.room_address[1]]
             return player_room
+
+    def get_floor_rooms_data(self):
+        return self.__floor.rooms
 
     # enemyに攻撃！
     def attack_enemy(self, target_room_address, target_position, character):

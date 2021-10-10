@@ -172,17 +172,17 @@ class Character(Obj):
         self.__alive = alive
 
     # TODO: create()内で呼べれている攻撃エフェクトの描画を、objectクラスを継承したattack_effect()を作成するべきだ
-    def create(self, x, y, u, v):
+    def create(self, x, y, u, v, size):
 
-        w = Size.MASS_WIDTH
-        h = Size.MASS_HEIGHT
+        w = size
+        h = size
 
-        if (Size.MASS_HEIGHT == 5):
+        if (size == 5):
             # pyxel.rect(x*w, y*h, w, h, Color.CLOUDBLUE)    # 仮の色を渡しておく
             pyxel.blt(x*w, y*h, img=1, u=0, v=0, w=5, h=5)    # 5*5
-        elif (Size.MASS_HEIGHT == 10):
-            pyxel.blt(x*w, y*h, img=1, u=8, v=0, w=10, h=10, colkey=0)    # 10*10
-        elif (Size.MASS_HEIGHT == 16):
+        # elif (Size.MASS_HEIGHT == 10):
+        #     pyxel.blt(x*w, y*h, img=1, u=8, v=0, w=10, h=10, colkey=0)    # 10*10
+        elif (size == 16):
             if (self.__direction == 'right'):
                 pyxel.blt(x*w, y*h, img=1, u=u+16, v=v, w=16, h=16, colkey=0)
             elif (self.__direction == 'left'):

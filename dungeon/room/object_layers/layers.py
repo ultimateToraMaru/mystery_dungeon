@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.effect_layer import Effect_layer
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.enemy_layer import Enemy_layer
 from dungeon.room.object_layers.objects.steps import Steps
@@ -17,6 +18,7 @@ class Layers:
         self.__steps_layer = Steps_layer()
         # self.__enemy_layer = Enemy_layer()
         self.__enemy_layers: list[Enemy_layer] = []
+        self.__effect_layer = Effect_layer()
         print('layers')
 
 
@@ -62,19 +64,6 @@ class Layers:
     def steps_layer(self, steps_layer):
         self.__steps_layer = steps_layer
 
-    # @property
-    # def enemy_layer(self):
-    #     pass
-
-    # @enemy_layer.getter
-    # def enemy_layer(self):
-    #     return self.__enemy_layer
-
-    # @enemy_layer.setter
-    # def enemy_layer(self, enemy_layer):
-    #     self.__enemy_layer = enemy_layer
-
-
     @property
     def enemy_layers(self):
         pass
@@ -86,3 +75,16 @@ class Layers:
     @enemy_layers.setter
     def enemy_layers(self, enemy_layers):
         self.__enemy_layers = enemy_layers
+
+
+    @property
+    def effect_layer(self):
+        pass
+
+    @effect_layer.getter
+    def effect_layer(self):
+        return self.__effect_layer
+
+    @effect_layer.setter
+    def effect_layer(self, effect_layer):
+        self.__effect_layer = effect_layer

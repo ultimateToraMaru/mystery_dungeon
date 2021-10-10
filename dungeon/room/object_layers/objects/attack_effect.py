@@ -9,14 +9,14 @@ class Attack_effect(Obj):
         self.__loop_index = 0 # 0~2の範囲で描画(create)されるたびに値が変わるindex. loop_animationで使用。
 
 
-    def create(self, x, y):
+    def create(self, x, y, size):
         self.__loop_animation()
-        print('effect')
+        # print('effect')
 
         w = Size.MASS_WIDTH
         h = Size.MASS_HEIGHT
 
-        if (Size.MASS_HEIGHT == 16):
+        if (size == 16):
             if (self.__loop_index == 0):
                 pyxel.blt(x*w, y*h, img=0, u=16, v=32, w=16, h=16, colkey=0)
             elif (self.__loop_index == 1):

@@ -166,5 +166,6 @@ class Dungeon:
 
 
     def camera_show(self):
-        self.__camera.target = self.__floor_manager.get_player_room_arounds(self.__player_manager.character)
+        self.__camera.target = self.__floor_manager.get_player_room_data(self.__player_manager.character)
+        self.__camera.floor_rooms_data = self.__floor_manager.get_floor_rooms_data()
         self.__camera.show()

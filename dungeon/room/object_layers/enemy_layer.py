@@ -36,7 +36,7 @@ class Enemy_layer():
     def draw(self, p_x, p_y):
         for r_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for r_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y)
+                self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y, size=16)
 
     def set_position(self, enemy):
         # if (enemy.position[0] < 0 or 9 < enemy.position[0]):

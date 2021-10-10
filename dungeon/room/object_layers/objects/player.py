@@ -10,6 +10,6 @@ class Player(Character):
     def __init__(self, color, room_address, position):
         super().__init__(color, room_address, position)
         Display.show_status(self.level, self.hp, self.MAX_HP, self.mp, self.MAX_MP, self.attack, self.defense)
-    
-    def create(self, x, y):
-        super().create(x, y, u=16, v=32)
+
+    def create(self, x, y, size):
+        super().create(x, y, u=16, v=32, size=size)
