@@ -69,6 +69,9 @@ class Dungeon:
 
         print('このフロアの敵の数', len(enemys))
 
+        self.camera_show()
+        self.__camera.clear_map()
+
         # self.__floor_manager.generate_enemy_layers(len(enemys))
         # for k in range(len(self.__floor_manager.floor.rooms)):
         #     for j in range(len(self.__floor_manager.floor.rooms)):
