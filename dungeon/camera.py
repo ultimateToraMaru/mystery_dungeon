@@ -19,6 +19,7 @@ class Camera():
         # self.__target = []
         self.__player_position = [0, 0]
         self.__map_indexes = [[0, 0, 0, 0]]
+        self.__is_show_map = False
 
     @property
     def target(self):
@@ -55,35 +56,41 @@ class Camera():
     def show(self):
         x = 0
         y = 0
-        # 5*5
-        if (Size.MASS_HEIGHT == 5 and Size.MASS_WIDTH == 5):
-            for j in range(len(self.__target)):
-                for k in range(len(self.__target)):
-                    x = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-                    y = k*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-                    self.__target[j][k].layers.terrain_layer.draw(x, y)
-                    self.__target[j][k].layers.player_layer.draw(x, y)
-                    self.__target[j][k].layers.effect_layer.draw(x, y)
-                    # time.sleep(1)
-                    for j in range(len(self.__target[j][k].layers.enemy_layers)):
-                        self.__target[j][k].layers.enemy_layers[j].draw(x, y)
+        # # 5*5
+        # if (Size.MASS_HEIGHT == 5 and Size.MASS_WIDTH == 5):
+        #     for j in range(len(self.__target)):
+        #         for k in range(len(self.__target)):
+        #             x = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+        #             y = k*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+        #             self.__target[j][k].layers.terrain_layer.draw(x, y)
+        #             self.__target[j][k].layers.player_layer.draw(x, y)
+        #             self.__target[j][k].layers.effect_layer.draw(x, y)
+        #             # time.sleep(1)
+        #             for j in range(len(self.__target[j][k].layers.enemy_layers)):
+        #                 self.__target[j][k].layers.enemy_layers[j].draw(x, y)
 
-        # 16*16
-        elif (Size.MASS_HEIGHT == 16 and Size.MASS_WIDTH == 16):
+        # 16*16]
+        if (self.__is_show_map):
+            self.__show_map()
 
-            self.__target.layers.terrain_layer.draw(x, y, size=16)
-            self.__target.layers.steps_layer.draw(x, y)
-            self.__target.layers.player_layer.draw(x, y, size=16)
-            self.__target.layers.effect_layer.draw(x, y)
-            # time.sleep(1)
-            for i in range(len(self.__target.layers.enemy_layers)):
-                self.__target.layers.enemy_layers[i].draw(x, y)
+        else:
+            if (Size.MASS_HEIGHT == 16 and Size.MASS_WIDTH == 16):
 
-            #  spaceを押してる間マップを写すみたいな感じにしたほうが良さそう
-            if (pyxel.btnp(pyxel.KEY_F)):
-                self.__show_map()
+                self.__target.layers.terrain_layer.draw(x, y, size=16)
+                self.__target.layers.steps_layer.draw(x, y)
+                self.__target.layers.player_layer.draw(x, y, size=16)
+                self.__target.layers.effect_layer.draw(x, y)
+                # time.sleep(1)
+                for i in range(len(self.__target.layers.enemy_layers)):
+                    self.__target.layers.enemy_layers[i].draw(x, y)
 
-            self.__embed_room_address()
+                self.__add_map()
+                self.__embed_room_address()
+
+        if (pyxel.btnp(pyxel.KEY_F)):
+            self.__is_show_map = not self.__is_show_map
+            # 真っ黒で上書きする
+            pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
 
     def __embed_room_address(self):
         str_room_address = '('+', '.join(map(str, self.__target.room_address))+')'
@@ -93,15 +100,6 @@ class Camera():
 
     # 全体マップ
     def __show_map(self):
-        for i in range(len(self.__floor_rooms_data)):
-            for j in range(len(self.__floor_rooms_data)):
-                x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-                y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-
-                # playerがいるお部屋をマップに追加する
-                if (self.__target.room_address == [i, j]):
-                    self.__add_map(i, j, x, y)
-
         # マップに追加された部屋を写しだす
         for index in range(len(self.__map_indexes)):
             print(self.__map_indexes)
@@ -110,9 +108,16 @@ class Camera():
             self.__floor_rooms_data[map_index[0]][map_index[1]].layers.player_layer.draw(map_index[2], map_index[3], size=5)
 
     # 末尾の座標がすでにappendされたものかどうか判断しながらappendしていく
-    def __add_map(self, i, j, x, y):
-        if (self.__map_indexes[-1] != [i, j, x, y]):
-            self.__map_indexes.append([i, j, x, y])
+    def __add_map(self):
+        for i in range(len(self.__floor_rooms_data)):
+            for j in range(len(self.__floor_rooms_data)):
+                x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+                y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+
+                # playerがいるお部屋をマップに追加する
+                if (self.__target.room_address == [i, j]):
+                    if (self.__map_indexes[-1] != [i, j, x, y]):
+                        self.__map_indexes.append([i, j, x, y])
 
     def clear_map(self):
         self.__map_indexes = [[ self.__target.room_address[0],
