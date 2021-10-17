@@ -24,7 +24,7 @@ class Dungeon:
         # character_manager
         # floor_manager
         self.__floor_manager: Floor_manager
-        self.__player_manager: Player_manager
+        self.__player_manager: Player_manager = None
         self.__enemy_manager_list: list[Enemy_manager] = []
 
 
@@ -58,7 +58,23 @@ class Dungeon:
 
         # manager
         self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_index])
-        self.__player_manager = Player_manager(self.__floor_manager.spawn_player())
+        if (not self.__player_manager is None):
+            player = self.__floor_manager.spawn_player()
+            player.set_status(
+                self.__player_manager.character.name,
+                self.__player_manager.character.level,
+                self.__player_manager.character.hp,
+                self.__player_manager.character.max_hp,
+                self.__player_manager.character.mp,
+                self.__player_manager.character.max_mp,
+                self.__player_manager.character.attack,
+                self.__player_manager.character.defense,
+                self.__player_manager.character.exp
+            )
+            self.__player_manager = Player_manager(player)
+        else:
+            self.__player_manager = Player_manager(self.__floor_manager.spawn_player())
+
         self.__floor_manager.set_layer_player(self.__player_manager.character)  # self.__floors[self.__now_floor_index].player_set_position()
 
         enemys = self.__floor_manager.spawn_enemys()

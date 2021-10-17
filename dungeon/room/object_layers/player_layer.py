@@ -71,3 +71,12 @@ class Player_layer():
             self.__data[p_x][p_y].damage(damage_point)
         else :
             print('攻撃は空ぶった')
+
+    def get_player_position(self):
+        player_position = []
+        for p_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+            for p_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+                if (type(self.__data[p_x][p_y]) == Player):
+                    player_position = [p_x, p_y]
+
+        return player_position

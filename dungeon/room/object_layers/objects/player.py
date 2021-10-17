@@ -9,7 +9,20 @@ import pyxel
 class Player(Character):
     def __init__(self, color, room_address, position):
         super().__init__(color, room_address, position)
-        Display.show_status(self.level, self.hp, self.MAX_HP, self.mp, self.MAX_MP, self.attack, self.defense)
+        # Display.show_status(self.level, self.hp, self.max_hp, self.mp, self.max_mp, self.attack, self.defense)
 
     def create(self, x, y, size):
         super().create(x, y, u=16, v=32, size=size)
+
+    def set_status(self, name, level, hp, max_hp, mp, max_mp, attack, defense, exp):
+        self.name = name
+        self.level = level
+        self.hp = hp
+        self.max_hp = max_hp
+        self.mp = mp
+        self.max_mp= max_mp
+        self.attack = attack
+        self.defense = defense
+        self.exp = exp
+
+        # Display.show_status(self.level, self.hp, self.max_hp, self.mp, self.max_mp, self.attack, self.defense)

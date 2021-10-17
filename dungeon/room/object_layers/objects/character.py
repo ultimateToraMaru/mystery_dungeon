@@ -5,7 +5,7 @@ import time
 
 
 class Character(Obj):
-    def __init__(self, color, room_address, position, name='hoge', level=1, max_hp=1000, max_mp=100, attack=100, defence=100):
+    def __init__(self, color, room_address, position, name='hoge', level=1, max_hp=1000, max_mp=100, attack=100, defense=100, exp=0):
         super().__init__(color, room_address, position)
 
         self.__tmp_position = [0, 0]    # 移動するオブジェクト(キャラクター)のみが持つ。
@@ -16,11 +16,12 @@ class Character(Obj):
         self.__name = name
         self.__level = level
         self.__hp: int = max_hp
-        self.__MAX_HP: int = max_hp
+        self.__max_hp: int = max_hp
         self.__mp: int = max_mp
-        self.__MAX_MP: int = max_mp
+        self.__max_mp: int = max_mp
         self.__attack: int = attack
-        self.__defense: int = defence
+        self.__defense: int = defense
+        self.__exp: int = exp
 
         self.__alive: bool = True
 
@@ -100,16 +101,16 @@ class Character(Obj):
         self.__hp = hp
 
     @property
-    def MAX_HP(self):
+    def max_hp(self):
         pass
 
-    @MAX_HP.getter
-    def MAX_HP(self):
-        return self.__MAX_HP
+    @max_hp.getter
+    def max_hp(self):
+        return self.__max_hp
 
-    @MAX_HP.setter
-    def MAX_HP(self, MAX_HP):
-        self.__MAX_HP = MAX_HP
+    @max_hp.setter
+    def max_hp(self, max_hp):
+        self.__max_hp = max_hp
 
     @property
     def mp(self):
@@ -124,16 +125,16 @@ class Character(Obj):
         self.__mp = mp
 
     @property
-    def MAX_MP(self):
+    def max_mp(self):
         pass
 
-    @MAX_MP.getter
-    def MAX_MP(self):
-        return self.__MAX_MP
+    @max_mp.getter
+    def max_mp(self):
+        return self.__max_mp
 
-    @MAX_MP.setter
-    def MAX_MP(self, MAX_MP):
-        self.__MAX_MP = MAX_MP
+    @max_mp.setter
+    def max_mp(self, max_mp):
+        self.__max_mp = max_mp
 
     @property
     def attack(self):
@@ -158,6 +159,18 @@ class Character(Obj):
     @defense.setter
     def defense(self, defense):
         self.__defense = defense
+
+    @property
+    def exp(self):
+        pass
+
+    @exp.getter
+    def exp(self):
+        return self.__exp
+
+    @exp.setter
+    def exp(self, exp):
+        self.__exp = exp
 
     @property
     def alive(self):
