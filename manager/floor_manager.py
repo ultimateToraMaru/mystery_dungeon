@@ -338,7 +338,8 @@ class Floor_manager():
     # enemyに攻撃！
     def attack_enemy(self, target_room_address, target_position, character):
         for not_use_index, enemy_layer in enumerate(self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layers):
-            enemy_layer.set_damage(target_position[0], target_position[1], character.attack)
+            exp = enemy_layer.set_damage(target_position[0], target_position[1], character.attack)
+            character.exp += exp
 
         attack_effect = self.__floor.rooms[target_room_address[0]][target_room_address[1]].generate_attack_effect(target_position[0], target_position[1])
         self.set_layer_effect(attack_effect)

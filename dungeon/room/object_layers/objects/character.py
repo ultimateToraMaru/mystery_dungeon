@@ -253,14 +253,21 @@ class Character(Obj):
     #     elif (direction == 'down'):
 
     def damage(self, damage_point):
-        self.__hp = self.__hp - damage_point
+        actual_damage_point = damage_point - self.defense
+        self.__hp = self.__hp - actual_damage_point
         print(self.name, 'に', damage_point, 'のダメージ！')
+
         if (self.__hp <= 0):
-            self.__destroy()
+            return self.__destroy()
+
+        return 0
 
     def __destroy(self):
         print(self.name, 'は倒れた')
+        print(self.exp, 'ポイントの経験値を手に入れた')
         self.__alive = False
+
+        return self.exp
     #     del self
 
     # def __del__(self):

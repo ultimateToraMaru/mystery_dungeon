@@ -57,6 +57,7 @@ class Enemy_layer():
 
     def set_damage(self, p_x, p_y, damage_point):
         if (type(self.__data[p_x][p_y]) == Enemy):
-            self.__data[p_x][p_y].damage(damage_point)
+            return self.__data[p_x][p_y].damage(damage_point)
         else :
             print('攻撃は空ぶった')
+            return 0
