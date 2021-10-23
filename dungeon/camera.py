@@ -21,6 +21,9 @@ class Camera():
         self.__map_indexes = [[0, 0, 0, 0]]
         self.__is_show_map = False
 
+        self.__eye_catching_count = 0
+        self.__target_floor_index = -1
+
     @property
     def target(self):
         pass
@@ -59,6 +62,9 @@ class Camera():
             self.__is_show_map = not self.__is_show_map
             # 真っ黒で上書きする
             pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
+
+        if (0 < self.__eye_catching_count):
+            self.__play_eye_catching()
 
     def __embed_room_address(self):
         str_room_address = '('+', '.join(map(str, self.__target.room_address))+')'
@@ -130,3 +136,15 @@ class Camera():
 
         # 真っ黒で上書きする
         pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
+
+    def start_eye_catching(self, floor_index):
+        self.__eye_catching_count = 30
+        self.__target_floor_index = floor_index
+
+    def __play_eye_catching(self):
+        # 真っ黒で上書きする
+        pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
+        pyxel.text(x=Size.MASS_HEIGHT/2, y=Size.MASS_WIDTH/2, s=str(self.__target_floor_index)+'F', col=Color.WHITE)
+
+        self.__eye_catching_count = self.__eye_catching_count - 1
+        # print('aa',self.__eye_catching_count)

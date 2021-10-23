@@ -6,6 +6,7 @@ from dungeon.display import Display
 from dungeon.camera import Camera
 from dungeon.floor import Floor
 import pyxel
+import time
 
 
 class Dungeon:
@@ -16,7 +17,7 @@ class Dungeon:
         self.__FLOOR_NUMBERS: int = 5
         self.__floors: list[Floor] = self.generate_floors(self.__FLOOR_NUMBERS)
 
-        self.__now_floor_index: int = -1
+        self.__now_floor_index: int = 0
         self.__turn: int = 1
 
         self.__camera = Camera()
@@ -49,12 +50,13 @@ class Dungeon:
         # self.__now_floor = self.get_next_floor()
         self.__now_floor_index += 1
 
+        self.__camera.start_eye_catching(self.__now_floor_index)
+        # time.sleep(1)
+
         # self.__floors[self.__now_floor_index].__spawn_player()
         # self.__floors[self.__now_floor_index].spawn_steps()
         # self.__floors[self.__now_floor_index].spawn_enemys()
-
-        Display.show_number_of_floors(self.__now_floor_index+1)
-        print('スタートターン:', self.__turn)
+        # print('フロアスタートターン:', self.__turn)
 
         # manager
         self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_index])

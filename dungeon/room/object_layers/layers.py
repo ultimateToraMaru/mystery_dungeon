@@ -19,7 +19,6 @@ class Layers:
         # self.__enemy_layer = Enemy_layer()
         self.__enemy_layers: list[Enemy_layer] = []
         self.__effect_layer = Effect_layer()
-        print('layers')
 
 
     # def create_enemy_layers(self, enemy_nums_in_floor):

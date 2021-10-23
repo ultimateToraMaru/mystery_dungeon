@@ -15,7 +15,7 @@ class App:
         pyxel.load("my_resource.pyxres")
 
         # bgm再生
-        pyxel.playm(0, loop=True)
+        # pyxel.playm(0, loop=True)
 
         self.dungeon = Dungeon(_id=0)
         self.dungeon.start_turn()

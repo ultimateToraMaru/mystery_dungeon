@@ -253,9 +253,9 @@ class Character(Obj):
     #     elif (direction == 'down'):
 
     def damage(self, damage_point):
-        actual_damage_point = damage_point - self.defense
+        actual_damage_point = damage_point-(self.defense*0.1)
         self.__hp = self.__hp - actual_damage_point
-        print(self.name, 'に', damage_point, 'のダメージ！')
+        print(self.name, 'に', actual_damage_point, 'のダメージ！')
 
         if (self.__hp <= 0):
             return self.__destroy()

@@ -19,14 +19,14 @@ class Enemy_manager(Character_manager):
         #     [7, 'ナゴブラック', 5, 200, 100, 1000, 800, 64, 160],
         # ]
         self.__info_data = [
-            [0, 000, 1, 100, 100, 100, 100, 16, 64],
-            [1, 111, 5, 500, 250, 300, 200, 16, 96],
-            [2, 222, 5, 200, 150, 300, 200, 16, 128],
-            [3, 333, 5, 600, 10, 100, 100, 16, 160],
-            [4, 444, 5, 1000, 20, 300, 300, 16, 192],
-            [5, 555, 5, 10, 10, 10, 10, 64, 96],
-            [6, 666, 5, 200, 500, 100, 100, 64, 128],
-            [7, 777, 5, 200, 100, 1000, 800, 64, 160],
+            ['0', 'スライムベス', '5', '100', '100', '100', '100', '10', '16', '64'],
+            ['1', 'タイフーンドラゴン', '5', '500', '250', '300', '200', '15', '16', '96'],
+            ['2', 'カッキリ閣下', '5', '200', '150', '300', '200', '20', '16', '128'],
+            ['3', 'コバシ', '5', '600', '10', '100', '100', '25', '16', '160'],
+            ['4', 'オオバッシー', '5', '1000', '20', '300', '300', '30', '16', '192'],
+            ['5', 'マモホッパー', '5', '10', '10', '10', '10', '64', '35', '96', '64'],
+            ['6', 'マドッコ', '5', '200', '500', '100', '100', '40', '64', '128'],
+            ['7', 'ナゴブラック', '5', '200', '100', '1000', '800', '45', '64', '160'],
         ]
 
         self.__set_status(self.__select_enemy_id())
@@ -37,18 +37,19 @@ class Enemy_manager(Character_manager):
     def __set_status(self, _id):
         enemy = super().character
         # print('_id', _id)
-        enemy.id = self.__info_data[_id][0]
+        enemy.id = int(self.__info_data[_id][0])
         enemy.name = self.__info_data[_id][1]
-        enemy.level = self.__info_data[_id][2]
-        enemy.hp = self.__info_data[_id][3]
-        enemy.max_hp = self.__info_data[_id][3]
-        enemy.mp = self.__info_data[_id][4]
-        enemy.max_mp = self.__info_data[_id][4]
-        enemy.attack = self.__info_data[_id][5]
-        enemy.defense = self.__info_data[_id][6]
+        enemy.level = int(self.__info_data[_id][2])
+        enemy.hp = int(self.__info_data[_id][3])
+        enemy.max_hp = int(self.__info_data[_id][3])
+        enemy.mp = int(self.__info_data[_id][4])
+        enemy.max_mp = int(self.__info_data[_id][4])
+        enemy.attack = int(self.__info_data[_id][5])
+        enemy.defense = int(self.__info_data[_id][6])
+        enemy.exp = int(self.__info_data[_id][7])
 
-        enemy.u = self.__info_data[_id][7]
-        enemy.v = self.__info_data[_id][8]
+        enemy.u = int(self.__info_data[_id][8])
+        enemy.v = int(self.__info_data[_id][9])
 
     def get_input(self):
         super().character.action = 'move'
