@@ -12,7 +12,7 @@ import time
 class Dungeon:
     def __init__(self, _id):
         self.__id: int = _id
-        self.__name = 'ほげダンジョン'
+        self.__name = 'HOGE DUNGEON'
 
         self.__FLOOR_NUMBERS: int = 5
         self.__floors: list[Floor] = self.generate_floors(self.__FLOOR_NUMBERS)
@@ -50,7 +50,7 @@ class Dungeon:
         # self.__now_floor = self.get_next_floor()
         self.__now_floor_index += 1
 
-        self.__camera.start_eye_catching(self.__now_floor_index)
+        self.__camera.start_eye_catching(self.__name, self.__now_floor_index)
         # time.sleep(1)
 
         # self.__floors[self.__now_floor_index].__spawn_player()
