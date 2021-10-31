@@ -4,6 +4,7 @@ from dungeon.room.object_layers.objects.player import Player
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.floor import Floor
 import pyxel
+import pygame
 from dungeon.room.room import Room
 
 
@@ -15,7 +16,7 @@ class App:
         pyxel.load("my_resource.pyxres")
 
         # bgm再生
-        # pyxel.playm(0, loop=True)
+        pyxel.playm(0, loop=True)
 
         self.dungeon = Dungeon(_id=0)
         self.dungeon.start_turn()
@@ -28,13 +29,26 @@ class App:
 
         pyxel.run(self.update, self.draw)
 
+        # pygaem
+        pygame.init()                                   # Pygameの初期化
+        pygame.display.set_caption("Test")              # タイトルバーに表示する文字
+
     def update(self):
         self.dungeon.forward_turn()
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
 
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:  # 閉じるボタンが押されたら終了
+        #         pygame.quit()       # Pygameの終了(画面閉じられる)
+
     def draw(self):
         self.dungeon.camera_show()
+
+        screen = pygame.display.set_mode((400, 300))    # 大きさ400*300の画面を生成
+        screen.fill((0,0,0))        # 画面を黒色(#000000)に塗りつぶし
+        pygame.display.update()     # 画面を更新
+        # イベント処理
         # self.camera.target = self.floor.get_player_room_arounds()
         # self.camera.show()
     #     self.floor.terrain_draw()

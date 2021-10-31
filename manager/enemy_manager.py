@@ -24,7 +24,7 @@ class Enemy_manager(Character_manager):
             ['2', 'カッキリ閣下', '5', '200', '150', '300', '200', '20', '16', '128'],
             ['3', 'コバシ', '5', '600', '10', '100', '100', '25', '16', '160'],
             ['4', 'オオバッシー', '5', '1000', '20', '300', '300', '30', '16', '192'],
-            ['5', 'マモホッパー', '5', '10', '10', '10', '10', '64', '35', '96', '64'],
+            ['5', 'マモホッパー', '5', '10', '10', '10', '10', '64', '35', '64', '96'],
             ['6', 'マドッコ', '5', '200', '500', '100', '100', '40', '64', '128'],
             ['7', 'ナゴブラック', '5', '200', '100', '1000', '800', '45', '64', '160'],
         ]
@@ -60,7 +60,14 @@ class Enemy_manager(Character_manager):
 
         willingness = random.randint(0, 100)  # やる気
 
+        if (self.__target_room_together()):
+            if (target_pos[0] == self_pos[0]+1 and super().character.direction == 'right' or
+                target_pos[0] == self_pos[0]-1 and super().character.direction == 'left' or
+                target_pos[1] == self_pos[1]+1 and super().character.direction == 'down' or
+                target_pos[1] == self_pos[1]-1 and super().character.direction == 'up'):
 
+                super().character.action = 'attack'
+                return
         # やる気があるときの行動
         if (willingness > 1):
             if (target_address_and_pos[0] > self_address_and_pos[0]):
@@ -76,14 +83,13 @@ class Enemy_manager(Character_manager):
             r = random.randint(0, 3)
             super().character.direction = com[r]
 
-        # ターゲットと同じ部屋にいるときは攻撃する
-        if (self.__target_room_together()):
-            if (target_pos[0] == self_pos[0]+1 or
-                target_pos[0] == self_pos[0]-1 or
-                target_pos[1] == self_pos[1]+1 or
-                target_pos[1] == self_pos[1]-1):
+        # if (self.__target_room_together()):
+        #     if (target_pos[0] == self_pos[0]+1 or
+        #         target_pos[0] == self_pos[0]-1 or
+        #         target_pos[1] == self_pos[1]+1 or
+        #         target_pos[1] == self_pos[1]-1):
 
-                super().character.action = 'attack'
+        #         super().character.action = 'attack'
                 # return
 
     def __target_room_together(self):
