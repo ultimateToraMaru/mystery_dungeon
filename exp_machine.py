@@ -8,7 +8,7 @@ import time
 import pyxel
 
 
-class Display_floor_index():
+class Exp_machine():
     def __init__(self):
         self.__eye_catching_count = 0
         self.__target_floor_index = -1

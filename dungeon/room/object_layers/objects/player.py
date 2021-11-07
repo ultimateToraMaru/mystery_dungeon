@@ -9,7 +9,9 @@ import pyxel
 class Player(Character):
     def __init__(self, color, room_address, position):
         super().__init__(color, room_address, position)
-        # Display.show_status(self.level, self.hp, self.max_hp, self.mp, self.max_mp, self.attack, self.defense)
+
+        display = Display.get_instance()
+        display.show_status(self.level, self.hp, self.max_hp, self.mp, self.max_mp, self.attack, self.defense)
 
     def create(self, x, y, size):
         super().create(x, y, u=16, v=32, size=size)

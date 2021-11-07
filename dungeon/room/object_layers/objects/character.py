@@ -1,4 +1,5 @@
 from dungeon.const.size import Size
+from dungeon.display import Display
 from dungeon.room.object_layers.objects.obj import Obj
 import pyxel
 import time
@@ -257,6 +258,9 @@ class Character(Obj):
         actual_damage_point = damage_point-(self.defense*0.1)
         self.__hp = math.ceil(self.__hp - actual_damage_point)
         print(self.name, 'に', actual_damage_point, 'のダメージ！')
+
+        display = Display.get_instance()
+        display.show_defence_message(self.name, actual_damage_point)
 
         if (self.__hp <= 0):
             return self.__destroy()
