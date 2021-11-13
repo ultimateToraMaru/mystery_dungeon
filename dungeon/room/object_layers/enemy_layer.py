@@ -1,3 +1,4 @@
+from dungeon.display import Display
 from dungeon.room.object_layers.objects.enemy import Enemy
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.objects.player import Player
@@ -55,9 +56,8 @@ class Enemy_layer():
             for p_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[p_x][p_y] = None_obj()
 
-    def set_damage(self, p_x, p_y, damage_point):
+    def set_damage(self, p_x, p_y, damage_point, attacker_name):
         if (type(self.__data[p_x][p_y]) == Enemy):
-            return self.__data[p_x][p_y].damage(damage_point)
+            return self.__data[p_x][p_y].damage(damage_point, attacker_name)
         else :
-            print('攻撃は空ぶった')
-            return 0
+            return -1

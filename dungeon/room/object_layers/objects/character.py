@@ -183,7 +183,7 @@ class Character(Obj):
         return self.__alive
 
     @alive.setter
-    def defense(self, alive):
+    def alive(self, alive):
         self.__alive = alive
 
     # TODO: create()内で呼べれている攻撃エフェクトの描画を、objectクラスを継承したattack_effect()を作成するべきだ
@@ -254,13 +254,13 @@ class Character(Obj):
 
     #     elif (direction == 'down'):
 
-    def damage(self, damage_point):
+    def damage(self, damage_point, attacker_name):
         actual_damage_point = damage_point-(self.defense*0.1)
         self.__hp = math.ceil(self.__hp - actual_damage_point)
         print(self.name, 'に', actual_damage_point, 'のダメージ！')
 
         display = Display.get_instance()
-        display.show_defence_message(self.name, actual_damage_point)
+        display.show_battle_message(attacker_name, self.name, actual_damage_point)
 
         if (self.__hp <= 0):
             return self.__destroy()

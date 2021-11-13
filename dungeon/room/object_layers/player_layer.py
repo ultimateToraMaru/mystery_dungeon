@@ -1,3 +1,4 @@
+from dungeon.display import Display
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.objects.player import Player
 import math
@@ -66,11 +67,12 @@ class Player_layer():
             for p_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[p_x][p_y] = None_obj()
 
-    def set_damage(self, p_x, p_y, damage_point):
+    def set_damage(self, p_x, p_y, damage_point, attacker_name):
         if (type(self.__data[p_x][p_y]) == Player):
-            self.__data[p_x][p_y].damage(damage_point)
+            self.__data[p_x][p_y].damage(damage_point, attacker_name)
         else :
-            print('攻撃は空ぶった')
+            display = Display.get_instance()
+            display.show_fool_battle_message(attacker_name)
 
     def get_player_position(self):
         player_position = []

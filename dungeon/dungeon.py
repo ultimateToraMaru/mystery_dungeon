@@ -11,6 +11,7 @@ import time
 
 class Dungeon:
     def __init__(self, _id):
+        # ダンジョンの情報
         self.__id: int = _id
         self.__name = 'HOGE DUNGEON'
 
@@ -20,14 +21,14 @@ class Dungeon:
         self.__now_floor_index: int = 0
         self.__turn: int = 1
 
-        self.__camera = Camera()
 
-        # character_manager
-        # floor_manager
+        # マネージャー
         self.__floor_manager: Floor_manager
         self.__player_manager: Player_manager = None
         self.__enemy_manager_list: list[Enemy_manager] = []
 
+        # ツール
+        self.__camera = Camera()
         self.__display = Display.get_instance()
 
 
@@ -79,7 +80,7 @@ class Dungeon:
         else:
             self.__player_manager = Player_manager(self.__floor_manager.spawn_player())
 
-        self.__floor_manager.set_layer_player(self.__player_manager.character)  # self.__floors[self.__now_floor_index].player_set_position()
+        self.__floor_manager.set_layer_player(self.__player_manager.character)
 
         enemys = self.__floor_manager.spawn_enemys()
         self.__enemy_manager_list: list[Enemy_manager] = []
@@ -151,9 +152,14 @@ class Dungeon:
             print('ターン:', self.__turn)
 
             if (self.__player_manager.character.action == 'attack'):
-                exp = self.__floor_manager.attack_enemy(player_want_to_move_position[0], player_want_to_move_position[1], self.__player_manager.character.attack)
-                self.__player_manager.character.exp += exp
-                self.__display.show_attack_message(self.__player_manager.character.name)
+                exp = self.__floor_manager.attack_enemy(player_want_to_move_position[0], player_want_to_move_position[1], self.__player_manager.character.attack, self.__player_manager.character.name)
+
+                if (exp == -1):
+                    display = Display.get_instance()
+                    display.show_fool_battle_message(self.__player_manager.character.name)
+                else :
+                    self.__player_manager.character.exp += exp
+                # self.__display.show_attack_message(self.__player_manager.character.name)
                 # TODO: expのディスプレイ表示が必要
 
             elif (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
@@ -177,8 +183,8 @@ class Dungeon:
             enemy_manager.get_input()
             # 行き止まりに行こうとしたら、考えを改めてもらう(行き止まりじゃない選択肢が出るまでループ)
             if (enemy_manager.character.action == 'attack'):
-                self.__floor_manager.attack_player(enemy_want_to_move_position[0], enemy_want_to_move_position[1], enemy_manager.character.attack)
-                self.__display.show_attack_message(enemy_manager.character.name)
+                self.__floor_manager.attack_player(enemy_want_to_move_position[0], enemy_want_to_move_position[1], enemy_manager.character.attack, enemy_manager.character.name)
+                # self.__display.show_attack_message(enemy_manager.character.name)
                 continue
 
             for j in range(100):

@@ -58,11 +58,19 @@ class Display():
     def show_number_of_floors(self, num):
         print(num, '階')
 
-    def show_attack_message(self, attack_chara_name):
-        self.set_screen_log([str(attack_chara_name)+'の攻撃！'])
+    # def show_attack_message(self, attack_chara_name):
+    #     self.set_screen_log([str(attack_chara_name)+'の攻撃！'])
 
-    def show_defence_message(self, target_chara_name, damage):
-        self.set_screen_log([str(target_chara_name)+'に'+str(damage)+'のダメージ！'])
+    # def show_defence_message(self, target_chara_name, damage):
+    #     self.set_screen_log([str(target_chara_name)+'に'+str(damage)+'のダメージ！'])
+
+    def show_battle_message(self, attacker_name, defenser_name, damage):
+        self.set_screen_log([str(attacker_name)+'の攻撃！',
+                            str(defenser_name)+'に'+str(damage)+'のダメージ！'])
+
+    def show_fool_battle_message(self, attacker_name):
+        self.set_screen_log([str(attacker_name)+'の攻撃！',
+                            'しかし、攻撃は空ぶった！'])
 
     # def test(self):
     #     text = self.__font.render('警告', True, (255,0,0))
@@ -74,12 +82,21 @@ class Display():
     def set_screen_log(self, message_log):
         self.__log.append(message_log)
 
-        i = 0
-        self.__screen.fill((0,0,0))  #画面を黒で塗りつぶす
+        row_index = 0
+
+        # 画面を黒で塗りつぶす
+        self.__screen.fill((0,0,0))
+
+        # ひとまとまりのログを取り出す
         for one_log in reversed(self.__log):
             for log in one_log:
                 text = self.__font.render(log, True, (255,255,255))
-                # print(self.__font_size*i)
-                self.__screen.blit(text, (0,self.__font_size*i))
+                self.__screen.blit(text, (0,self.__font_size*row_index))
 
-                i+=1
+                row_index+=1
+
+            # 区切り線をセットする
+            text_line = self.__font.render('--------------------------', True, (255,255,255))
+            self.__screen.blit(text_line, (0,self.__font_size*row_index))
+
+            row_index+=1

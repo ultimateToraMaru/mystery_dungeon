@@ -11,45 +11,39 @@ from dungeon.room.room import Room
 
 class App:
     def __init__(self):
+        # pyxel初期化処理
         # pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=5)   # 5*5
         # pyxel.init(200, 200, caption="mystery_dungeon", scale=2, fps=5)     # 10*10
         pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=10)     # 16*16
         pyxel.load("my_resource.pyxres")
-        pygame.init()                                   # Pygameの初期化
+
+        # pygame初期化処理
+        pygame.init()
 
         # bgm再生
         # pyxel.playm(0, loop=True)
 
+        # ダンジョンを生成してゲームを始める
         self.dungeon = Dungeon(_id=0)
         self.dungeon.start_turn()
 
-        # self.floor = Floor()
-        # self.camera = Camera()
-
-        # self.floor.spawn_player()
-        # self.floor.spawn_steps()
-
-
-        # pygaem
-        # yugothicyugothicuilight
         pyxel.run(self.update, self.draw)
 
+    # ゲーム処理の更新
     def update(self):
         self.dungeon.forward_turn()
+
+        # Qキーでゲームを終了
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
 
-        # diplay = Display.get_instance()
-        # diplay.set_screen_log()
-
-        # for event in pygame.event.get():
-        #     if event.type == pygame.QUIT:  # 閉じるボタンが押されたら終了
-        #         pygame.quit()       # Pygameの終了(画面閉じられる)
-
+    # 描画処理の更新
     def draw(self):
+        # ゲーム画面を更新
         self.dungeon.camera_show()
 
-        pygame.display.update()     # 画面を更新
+        # ダンジョンログ画面を更新
+        pygame.display.update()
 
 if __name__ == '__main__':
     app = App()

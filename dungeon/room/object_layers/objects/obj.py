@@ -16,7 +16,7 @@ class Obj (metaclass=ABCMeta):
     @color.getter
     def color(self):
         return self.__color
-    
+
     @property
     def room_address(self):
         pass
@@ -28,7 +28,7 @@ class Obj (metaclass=ABCMeta):
     @room_address.setter
     def room_address(self, room_address):
         self.__room_address = room_address
-    
+
     @property
     def position(self):
         pass

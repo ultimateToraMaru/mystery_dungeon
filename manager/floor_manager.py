@@ -337,11 +337,10 @@ class Floor_manager():
         return self.__floor.rooms
 
     # enemyに攻撃！
-    def attack_enemy(self, target_room_address, target_position, character_attack):
+    def attack_enemy(self, target_room_address, target_position, attacker_attack, attacker_name):
         for not_use_index, enemy_layer in enumerate(self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layers):
-            exp = enemy_layer.set_damage(target_position[0], target_position[1], character_attack)
+            exp = enemy_layer.set_damage(target_position[0], target_position[1], attacker_attack, attacker_name)
             # TODO: characterのパラメータをいじるときはmanagerを経由すべきである！ちょっとずつ直していこう。
-            # character.exp += exp
 
         attack_effect = self.__floor.rooms[target_room_address[0]][target_room_address[1]].generate_attack_effect(target_position[0], target_position[1])
         self.set_layer_effect(attack_effect)
@@ -349,8 +348,8 @@ class Floor_manager():
         return exp
 
     # playerに攻撃！
-    def attack_player(self, target_room_address, target_position, character_attack):
-        self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.player_layer.set_damage(target_position[0], target_position[1], character_attack)
+    def attack_player(self, target_room_address, target_position, attacker_attack, attacker_name):
+        self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.player_layer.set_damage(target_position[0], target_position[1], attacker_attack, attacker_name)
 
         attack_effect = self.__floor.rooms[target_room_address[0]][target_room_address[1]].generate_attack_effect(target_position[0], target_position[1])
         self.set_layer_effect(attack_effect)
