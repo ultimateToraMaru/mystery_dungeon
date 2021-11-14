@@ -63,7 +63,9 @@ class Dungeon:
 
         # manager
         self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_index])
-        if (not self.__player_manager is None):
+        if (self.__player_manager is None):
+            self.__player_manager = Player_manager(self.__floor_manager.spawn_player())
+        else:
             player = self.__floor_manager.spawn_player()
             player.set_status(
                 self.__player_manager.character.name,
@@ -77,8 +79,18 @@ class Dungeon:
                 self.__player_manager.character.exp
             )
             self.__player_manager = Player_manager(player)
-        else:
-            self.__player_manager = Player_manager(self.__floor_manager.spawn_player())
+
+        self.__display.show_status(
+                self.__player_manager.character.name,
+                self.__player_manager.character.level,
+                self.__player_manager.character.hp,
+                self.__player_manager.character.max_hp,
+                self.__player_manager.character.mp,
+                self.__player_manager.character.max_mp,
+                self.__player_manager.character.attack,
+                self.__player_manager.character.defense,
+                self.__player_manager.character.exp
+        )
 
         self.__floor_manager.set_layer_player(self.__player_manager.character)
 
@@ -139,12 +151,6 @@ class Dungeon:
     def player_turn(self):
         # TODO: 0829 プレイヤーが動いた後に、エネミーが動くようにしたい。
 
-        # # playerが死んだら、マネージャーはお役御免
-        # if (self.__player_manager.character.alive == False):
-        #     del self.__player_manager
-        #     print('********** GAME OVER **********')
-        #     return
-
         self.__player_manager.get_input()
         player_want_to_move_position:list = self.__player_manager.get_want_to_move_room_address_and_position()
         if (self.__player_manager.character.action != 'none'):
@@ -153,14 +159,14 @@ class Dungeon:
 
             if (self.__player_manager.character.action == 'attack'):
                 exp = self.__floor_manager.attack_enemy(player_want_to_move_position[0], player_want_to_move_position[1], self.__player_manager.character.attack, self.__player_manager.character.name)
+                print('gwtExp', exp)
 
                 if (exp == -1):
                     display = Display.get_instance()
                     display.show_fool_battle_message(self.__player_manager.character.name)
                 else :
                     self.__player_manager.character.exp += exp
-                # self.__display.show_attack_message(self.__player_manager.character.name)
-                # TODO: expのディスプレイ表示が必要
+                    print('exp',self.__player_manager.character.exp)
 
             elif (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
                 self.__floor_manager.clean_player_layer()
@@ -172,11 +178,6 @@ class Dungeon:
 
     def enemys_turn(self):
         for index, enemy_manager in enumerate(self.__enemy_manager_list):
-
-            # # enemyが死んだら、マネージャーはお役御免
-            # if (enemy_manager.character.alive == False):
-            #     del self.__enemy_manager_list[i]
-            #     return
 
             enemy_want_to_move_position:list = enemy_manager.get_want_to_move_room_address_and_position()
 

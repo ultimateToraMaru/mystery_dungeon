@@ -11,14 +11,20 @@ from dungeon.room.room import Room
 
 class App:
     def __init__(self):
-        # pyxel初期化処理
-        # pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=5)   # 5*5
-        # pyxel.init(200, 200, caption="mystery_dungeon", scale=2, fps=5)     # 10*10
-        pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=10)     # 16*16
-        pyxel.load("my_resource.pyxres")
 
         # pygame初期化処理
         pygame.init()
+        pygame.mouse.set_visible(True)
+
+        # スタート画面
+        self.start_disp()
+
+        # pyxel初期化処理
+        # pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=5)   # 5*5
+        # pyxel.init(200, 200, caption="mystery_dungeon", scale=2, fps=5)     # 10*10
+        pyxel.init(255, 255, caption="Mystery_Dungeon", scale=3, fps=10)     # 16*16
+        pyxel.mouse(False)
+        pyxel.load("my_resource.pyxres")
 
         # bgm再生
         # pyxel.playm(0, loop=True)
@@ -28,6 +34,48 @@ class App:
         self.dungeon.start_turn()
 
         pyxel.run(self.update, self.draw)
+
+    # スタート画面
+    def start_disp(self):
+        pygame.display.set_caption('Start_Mystery_Dungeon')
+        screen = pygame.display.set_mode((600, 600))
+
+        # タイトルとメッセージ
+        screen.fill((0, 0, 0))
+
+        font_title = pygame.font.SysFont('yugothicyugothicuilight', 50)
+        title = font_title.render('ちょっと', True, (255,255,255))
+        screen.blit(title, (50,100))
+
+        title = font_title.render('不思議なダンジョン', True, (255,255,255))
+        screen.blit(title, (50,150))
+
+        font_message = pygame.font.SysFont('yugothicyugothicuilight', 20)
+        message = font_message.render('Please Press Your SPACE BUTTON !', True, (255,255,255))
+        screen.blit(message, (50,250))
+
+        spaceBtnPressed = False
+        while (not spaceBtnPressed):
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    pygame.sys.exit()
+
+                if event.type == pygame.KEYDOWN:
+                    # スペースボタンを押したらループから抜ける
+                    if event.key == pygame.K_SPACE:
+                        spaceBtnPressed = True
+                        break
+
+                    elif event.key == pygame.K_Q:
+                        pygame.quit()
+                        pygame.sys.exit()
+
+                    else:
+                        print("pressedKey = " + pygame.key.name(event.key))
+
+                pygame.display.update()
 
     # ゲーム処理の更新
     def update(self):

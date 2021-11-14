@@ -22,8 +22,10 @@ class Display_floor_index():
     def show(self):
         # 真っ黒で上書きする
         pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
-        pyxel.text(x=Size.MASS_HEIGHT/2, y=0, s=self.__dungeon_name, col=Color.WHITE)
-        pyxel.text(x=Size.MASS_HEIGHT/2, y=Size.MASS_WIDTH/2, s=str(self.__target_floor_index)+'F', col=Color.WHITE)
+
+        # テキストをセット
+        pyxel.text(x=Size.MASS_HEIGHT*Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE/2, y=Size.MASS_WIDTH*Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-Size.MASS_WIDTH, s=self.__dungeon_name, col=Color.WHITE)
+        pyxel.text(x=Size.MASS_HEIGHT*Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE/2, y=Size.MASS_WIDTH*Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE, s=str(self.__target_floor_index)+'F', col=Color.WHITE)
 
         self.__eye_catching_count = self.__eye_catching_count - 1
         # print('aa',self.__eye_catching_count)

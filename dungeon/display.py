@@ -17,8 +17,8 @@ class Display():
 
         else :
             # pygame初期化処理
-            pygame.display.set_caption("Console Window")        # タイトルバーに表示する文字
-            self.__screen = pygame.display.set_mode((400, 300)) # 大きさ400*300の画面を生成
+            pygame.display.set_caption('Dungeon Log')        # タイトルバーに表示する文字
+            self.__screen = pygame.display.set_mode((400, 200)) # 大きさ400*300の画面を生成
             self.__screen.fill((0,0,0))                         # 画面を黒色(#000000)に塗りつぶし]
             self.__font_size = 20
             self.__font = pygame.font.SysFont('yugothicyugothicuilight', self.__font_size)
@@ -27,14 +27,16 @@ class Display():
             Display.__instance = self
 
 
-    def show_status(self, level, hp, max_hp, mp, max_mp, attack, difense):
-        print('**********')
-        print('Level:', level)
-        print('HP:', hp, '/', max_hp)
-        print('MP:', mp, '/', max_mp)
-        print('Attack:', attack)
-        print('Difense', difense)
-        print('**********')
+    def show_status(self, name, level, hp, max_hp, mp, max_mp, attack, difense, exp):
+        # print('**********')
+        # print('Name:', name)
+        # print('Level:', level)
+        # print('HP:', hp, '/', max_hp)
+        # print('MP:', mp, '/', max_mp)
+        # print('Attack:', attack)
+        # print('Difense', difense)
+        # print('Exp', exp)
+        # print('**********')
 
         # text = self.__font.render('***********', True, (255,0,0))
         # self.__screen.blit(text, (0,0))
@@ -48,11 +50,13 @@ class Display():
         #                     '**********'])
         # self.__log.append(['testtest', 'testtesttest'])
         self.set_screen_log(['**********',
+                            'Name: '+str(name),
                             'Level: '+str(level),
                             'HP: '+str(hp)+'/'+str(max_hp),
                             'MP: '+str(mp)+'/'+str(max_mp),
                             'Attack: '+str(attack),
                             'Difense: '+str(difense),
+                            'Exp: '+str(exp),
                             '**********'])
 
     def show_number_of_floors(self, num):
@@ -72,6 +76,9 @@ class Display():
         self.set_screen_log([str(attacker_name)+'の攻撃！',
                             'しかし、攻撃は空ぶった！'])
 
+    def show_destroy_message(self, attacker_name, defenser_name, exp):
+        self.set_screen_log([str(defenser_name)+'は倒れた！',
+                            str(attacker_name)+'は'+str(exp)+'の経験値を手に入れた！'])
     # def test(self):
     #     text = self.__font.render('警告', True, (255,0,0))
     #     self.__screen.blit(text, (0,0))

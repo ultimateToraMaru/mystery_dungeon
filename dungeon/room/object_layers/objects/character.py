@@ -263,13 +263,15 @@ class Character(Obj):
         display.show_battle_message(attacker_name, self.name, actual_damage_point)
 
         if (self.__hp <= 0):
-            return self.__destroy()
+            return self.__destroy(attacker_name)
 
         return 0
 
-    def __destroy(self):
-        print(self.name, 'は倒れた')
-        print(self.exp, 'ポイントの経験値を手に入れた')
+    def __destroy(self, attacker_name):
+        # print(self.name, 'は倒れた')
+        # print(self.exp, 'ポイントの経験値を手に入れた')
+        display = Display.get_instance()
+        display.show_destroy_message(attacker_name, self.name, self.exp)
         self.__alive = False
 
         return self.exp

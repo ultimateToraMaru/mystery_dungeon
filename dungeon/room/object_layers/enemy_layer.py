@@ -58,6 +58,7 @@ class Enemy_layer():
 
     def set_damage(self, p_x, p_y, damage_point, attacker_name):
         if (type(self.__data[p_x][p_y]) == Enemy):
+            print('hit!')
             return self.__data[p_x][p_y].damage(damage_point, attacker_name)
         else :
             return -1
