@@ -28,7 +28,6 @@ class Character(Obj):
         self.__alive: bool = True
 
         self.__loop_index = 0 # 0~2の範囲で描画(create)されるたびに値が変わるindex. loop_animationで使用。
-        # self.
 
     @property
     def tmp_position(self):
@@ -186,8 +185,22 @@ class Character(Obj):
     def alive(self, alive):
         self.__alive = alive
 
+    @property
+    def loop_index(self):
+        pass
+
+    @loop_index.getter
+    def loop_index(self):
+        return self.__loop_index
+
+    @loop_index.setter
+    def loop_index(self, loop_index):
+        self.__loop_index = loop_index
+
     # TODO: create()内で呼べれている攻撃エフェクトの描画を、objectクラスを継承したattack_effect()を作成するべきだ
     def create(self, x, y, u, v, size):
+
+        self.__loop_animation()
 
         w = size
         h = size
@@ -199,13 +212,13 @@ class Character(Obj):
         #     pyxel.blt(x*w, y*h, img=1, u=8, v=0, w=10, h=10, colkey=0)    # 10*10
         elif (size == 16):
             if (self.__direction == 'right'):
-                pyxel.blt(x*w, y*h, img=1, u=u+16, v=v, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, img=self.loop_index, u=u+16, v=v, w=16, h=16, colkey=0)
             elif (self.__direction == 'left'):
-                pyxel.blt(x*w, y*h, img=1, u=u-16, v=v, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, img=self.loop_index, u=u-16, v=v, w=16, h=16, colkey=0)
             elif (self.__direction == 'up'):
-                pyxel.blt(x*w, y*h, img=1, u=u, v=v-16, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, img=self.loop_index, u=u, v=v-16, w=16, h=16, colkey=0)
             elif (self.__direction == 'down'):
-                pyxel.blt(x*w, y*h, img=1, u=u, v=v, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, img=self.loop_index, u=u, v=v, w=16, h=16, colkey=0)
 
             # if (self.__action == 'attack'):
             #     if (self.__direction == 'right'):
@@ -275,6 +288,12 @@ class Character(Obj):
         self.__alive = False
 
         return self.exp
+
+    def __loop_animation(self):
+        if (self.__loop_index < 2):
+            self.__loop_index += 1
+        else:
+            self.__loop_index = 1
     #     del self
 
     # def __del__(self):

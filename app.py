@@ -16,8 +16,6 @@ class App:
         pygame.init()
         pygame.mouse.set_visible(True)
 
-        # スタート画面
-        self.start_disp()
 
         # pyxel初期化処理
         # pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=5)   # 5*5
@@ -26,8 +24,8 @@ class App:
         pyxel.mouse(False)
         pyxel.load("my_resource.pyxres")
 
-        # bgm再生
-        # pyxel.playm(0, loop=True)
+        # スタート画面
+        self.start_disp()
 
         # ダンジョンを生成してゲームを始める
         self.dungeon = Dungeon(_id=0)
@@ -51,8 +49,11 @@ class App:
         screen.blit(title, (50,150))
 
         font_message = pygame.font.SysFont('yugothicyugothicuilight', 20)
-        message = font_message.render('Please Press Your SPACE BUTTON !', True, (255,255,255))
+        message = font_message.render('～Press Space Button～', True, (255,255,255))
         screen.blit(message, (50,250))
+
+        # bgm再生
+        pyxel.playm(1, loop=True)
 
         spaceBtnPressed = False
         while (not spaceBtnPressed):

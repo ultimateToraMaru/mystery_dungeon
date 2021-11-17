@@ -30,5 +30,7 @@ class Display_floor_index():
         self.__eye_catching_count = self.__eye_catching_count - 1
         # print('aa',self.__eye_catching_count)
 
+
+
     def is_show_floor_index(self):
         return 0 < self.__eye_catching_count

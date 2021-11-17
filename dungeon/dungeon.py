@@ -51,6 +51,16 @@ class Dungeon:
     # フロア到着時に一回だけ呼び出される
     def start_turn(self):
         # self.__now_floor = self.get_next_floor()
+
+        # 音楽一時停止
+        pyxel.stop()
+
+        # 階段の効果音
+        pyxel.play(0, 30, loop=False)
+
+        # bgm再生
+        pyxel.playm(0, loop=True)
+
         self.__now_floor_index += 1
 
         self.__camera.start_eye_catching(self.__name, self.__now_floor_index)
