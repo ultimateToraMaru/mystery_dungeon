@@ -1,4 +1,5 @@
 # 描画する部分を格納する配列を持つカメラ
+import random
 from dungeon.const.color import Color
 from dungeon.room.object_layers.objects.player import Player
 from dungeon.const.size import Size
@@ -10,23 +11,35 @@ import pyxel
 
 class Exp_machine():
     def __init__(self):
-        self.__eye_catching_count = 0
-        self.__target_floor_index = -1
-        self.__dungeon_name = ''
+        self.__next_level_exp_base = random.randint(30, 100)  # 次のレベルまでに必要な経験値の基礎
+        self.__necesarry_exp_list = self.__generate_necesarry_exp_list()    #
+        self.__exps = 0
 
-    def set_index(self, dungeon_name, floor_index):
-        self.__eye_catching_count = 30
-        self.__dungeon_name = dungeon_name
-        self.__target_floor_index = floor_index
+    def __generate_necesarry_exp_list(self):
+        necesarry_exp_list = []
+        for i in range(100):
+            necesarry_exp_list.append(i*self.__next_level_exp_base)
 
-    def show(self):
-        # 真っ黒で上書きする
-        pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
-        pyxel.text(x=Size.MASS_HEIGHT/2, y=0, s=self.__dungeon_name, col=Color.WHITE)
-        pyxel.text(x=Size.MASS_HEIGHT/2, y=Size.MASS_WIDTH/2, s=str(self.__target_floor_index)+'F', col=Color.WHITE)
+        return necesarry_exp_list
 
-        self.__eye_catching_count = self.__eye_catching_count - 1
-        # print('aa',self.__eye_catching_count)
+    def add_exp(self, exp, now_level):
+        self.__exps += exp
+        plus_status = []
+        if (self.__necesarry_exp_list[now_level] <= self.__exps):
+            plus_status = self.__level_up()
 
-    def is_show_floor_index(self):
-        return 0 < self.__eye_catching_count
+        else:
+            plus_status = [0, 0, 0, 0, 0]
+
+        return plus_status
+
+    def __level_up(self):
+        level = 1
+        max_hp = random.randint(1, 3)
+        max_mp = random.randint(1, 3)
+        attack = random.randint(1, 3)
+        defense = random.randint(1, 3)
+
+        plus_status = [level, max_hp, max_mp, attack, defense]
+
+        return plus_status

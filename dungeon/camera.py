@@ -93,6 +93,7 @@ class Camera():
                     y = k*Size.MAX_MASS_IN_ROOM_ONE_SIDE
                     self.__target[j][k].layers.terrain_layer.draw(x, y)
                     self.__target[j][k].layers.player_layer.draw(x, y)
+                    self.__target[j][k].layers.steps_layer.draw(x, y)
                     self.__target[j][k].layers.effect_layer.draw(x, y)
                     # time.sleep(1)
                     for j in range(len(self.__target[j][k].layers.enemy_layers)):
@@ -100,9 +101,9 @@ class Camera():
 
         elif (Size.MASS_HEIGHT == 16 and Size.MASS_WIDTH == 16):
 
-            self.__target.layers.terrain_layer.draw(x, y, size=16)
-            self.__target.layers.steps_layer.draw(x, y)
-            self.__target.layers.player_layer.draw(x, y, size=16)
+            self.__target.layers.terrain_layer.draw(x, y, size=Size.MASS_HEIGHT)
+            self.__target.layers.steps_layer.draw(x, y, size=Size.MASS_HEIGHT)
+            self.__target.layers.player_layer.draw(x, y, size=Size.MASS_HEIGHT)
             self.__target.layers.effect_layer.draw(x, y)
 
             for i in range(len(self.__target.layers.enemy_layers)):
@@ -117,6 +118,7 @@ class Camera():
             map_index = self.__map_indexes[index]
             self.__floor_rooms_data[map_index[0]][map_index[1]].layers.terrain_layer.draw(map_index[2], map_index[3], size=5)
             self.__floor_rooms_data[map_index[0]][map_index[1]].layers.player_layer.draw(map_index[2], map_index[3], size=5)
+            self.__floor_rooms_data[map_index[0]][map_index[1]].layers.steps_layer.draw(map_index[2], map_index[3], size=5)
 
     # 末尾の座標がすでにappendされたものかどうか判断しながらappendしていく
     def __add_map(self):

@@ -41,15 +41,15 @@ class App:
         # タイトルとメッセージ
         screen.fill((0, 0, 0))
 
-        font_title = pygame.font.SysFont('yugothicyugothicuilight', 50)
+        font_title = pygame.font.SysFont('yugothicyugothicuilight', 50, bold=True)
         title = font_title.render('ちょっと', True, (255,255,255))
         screen.blit(title, (50,100))
 
         title = font_title.render('不思議なダンジョン', True, (255,255,255))
         screen.blit(title, (50,150))
 
-        font_message = pygame.font.SysFont('yugothicyugothicuilight', 20)
-        message = font_message.render('～Press Space Button～', True, (255,255,255))
+        font_message = pygame.font.SysFont('yugothicyugothicui', 30, bold=True)
+        message = font_message.render('～Press Space Button～', True, (255,255,255, 1))
         screen.blit(message, (50,250))
 
         # bgm再生

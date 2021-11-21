@@ -169,14 +169,17 @@ class Dungeon:
 
             if (self.__player_manager.character.action == 'attack'):
                 exp = self.__floor_manager.attack_enemy(player_want_to_move_position[0], player_want_to_move_position[1], self.__player_manager.character.attack, self.__player_manager.character.name)
-                print('gwtExp', exp)
+                is_level_up = self.__player_manager.add_exp_machine(exp)
+                display = Display.get_instance()
 
                 if (exp == -1):
-                    display = Display.get_instance()
                     display.show_fool_battle_message(self.__player_manager.character.name)
-                else :
-                    self.__player_manager.character.exp += exp
-                    print('exp',self.__player_manager.character.exp)
+                elif (is_level_up):
+                    display.show_level_up(self.__player_manager.character.name)
+
+                # else :
+                #     self.__player_manager.character.exp += exp
+                #     print('exp',self.__player_manager.character.exp)
 
             elif (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
                 self.__floor_manager.clean_player_layer()

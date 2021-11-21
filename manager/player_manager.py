@@ -1,3 +1,4 @@
+from exp_machine import Exp_machine
 from manager.character_manager import Character_manager
 import pyxel
 import pygame
@@ -6,6 +7,7 @@ import pygame
 class Player_manager(Character_manager):
     def __init__(self, player):
         super().__init__(player)
+        self.__exp_machine = Exp_machine()
 
     def get_input(self):
         keys=pygame.key.get_pressed()
@@ -29,3 +31,16 @@ class Player_manager(Character_manager):
 
         elif keys[pygame.K_e]:
             super().character.action = 'attack'
+
+    def add_exp_machine(self, exp):
+        plus_status = self.__exp_machine.add_exp(exp, super().character.level)
+
+        super().character.level += plus_status[0]
+        super().character.max_hp += plus_status[1]
+        super().character.max_mp += plus_status[2]
+        super().character.attack += plus_status[3]
+        super().character.defense += plus_status[4]
+        super().character.exp += exp
+
+        # レベルが上がった時: 1, それ以外: 0
+        return plus_status[0]

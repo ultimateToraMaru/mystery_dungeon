@@ -32,10 +32,10 @@ class Steps_layer():
     # def steps_position(self, steps_position):
     #     self.__steps_position = steps_position
 
-    def draw(self, p_x, p_y):
+    def draw(self, p_x, p_y, size):
         for r_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for r_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y, size=16)
+                self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y, size)
 
     # @property
     # def steps(self):

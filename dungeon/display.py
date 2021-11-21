@@ -79,6 +79,10 @@ class Display():
     def show_destroy_message(self, attacker_name, defenser_name, exp):
         self.set_screen_log([str(defenser_name)+'は倒れた！',
                             str(attacker_name)+'は'+str(exp)+'の経験値を手に入れた！'])
+
+    def show_level_up(self, name):
+        self.set_screen_log([str(name)+'のレベルが上がった！',
+                            'やったね！！！'])
     # def test(self):
     #     text = self.__font.render('警告', True, (255,0,0))
     #     self.__screen.blit(text, (0,0))
