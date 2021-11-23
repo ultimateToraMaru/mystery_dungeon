@@ -123,12 +123,14 @@ class Dungeon:
     # ターンを進める
     def forward_turn(self):
 
-        if  (not pyxel.btnp(pyxel.KEY_SHIFT) and ( pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_S)  or pyxel.btnp(pyxel.KEY_E))):
-            # self.__floor_manager.clean_floor()
-            # self.__clean_floor()
+        self.__alive_check()
+
+        if  (not pyxel.btnp(pyxel.KEY_SHIFT) and
+            (pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W)
+             or pyxel.btnp(pyxel.KEY_S)  or pyxel.btnp(pyxel.KEY_E))):
+
             self.player_turn()
             self.enemys_turn()
-            self.__alive_check()
 
         if (self.__floor_manager.is_player_on_steps(self.__player_manager.character) == True):
             print('next')
@@ -145,16 +147,17 @@ class Dungeon:
         for i, enemy_manager in enumerate(self.__enemy_manager_list):
             # enemyが死んだら、マネージャーはお役御免
             if (enemy_manager.character.alive == False):
+                self.__floor_manager.clean_enemy_layer(i)
                 del self.__enemy_manager_list[i]
                 return
 
     def __clean_floor(self):
-        if (self.__player_manager.character.action == 'move'):
-            self.__floor_manager.clean_player_layer()
+        # if (self.__player_manager.character.action == 'move'):
+        #     self.__floor_manager.clean_player_layer()
 
         for i, enemy_manager in enumerate(self.__enemy_manager_list):
-            if (enemy_manager.character.action == 'move'):
-                self.__floor_manager.clean_enemy_layer()
+            # if (enemy_manager.character.action == 'move'):
+            self.__floor_manager.clean_enemy_layer(i)
 
     # 入力されたキーをチェックする
     # 現在は方向キーだけ実装済み
@@ -174,8 +177,8 @@ class Dungeon:
 
                 if (exp == -1):
                     display.show_fool_battle_message(self.__player_manager.character.name)
-                elif (is_level_up):
-                    display.show_level_up(self.__player_manager.character.name)
+                # elif (is_level_up):
+                #     display.show_level_up(self.__player_manager.character.name, )
 
                 # else :
                 #     self.__player_manager.character.exp += exp

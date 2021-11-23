@@ -27,7 +27,8 @@ class Character(Obj):
 
         self.__alive: bool = True
 
-        self.__loop_index = 0 # 0~2の範囲で描画(create)されるたびに値が変わるindex. loop_animationで使用。
+        self.__loop_cnt = 0 # 0~2の範囲で描画(create)されるたびに値が変わるindex. loop_animationで使用。
+        self.__img_index = 1
 
     @property
     def tmp_position(self):
@@ -191,11 +192,11 @@ class Character(Obj):
 
     @loop_index.getter
     def loop_index(self):
-        return self.__loop_index
+        return self.__loop_cnt
 
     @loop_index.setter
     def loop_index(self, loop_index):
-        self.__loop_index = loop_index
+        self.__loop_cnt = loop_index
 
     # TODO: create()内で呼べれている攻撃エフェクトの描画を、objectクラスを継承したattack_effect()を作成するべきだ
     def create(self, x, y, u, v, size):
@@ -207,18 +208,18 @@ class Character(Obj):
 
         if (size == 5):
             # pyxel.rect(x*w, y*h, w, h, Color.CLOUDBLUE)    # 仮の色を渡しておく
-            pyxel.blt(x*w, y*h, img=1, u=0, v=0, w=5, h=5)    # 5*5
+            pyxel.blt(x*w, y*h, img=1, u=0, v=0, w=5, h=5, colkey=0)    # 5*5
         # elif (Size.MASS_HEIGHT == 10):
         #     pyxel.blt(x*w, y*h, img=1, u=8, v=0, w=10, h=10, colkey=0)    # 10*10
         elif (size == 16):
             if (self.__direction == 'right'):
-                pyxel.blt(x*w, y*h, img=self.loop_index, u=u+16, v=v, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, img=self.__img_index, u=u+16, v=v, w=16, h=16, colkey=0)
             elif (self.__direction == 'left'):
-                pyxel.blt(x*w, y*h, img=self.loop_index, u=u-16, v=v, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, img=self.__img_index, u=u-16, v=v, w=16, h=16, colkey=0)
             elif (self.__direction == 'up'):
-                pyxel.blt(x*w, y*h, img=self.loop_index, u=u, v=v-16, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, img=self.__img_index, u=u, v=v-16, w=16, h=16, colkey=0)
             elif (self.__direction == 'down'):
-                pyxel.blt(x*w, y*h, img=self.loop_index, u=u, v=v, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, img=self.__img_index, u=u, v=v, w=16, h=16, colkey=0)
 
             # if (self.__action == 'attack'):
             #     if (self.__direction == 'right'):
@@ -290,11 +291,13 @@ class Character(Obj):
         return self.exp
 
     def __loop_animation(self):
-        if (self.__loop_index < 2):
-            self.__loop_index += 1
-        else:
-            self.__loop_index = 1
-    #     del self
+        if (self.__loop_cnt < 10):
+            if (self.__loop_cnt < 5):
+                self.__img_index = 1
+            else :
+                self.__img_index = 2
 
-    # def __del__(self):
-    #     print('destractor')
+            self.__loop_cnt += 1
+
+        else :
+            self.__loop_cnt = 0

@@ -1,3 +1,4 @@
+from dungeon.display import Display
 from exp_machine import Exp_machine
 from manager.character_manager import Character_manager
 import pyxel
@@ -41,6 +42,15 @@ class Player_manager(Character_manager):
         super().character.attack += plus_status[3]
         super().character.defense += plus_status[4]
         super().character.exp += exp
+
+        if (plus_status[0] == 1):
+            display = Display.get_instance()
+            display.show_level_up(super().character.name,
+                                    super().character.level,
+                                    plus_status[1],
+                                    plus_status[2],
+                                    plus_status[3],
+                                    plus_status[4])
 
         # レベルが上がった時: 1, それ以外: 0
         return plus_status[0]

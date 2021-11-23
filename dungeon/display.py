@@ -18,7 +18,7 @@ class Display():
         else :
             # pygame初期化処理
             pygame.display.set_caption('Dungeon Log')        # タイトルバーに表示する文字
-            self.__screen = pygame.display.set_mode((400, 200)) # 大きさ400*300の画面を生成
+            self.__screen = pygame.display.set_mode((400, 1000)) # 大きさ400*300の画面を生成
             self.__screen.fill((0,0,0))                         # 画面を黒色(#000000)に塗りつぶし]
             self.__font_size = 20
             self.__font = pygame.font.SysFont('yugothicyugothicuilight', self.__font_size)
@@ -80,9 +80,15 @@ class Display():
         self.set_screen_log([str(defenser_name)+'は倒れた！',
                             str(attacker_name)+'は'+str(exp)+'の経験値を手に入れた！'])
 
-    def show_level_up(self, name):
+    def show_level_up(self, name, new_level, max_hp, max_mp, attack, defense):
         self.set_screen_log([str(name)+'のレベルが上がった！',
-                            'やったね！！！'])
+                            'やったね！！！',
+                            'level: '+str(new_level),
+                            'max_hp: +'+str(max_hp),
+                            'max_mp: +'+str(max_mp),
+                            'attack: +'+str(attack),
+                            'defense: +'+str(defense),
+                            ])
     # def test(self):
     #     text = self.__font.render('警告', True, (255,0,0))
     #     self.__screen.blit(text, (0,0))

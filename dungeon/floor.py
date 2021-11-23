@@ -19,7 +19,7 @@ class Floor:
         # for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
         #     for j in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
         #         self.__rooms[i][j] = Room('none')
-        self.__room_numbers: int = random.randint(5, 10)
+        self.__room_numbers: int = random.randint(10, 20)
         # self.__rooms: list[Room] = self.__generate_rooms(self.__room_numbers)
 
         # self.__player_start_room_address = self.__select_start_room_address(self.__rooms)
