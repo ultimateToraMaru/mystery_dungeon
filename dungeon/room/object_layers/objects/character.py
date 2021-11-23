@@ -258,16 +258,6 @@ class Character(Obj):
             elif (direction == 'down'):
                 self.position[1] = self.position[1]+1
 
-    # def attack(self):
-    #     return self.attack
-    #     if (direction == 'right'):
-
-    #     elif (direction == 'left'):
-
-    #     elif (direction == 'up'):
-
-    #     elif (direction == 'down'):
-
     def damage(self, damage_point, attacker_name):
         actual_damage_point = damage_point-(self.defense*0.1)
         self.__hp = math.ceil(self.__hp - actual_damage_point)

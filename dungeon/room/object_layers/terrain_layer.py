@@ -40,14 +40,14 @@ class Terrain_layer():
     def generate(self, data, MAXMASS):
 
         # 部屋の端っこ。始まりポイントと終わりポイント
-        start_point = 2
+        start_point = 1
         margin = MAXMASS - (MAXMASS/2)
-        end_point = MAXMASS-1
+        end_point = MAXMASS - 1
 
         # 四角形の4点をランダムで決める
-        r_start_x = random.randint(start_point, start_point+1)
+        r_start_x = random.randint(start_point, start_point+3)
         r_end_x = random.randint(r_start_x+margin, end_point)
-        r_start_y = random.randint(start_point, start_point+1)
+        r_start_y = random.randint(start_point, start_point+3)
         r_end_y = random.randint(r_start_y+margin, end_point)
 
         # Y軸の端っこに床を配置していく

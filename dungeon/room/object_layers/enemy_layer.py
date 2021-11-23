@@ -25,13 +25,13 @@ class Enemy_layer():
     def data(self):
         return self.__data
 
-    @property
-    def player(self):
-        pass
+    # @property
+    # def player(self):
+    #     pass
 
-    @player.setter
-    def player(self, player):
-        self.__player = player
+    # @player.setter
+    # def player(self, player):
+    #     self.__player = player
 
 
     def draw(self, p_x, p_y):
@@ -58,7 +58,6 @@ class Enemy_layer():
 
     def set_damage(self, p_x, p_y, damage_point, attacker_name):
         if (type(self.__data[p_x][p_y]) == Enemy):
-            print('hit!')
             return self.__data[p_x][p_y].damage(damage_point, attacker_name)
         else :
             return -1
