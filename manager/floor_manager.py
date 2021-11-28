@@ -230,7 +230,7 @@ class Floor_manager():
 
                 elif (r_x == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
                     if (r_y == 0) :
-                        rooms[r_x][r_y] = Room(is_room=False, path_way_type='top_riht_corner', room_address=[r_x, r_y])
+                        rooms[r_x][r_y] = Room(is_room=False, path_way_type='top_right_corner', room_address=[r_x, r_y])
                     elif (r_y == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
                         rooms[r_x][r_y] = Room(is_room=False, path_way_type='bottom_right_corner', room_address=[r_x, r_y])
 
@@ -261,7 +261,7 @@ class Floor_manager():
 
             elif (r_x == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
                 if (r_y == 0) :
-                    rooms[r_x][r_y] = Room(is_room=True, path_way_type='top_riht_corner', room_address=[r_x, r_y])
+                    rooms[r_x][r_y] = Room(is_room=True, path_way_type='top_right_corner', room_address=[r_x, r_y])
                 elif (r_y == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
                     rooms[r_x][r_y] = Room(is_room=True, path_way_type='bottom_right_corner', room_address=[r_x, r_y])
 
