@@ -239,7 +239,7 @@ class Floor_manager():
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
 
-            rooms[r_x][r_y] = Room(is_room=True, path_way_type='normal', room_address=[r_x, r_y])
+            rooms[r_x][r_y].layers.terrain_layer.generate_room()
             # フロアの端の部屋は行き止まりになる通路がない部屋を生成する
             if (r_y == 0) :
                 rooms[r_x][r_y] = Room(is_room=True, path_way_type='top_end', room_address=[r_x, r_y])

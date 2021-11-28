@@ -130,7 +130,7 @@ class Camera():
                 y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
 
                 # 全マップ表示
-                self.__map_indexes.append([i, j, x, y])
+                # self.__map_indexes.append([i, j, x, y])
 
                 # playerがいるお部屋をマップに追加する
                 if (self.__target.room_address == [i, j]):
