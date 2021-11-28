@@ -1,4 +1,5 @@
 from dungeon.room.object_layers.effect_layer import Effect_layer
+from dungeon.room.object_layers.empty_layer import Empty_layer
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.enemy_layer import Enemy_layer
 from dungeon.room.object_layers.objects.steps import Steps
@@ -12,19 +13,13 @@ from dungeon.room.object_layers.terrain_layer import Terrain_layer
 
 # roomが持つオブジェクト(Terrain, Item, Player ...)を集約して持つクラス
 class Layers:
-    def __init__(self, type):
-        self.__terrain_layer = Terrain_layer(type)
+    def __init__(self, is_room, path_way_type):
+        self.__terrain_layer = Terrain_layer(is_room, path_way_type)
         self.__player_layer = Player_layer()
-        self.__steps_layer = Steps_layer()
-        # self.__enemy_layer = Enemy_layer()
+        self.__steps_layer = Empty_layer()
         self.__enemy_layers: list[Enemy_layer] = []
-        self.__effect_layer = Effect_layer()
-
-
-    # def create_enemy_layers(self, enemy_nums_in_floor):
-    #     for i in range(enemy_nums_in_floor):
-    #         self.__enemy_layers = Enemy_layer()
-    #         # print(i)
+        self.__effect_layer = Empty_layer()
+        self.__item_layer = Empty_layer()
 
     @property
     def terrain_layer(self):
@@ -87,3 +82,15 @@ class Layers:
     @effect_layer.setter
     def effect_layer(self, effect_layer):
         self.__effect_layer = effect_layer
+
+    @property
+    def item_layer(self):
+        pass
+
+    @item_layer.getter
+    def item_layer(self):
+        return self.__item_layer
+
+    @item_layer.setter
+    def item_layer(self, item_layer):
+        self.__item_layer = item_layer

@@ -4,6 +4,7 @@ from dungeon.room.object_layers.objects.attack_effect import Attack_effect
 from dungeon.room.object_layers.enemy_layer import Enemy_layer
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.room.object_layers.objects.enemy import Enemy
+from dungeon.room.object_layers.objects.orange import Orange
 from dungeon.room.object_layers.objects.steps import Steps
 from dungeon.room.object_layers.objects.player import Player
 from dungeon.room.object_layers.objects.tile import Tile
@@ -15,9 +16,9 @@ from dungeon.room.object_layers.layers import Layers
 
 
 class Room:
-    def __init__(self, _type, room_address):
-        self.__type = _type
-        self.__layers = Layers(_type)
+    def __init__(self, is_room, path_way_type, room_address):
+        self.__is_room = is_room
+        self.__layers = Layers(is_room, path_way_type)
         self.__room_address = room_address
 
     @property
@@ -33,16 +34,16 @@ class Room:
         self.__layers = layers
 
     @property
-    def _type(self):
+    def is_room(self):
         pass
 
-    @_type.getter
-    def _type(self):
-        return self.__type
+    @is_room.getter
+    def is_room(self):
+        return self.__is_room
 
-    @_type.setter
-    def _type(self, _type):
-        self.__type = _type
+    @is_room.setter
+    def is_room(self, is_room):
+        self.__is_room = is_room
 
     @property
     def room_address(self):
@@ -108,15 +109,16 @@ class Room:
         attack_effect = Attack_effect(room_address=self.__room_address, position=[p_x, p_y], isMove=False)
         return attack_effect
 
-    # # ??? プレイヤーが階段に到着したか確認する
-    # def steps_check(self):
-    #     for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-    #         for j in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-    #             if (type(self.__layers.player_layer.data[i][j]) == Player and
-    #                 type(self.__layers.steps_layer.data[i][j]) == Steps):
-    #                 return True
+    def generate_items(self):
+        p_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
+        p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
 
-    #     return False
+        # orange: Orange
+        if (self.is_noneobj(p_x, p_y)):
+            orange = Orange(Color.BLACK)
+            self.__layers.item_layer.data[p_x][p_y] = orange
+
+        # return orange
 
     # 与えられた座標(x, y)の場所に、障害となるオブジェクト(敵、壁、プレイヤー)がないか判定する(ない: true, ある: false)
     # バグは個々のメソッドが原因そう
@@ -132,3 +134,6 @@ class Room:
             return True
 
         return False
+
+    def check_item_and_get(self, x, y):
+        return self.layers.item_layer.data[x][y]

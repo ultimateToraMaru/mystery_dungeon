@@ -9,6 +9,7 @@ import pyxel
 class Player(Character):
     def __init__(self, color, room_address, position):
         super().__init__(color, room_address, position)
+        # self.__pocket =
 
     def create(self, x, y, size):
         super().create(x, y, u=16, v=32, size=size)

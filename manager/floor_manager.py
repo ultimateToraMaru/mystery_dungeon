@@ -1,5 +1,6 @@
 from dungeon.display import Display
 from dungeon.room.object_layers.enemy_layer import Enemy_layer
+from dungeon.room.object_layers.objects.orange import Orange
 from dungeon.room.object_layers.objects.steps import Steps
 from dungeon.room.object_layers.objects.enemy import Enemy
 from dungeon.room.object_layers.objects.none_obj import None_obj
@@ -15,6 +16,7 @@ class Floor_manager():
         self.__player_start_room_address = self.__select_start_room_address(self.__floor.rooms)
 
         self.__steps = self.__spawn_steps()
+        self.__spawn_items()
 
     @property
     def floor(self):
@@ -27,6 +29,7 @@ class Floor_manager():
     @floor.setter
     def floor(self, floor):
         self.__floor = floor
+
 
     # キャラクターが行こうとしているところが、移動できるところかどうか(部屋の隅、敵じゃないか？)
     def is_can_move_character(self, character, direction):
@@ -201,47 +204,66 @@ class Floor_manager():
             return player_room
 
     def __generate_rooms(self, room_numbers):
-        rooms = [[Room(_type='none', room_address=[-1, -1])] * Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
+        rooms = [[Room(is_room=False, path_way_type='normal', room_address=[-1, -1])] * Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE for i in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE)]
         for r_x in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
             for r_y in range(Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE):
-                rooms[r_x][r_y] = Room(_type='none', room_address=[r_x, r_y])
+                rooms[r_x][r_y] = Room(is_room=False, path_way_type='normal', room_address=[r_x, r_y])
 
                 # フロアの端の部屋は行き止まりになる通路がない部屋を生成する
-                # if (j == 0) :
-                #     rooms[i][j] = Room('top_end', False)
-                #     print('top')
+                if (r_y == 0) :
+                    rooms[r_x][r_y] = Room(is_room=False, path_way_type='top_end', room_address=[r_x, r_y])
 
-                # elif (j == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
-                #     rooms[i][j] = Room('bottom_end', False)
+                elif (r_y == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
+                    rooms[r_x][r_y] = Room(is_room=False, path_way_type='bottom_end', room_address=[r_x, r_y])
 
-                # if (i == 0) :
-                #     rooms[i][j] = Room('top_end', False)
-                    # if (j == 0) :
-                    #     rooms[i][j] = Room('top_left_corner', False)
-                    # elif (j == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
-                    #     rooms[i][j] = Room('bottom_left_corner', False)
-                    # else :
-                    #     rooms[i][j] = Room('left_end', False)
+                elif (r_x == 0) :
+                    rooms[r_x][r_y] = Room(is_room=False, path_way_type='left_end', room_address=[r_x, r_y])
 
-                ################ xが4の部屋に横から移動しようとしたときに落ちる
+                elif (r_x == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
+                    rooms[r_x][r_y] = Room(is_room=False, path_way_type='right_end', room_address=[r_x, r_y])
 
-                # elif (i == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
-                #     rooms[i][j] = Room('bottom_end', False)
-                #     if (j == 0) :
-                #         rooms[i][j] = Room('top_right_corner', False)
-                #     elif (j == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
-                #         rooms[i][j] = Room('bottom_right_corner', False)
-                #     else :
-                #         rooms[i][j] = Room('right_end', False)
-                # else :
-                #     rooms[i][j] = Room('none', False)
+                if (r_x == 0) :
+                    if (r_y == 0) :
+                        rooms[r_x][r_y] = Room(is_room=False, path_way_type='top_left_corner', room_address=[r_x, r_y])
+                    elif (r_y == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
+                        rooms[r_x][r_y] = Room(is_room=False, path_way_type='bottom_left_corner', room_address=[r_x, r_y])
+
+                elif (r_x == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
+                    if (r_y == 0) :
+                        rooms[r_x][r_y] = Room(is_room=False, path_way_type='top_riht_corner', room_address=[r_x, r_y])
+                    elif (r_y == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
+                        rooms[r_x][r_y] = Room(is_room=False, path_way_type='bottom_right_corner', room_address=[r_x, r_y])
 
         # 部屋をランダムな場所に生成
         for not_use_index in range(room_numbers):
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
 
-            rooms[r_x][r_y] = Room('normal', [r_x, r_y])
+            rooms[r_x][r_y] = Room(is_room=True, path_way_type='normal', room_address=[r_x, r_y])
+            # フロアの端の部屋は行き止まりになる通路がない部屋を生成する
+            if (r_y == 0) :
+                rooms[r_x][r_y] = Room(is_room=True, path_way_type='top_end', room_address=[r_x, r_y])
+
+            elif (r_y == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
+                rooms[r_x][r_y] = Room(is_room=True, path_way_type='bottom_end', room_address=[r_x, r_y])
+
+            elif (r_x == 0) :
+                rooms[r_x][r_y] = Room(is_room=True, path_way_type='left_end', room_address=[r_x, r_y])
+
+            elif (r_x == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
+                rooms[r_x][r_y] = Room(is_room=True, path_way_type='right_end', room_address=[r_x, r_y])
+
+            if (r_x == 0) :
+                if (r_y == 0) :
+                    rooms[r_x][r_y] = Room(is_room=True, path_way_type='top_left_corner', room_address=[r_x, r_y])
+                elif (r_y == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
+                    rooms[r_x][r_y] = Room(is_room=True, path_way_type='bottom_left_corner', room_address=[r_x, r_y])
+
+            elif (r_x == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1) :
+                if (r_y == 0) :
+                    rooms[r_x][r_y] = Room(is_room=True, path_way_type='top_riht_corner', room_address=[r_x, r_y])
+                elif (r_y == Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1):
+                    rooms[r_x][r_y] = Room(is_room=True, path_way_type='bottom_right_corner', room_address=[r_x, r_y])
 
         # print('部屋の数', room_numbers)
         return rooms
@@ -251,7 +273,7 @@ class Floor_manager():
         while (True):
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
-            if (rooms[r_x][r_y]._type == 'normal'):
+            if (rooms[r_x][r_y].is_room == True):
                 print('スタート部屋のアドレス', r_x, r_y)
                 return [r_x, r_y]
 
@@ -282,12 +304,18 @@ class Floor_manager():
         while (True):
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
-            if (self.__floor.rooms[r_x][r_y]._type == 'normal'):
+            if (self.__floor.rooms[r_x][r_y].is_room == True):
                 steps = self.__floor.rooms[r_x][r_y].generate_steps(r_x, r_y)
                 break
 
         print('階段のあるお部屋', steps.room_address)
         return steps
+
+    def __spawn_items(self):
+        for x in range(len(self.__floor.rooms)):
+            for y in range(len(self.__floor.rooms)):
+                item = self.__floor.rooms[x][y].generate_items()
+                # if (item)
 
     def set_layer_player(self, player):
         self.__floor.rooms[player.room_address[0]][player.room_address[1]].layers.player_layer.set_position(player)
@@ -361,3 +389,8 @@ class Floor_manager():
     #     for i in range(len(self.__floor.rooms)):
     #         for j in range(len(self.__floor.rooms)):
     #             self.__floor.rooms[i][j].layers.create_enemy_layers(enemy_nums_in_floor)
+
+    def get_item(self, target_room_address, target_position):
+        obj = self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.item_layer.check_item_and_get(target_position[0], target_position[1])
+
+        # if (type(obj) == Item)

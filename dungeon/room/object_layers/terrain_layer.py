@@ -1,4 +1,5 @@
 import time
+from dungeon.room.object_layers.empty_layer import Empty_layer
 from dungeon.room.object_layers.objects.none_obj import None_obj
 import math
 from dungeon.const.size import Size
@@ -8,33 +9,19 @@ from dungeon.room.object_layers.objects.wall import Wall
 from dungeon.const.color import Color
 
 # 地形を表すクラス。地形データ__dataにWallやTile, Rockが入る
-class Terrain_layer():
-    def __init__(self, type):
+class Terrain_layer(Empty_layer):
+    def __init__(self, is_room, path_way_type):
+        super().__init__()
         # 地形データ(木や壁)や落ちてるアイテム(アイテムは取得したら床オブジェクトを設置)を表す変数
         # そうすればterrain_dataとterrainを分ける必要はない！
-        if (type == 'normal' ):
-        # or type == 'top_end' or type == 'bottom_end' or
-        #     type == 'top_left_corner' or type == 'bottom_left_corner' or type == 'left_end' or
-        #     type == 'top_right_corner' or type == 'bottom_right_corner' or type == 'right_end'):
+        self.data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
 
-            self.__data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
-            self.__data = self.generate(self.__data, Size.MAX_MASS_IN_ROOM_ONE_SIDE)
-            self.__data = self.setExportPoints(self.__data, Size.MAX_MASS_IN_ROOM_ONE_SIDE, type)
+        self.data = self.setExportPoints(self.data, Size.MAX_MASS_IN_ROOM_ONE_SIDE, path_way_type)
+        if (is_room == True):
+            self.data = self.generate(self.data, Size.MAX_MASS_IN_ROOM_ONE_SIDE)
 
-        elif(type == 'none'):
-            self.__data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
-            self.__data = self.generate_none_room(self.__data)
-
-
-
-    @property
-    def data(self):
-        pass
-
-    @data.getter
-    def data(self):
-        return self.__data
-
+        # elif (is_room == False):
+            # self.data = self.generate_none_room(self.data)
 
     # 地形をランダムで形成する関数
     def generate(self, data, MAXMASS):
@@ -67,7 +54,7 @@ class Terrain_layer():
     # 格子状に道を作って道の生成を簡易的にしよう
     # 階の周りを大きく壁で加工必要がある。ん？でも床ではないから歩けないか。。。囲わなくても大丈夫そう。
     def generate_none_room(self, data):
-        data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
+        # data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
 
         for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             data[i][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Tile()
@@ -75,59 +62,59 @@ class Terrain_layer():
 
         return data
 
-    # 地形をキャンバスに描画する関数
-    def draw(self, p_x, p_y, size):
-        for r_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            for r_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-                self.__data[r_x][r_y].create(r_x+p_x, r_y+p_y, size)
+    # # 地形をキャンバスに描画する関数
+    # def draw(self, p_x, p_y, size):
+    #     for r_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+    #         for r_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
+    #             super().data[r_x][r_y].create(r_x+p_x, r_y+p_y, size)
 
     # 入り口出口は部屋が持つべきだよね。ってことで、地形データ(terrain_layer)に持ってきたのだ
     # 部屋間の道はその道が通る部屋が持つべきだよね。
-    def setExportPoints(self, data, MAXMASS, type):
+    def setExportPoints(self, data, MAXMASS, path_way_type):
 
         for i in range(random.randint(1, 4)):
             # 出口ポイントをランダムで決めて、道をつくる
             center = math.floor(MAXMASS/2)
             # directions_r = random.randint(0, 3)
             for i in range(center):
-                if (type == 'normal'):
+                if (path_way_type == 'normal'):
                     data[0+i][center] = Tile()      # 左方
                     data[center+i][center] = Tile() # 右方
                     data[center][0+i] = Tile()      # 上方
                     data[center][center+i] = Tile() # 下方
 
-                elif(type == 'top_end'):
+                elif(path_way_type == 'top_end'):
                     data[0+i][center] = Tile()      # 左方
                     data[center+i][center] = Tile() # 右方
                     data[center][center+i] = Tile() # 下方
 
-                elif(type == 'bottom_end'):
+                elif(path_way_type == 'bottom_end'):
                     data[0+i][center] = Tile()      # 左方
                     data[center+i][center] = Tile() # 右方
                     data[center][0+i] = Tile()      # 上方
 
-                elif(type == 'top_left_corner'):
+                elif(path_way_type == 'top_left_corner'):
                     data[center+i][center] = Tile() # 右方
                     data[center][center+i] = Tile() # 下方
 
-                elif(type == 'bottom_left_corner'):
+                elif(path_way_type == 'bottom_left_corner'):
                     data[center+i][center] = Tile() # 右方
                     data[center][0+i] = Tile()      # 上方
 
-                elif(type == 'left_end'):
+                elif(path_way_type == 'left_end'):
                     data[center+i][center] = Tile() # 右方
                     data[center][0+i] = Tile()      # 上方
                     data[center][center+i] = Tile() # 下方
 
-                elif(type == 'top_right_corner'):
+                elif(path_way_type == 'top_right_corner'):
                     data[0+i][center] = Tile()      # 左方
                     data[center][center+i] = Tile() # 下方
 
-                elif(type == 'bottom_right_corner'):
+                elif(path_way_type == 'bottom_right_corner'):
                     data[0+i][center] = Tile()      # 左方
                     data[center][0+i] = Tile()      # 上方
 
-                elif(type == 'right_end'):
+                elif(path_way_type == 'right_end'):
                     data[0+i][center] = Tile()      # 左方
                     data[center][0+i] = Tile()      # 上方
                     data[center][center+i] = Tile() # 下方
@@ -142,5 +129,5 @@ class Terrain_layer():
     # def path_finding():
     #     pass
 
-    def set_point(self):
-        self.__data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Wall(Color.GREEN)
+    # def set_point(self):
+    #     super().data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Wall(Color.GREEN)

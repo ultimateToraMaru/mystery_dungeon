@@ -18,7 +18,7 @@ class Display():
         else :
             # pygame初期化処理
             pygame.display.set_caption('Dungeon Log')        # タイトルバーに表示する文字
-            self.__screen = pygame.display.set_mode((400, 1000)) # 大きさ400*300の画面を生成
+            self.__screen = pygame.display.set_mode((400, 300)) # 大きさ400*300の画面を生成
             self.__screen.fill((0,0,0))                         # 画面を黒色(#000000)に塗りつぶし]
             self.__font_size = 20
             self.__font = pygame.font.SysFont('yugothicyugothicuilight', self.__font_size)

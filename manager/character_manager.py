@@ -87,3 +87,5 @@ class Character_manager():
 
     def checkAlive(self):
         return self.__character.alive
+
+    # def ＿＿＿get_orange

@@ -95,7 +95,7 @@ class Camera():
                     self.__target[j][k].layers.player_layer.draw(x, y, size=Size.MASS_HEIGHT)
                     self.__target[j][k].layers.steps_layer.draw(x, y, size=Size.MASS_HEIGHT)
                     self.__target[j][k].layers.effect_layer.draw(x, y)
-                    # time.sleep(1)
+
                     for j in range(len(self.__target[j][k].layers.enemy_layers)):
                         self.__target[j][k].layers.enemy_layers[j].draw(x, y)
 
@@ -103,12 +103,13 @@ class Camera():
 
             self.__target.layers.terrain_layer.draw(x, y, size=Size.MASS_HEIGHT)
             self.__target.layers.steps_layer.draw(x, y, size=Size.MASS_HEIGHT)
+            self.__target.layers.item_layer.draw(x, y, size=Size.MASS_HEIGHT)
             self.__target.layers.player_layer.draw(x, y, size=Size.MASS_HEIGHT)
-            self.__target.layers.effect_layer.draw(x, y)
 
             for i in range(len(self.__target.layers.enemy_layers)):
                 self.__target.layers.enemy_layers[i].draw(x, y)
 
+            self.__target.layers.effect_layer.draw(x, y)
 
     # 全体マップ
     def __show_map(self):
@@ -127,6 +128,9 @@ class Camera():
             for j in range(len(self.__floor_rooms_data)):
                 x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
                 y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
+
+                # 全マップ表示
+                self.__map_indexes.append([i, j, x, y])
 
                 # playerがいるお部屋をマップに追加する
                 if (self.__target.room_address == [i, j]):
