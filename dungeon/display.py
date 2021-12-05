@@ -1,6 +1,7 @@
 import pygame
 
 # pygameウィンドウにログを表示するシングルトンクラス
+# get_instanceメソッドでインスタンスを取得
 class Display():
     __instance = None
 
@@ -11,15 +12,17 @@ class Display():
 
         return Display.__instance
 
+    # 直接インスタンスを生成しようとするとエラー
     def __init__(self):
         if Display.__instance != None:
             raise Exception('Display class is Singleton ! You should use Display.get_instance() method ! by 2021/10/31 HappyHaloweeen!')
 
         else :
             # pygame初期化処理
-            pygame.display.set_caption('Dungeon Log')        # タイトルバーに表示する文字
-            self.__screen = pygame.display.set_mode((400, 300)) # 大きさ400*300の画面を生成
-            self.__screen.fill((0,0,0))                         # 画面を黒色(#000000)に塗りつぶし]
+            pygame.display.set_caption('Dungeon Log')
+            self.__screen = pygame.display.set_mode((400, 300)) # ウィンドウの大きさ
+            self.__screen.fill((0,0,0))                         # 背景色
+
             self.__font_size = 20
             self.__font = pygame.font.SysFont('yugothicyugothicuilight', self.__font_size)
             self.__log = []
@@ -28,27 +31,6 @@ class Display():
 
 
     def show_status(self, name, level, hp, max_hp, mp, max_mp, attack, difense, exp):
-        # print('**********')
-        # print('Name:', name)
-        # print('Level:', level)
-        # print('HP:', hp, '/', max_hp)
-        # print('MP:', mp, '/', max_mp)
-        # print('Attack:', attack)
-        # print('Difense', difense)
-        # print('Exp', exp)
-        # print('**********')
-
-        # text = self.__font.render('***********', True, (255,0,0))
-        # self.__screen.blit(text, (0,0))
-
-        # self.__log.append(['**********',
-        #                     'Level: '+str(level),
-        #                     'HP: '+str(hp)+'/'+str(max_hp),
-        #                     'MP: '+str(mp)+'/'+str(max_mp),
-        #                     'Attack: '+str(attack),
-        #                     'Difense: '+str(difense),
-        #                     '**********'])
-        # self.__log.append(['testtest', 'testtesttest'])
         self.set_screen_log(['**********',
                             'Name: '+str(name),
                             'Level: '+str(level),
