@@ -6,6 +6,7 @@ from dungeon.display import Display
 from dungeon.camera import Camera
 from dungeon.floor import Floor
 import pyxel
+import pygame
 
 
 class Dungeon:
@@ -121,12 +122,16 @@ class Dungeon:
         self.__alive_check()
 
         # いずれかのボタンが押されたらターンを進める
-        if  (not pyxel.btnp(pyxel.KEY_SHIFT) and
-            (pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W)
-             or pyxel.btnp(pyxel.KEY_S)  or pyxel.btnp(pyxel.KEY_E))):
+        if  ((pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_S)
+             or pyxel.btnp(pyxel.KEY_Q) or pyxel.btnp(pyxel.KEY_E) or pyxel.btnp(pyxel.KEY_Z) or pyxel.btnp(pyxel.KEY_C)
+             or pyxel.btnp(pyxel.KEY_R))):
 
             self.player_turn()
-            self.enemys_turn()
+
+            # SHIFTキーが押されていたらエネミーのターンは来ない
+            keys=pygame.key.get_pressed()
+            if (not keys[pygame.K_LSHIFT]):
+                self.enemys_turn()
 
 
         # プレイヤーが階段の上にいるかチェックする

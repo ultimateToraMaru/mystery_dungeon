@@ -30,7 +30,19 @@ class Player_manager(Character_manager):
         elif keys[pygame.K_s]:
             super().character.direction = 'down'
 
+        elif keys[pygame.K_q]:
+            super().character.direction = 'up_left'
+
         elif keys[pygame.K_e]:
+            super().character.direction = 'up_right'
+
+        elif keys[pygame.K_z]:
+            super().character.direction = 'down_left'
+
+        elif keys[pygame.K_c]:
+            super().character.direction = 'down_right'
+
+        elif keys[pygame.K_r]:
             super().character.action = 'attack'
 
     def add_exp_machine(self, exp):

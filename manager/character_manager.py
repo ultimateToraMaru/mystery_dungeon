@@ -67,6 +67,23 @@ class Character_manager():
             else :
                 position[1] = position[1]+1
 
+        # 斜め移動
+        elif (self.__character.direction == 'up_left'):
+            position[0] = position[0]-1
+            position[1] = position[1]-1
+
+        elif (self.__character.direction == 'up_right'):
+            position[0] = position[0]+1
+            position[1] = position[1]-1
+
+        elif (self.__character.direction == 'down_left'):
+            position[0] = position[0]-1
+            position[1] = position[1]+1
+
+        elif (self.__character.direction == 'down_right'):
+            position[0] = position[0]+1
+            position[1] = position[1]+1
+
         return room_address, position
 
     def set_position(self, room_address, position):

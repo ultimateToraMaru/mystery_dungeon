@@ -221,6 +221,18 @@ class Character(Obj):
             elif (self.__direction == 'down'):
                 pyxel.blt(x*w, y*h, self.__img_index, u, v, 16, 16, 0)
 
+            elif (self.__direction == 'up_left'):
+                pyxel.blt(x*w, y*h, self.__img_index, u, v, 16, 16, 0)
+
+            elif (self.__direction == 'up_right'):
+                pyxel.blt(x*w, y*h, self.__img_index, u, v, 16, 16, 0)
+
+            elif (self.__direction == 'down_left'):
+                pyxel.blt(x*w, y*h, self.__img_index, u, v, 16, 16, 0)
+
+            elif (self.__direction == 'down_right'):
+                pyxel.blt(x*w, y*h, self.__img_index, u, v, 16, 16, 0)
+
             # if (self.__action == 'attack'):
             #     if (self.__direction == 'right'):
             #         if (self.__loop_index == 0):

@@ -105,8 +105,8 @@ class App:
         self.dungeon.forward_turn()
 
         # Qキーでゲームを終了
-        if pyxel.btnp(pyxel.KEY_Q):
-            pyxel.quit()
+        # if pyxel.btnp(pyxel.KEY_Q):
+        #     pyxel.quit()
 
     # 描画処理の更新
     def draw(self):

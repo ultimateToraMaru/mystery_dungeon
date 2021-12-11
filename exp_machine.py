@@ -36,10 +36,10 @@ class Exp_machine():
 
     def __level_up(self):
         level = 1
-        max_hp = random.randint(1, 3)
-        max_mp = random.randint(1, 3)
-        attack = random.randint(1, 3)
-        defense = random.randint(1, 3)
+        max_hp = random.randint(10, 50)
+        max_mp = random.randint(10, 50)
+        attack = random.randint(10, 50)
+        defense = random.randint(10, 50)
 
         plus_status = [level, max_hp, max_mp, attack, defense]
 
