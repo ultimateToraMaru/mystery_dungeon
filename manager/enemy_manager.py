@@ -78,6 +78,23 @@ class Enemy_manager(Character_manager):
                 super().character.direction = 'down'
             if (target_address_and_pos[1] < self_address_and_pos[1]):
                 super().character.direction = 'up'
+
+            # ななめ
+            if (target_address_and_pos[0] < self_address_and_pos[0]
+                and target_address_and_pos[1] < self_address_and_pos[1]):
+                super().character.direction = 'up_left'
+
+            if (target_address_and_pos[0] > self_address_and_pos[0]
+                and target_address_and_pos[1] < self_address_and_pos[1]):
+                super().character.direction = 'up_right'
+
+            if (target_address_and_pos[0] < self_address_and_pos[0]
+                and target_address_and_pos[1] > self_address_and_pos[1]):
+                super().character.direction = 'down_left'
+
+            if (target_address_and_pos[0] > self_address_and_pos[0]
+                and target_address_and_pos[1] > self_address_and_pos[1]):
+                super().character.direction = 'down_right'
         else :
             com = ['right', 'left', 'down', 'up']
             r = random.randint(0, 3)

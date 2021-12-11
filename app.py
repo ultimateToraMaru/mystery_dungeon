@@ -79,7 +79,6 @@ class App:
         # スペースボタンが押されたらゲーム画面に遷移
         spaceBtnPressed = False
         while (not spaceBtnPressed):
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
