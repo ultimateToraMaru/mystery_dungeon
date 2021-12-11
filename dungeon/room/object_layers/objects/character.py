@@ -208,18 +208,18 @@ class Character(Obj):
 
         if (size == 5):
             # pyxel.rect(x*w, y*h, w, h, Color.CLOUDBLUE)    # 仮の色を渡しておく
-            pyxel.blt(x*w, y*h, img=1, u=0, v=0, w=5, h=5, colkey=0)    # 5*5
+            pyxel.blt(x*w, y*h, 1, 0, 0, 5, 5, 0)    # 5*5
         # elif (Size.MASS_HEIGHT == 10):
         #     pyxel.blt(x*w, y*h, img=1, u=8, v=0, w=10, h=10, colkey=0)    # 10*10
         elif (size == 16):
             if (self.__direction == 'right'):
-                pyxel.blt(x*w, y*h, img=self.__img_index, u=u+16, v=v, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, self.__img_index, u+16, v, 16, 16, 0)
             elif (self.__direction == 'left'):
-                pyxel.blt(x*w, y*h, img=self.__img_index, u=u-16, v=v, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, self.__img_index, u-16, v, 16, 16, 0)
             elif (self.__direction == 'up'):
-                pyxel.blt(x*w, y*h, img=self.__img_index, u=u, v=v-16, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, self.__img_index, u, v-16, 16, 16, 0)
             elif (self.__direction == 'down'):
-                pyxel.blt(x*w, y*h, img=self.__img_index, u=u, v=v, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, self.__img_index, u, v, 16, 16, 0)
 
             # if (self.__action == 'attack'):
             #     if (self.__direction == 'right'):

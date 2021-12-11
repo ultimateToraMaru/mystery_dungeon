@@ -7,6 +7,14 @@ from dungeon.floor import Floor
 import pyxel
 import pygame
 from dungeon.room.room import Room
+import subprocess
+# import os
+# import sys
+
+# def resource_path(relative):
+#     if hasattr(sys, "_MEIPASS"):
+#         return os.path.join(sys._MEIPASS, relative)
+#     return os.path.join(relative)
 
 
 class App:
@@ -49,12 +57,12 @@ class App:
         # title = font_sub_title.render("It's a Small trip!", True, (0,50,60))
         # screen.blit(title, (30,170))
 
-        title = pygame.image.load("imgs/title8.png").convert()
+        title = pygame.image.load("assets/title8.png").convert()
         scale = 1
         title = pygame.transform.scale(title, (1000*scale, 700*scale)) #200 * 130に画像を縮小
         screen.blit(title, (-200, 0))
 
-        img1 = pygame.image.load("imgs/img1.jpg").convert()
+        img1 = pygame.image.load("assets/img1.jpg").convert()
         img1 = pygame.transform.scale(img1, (350, 200)) #200 * 130に画像を縮小
         screen.blit(img1, (400, 400))
 

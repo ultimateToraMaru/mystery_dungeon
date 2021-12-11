@@ -6,7 +6,6 @@ from dungeon.display import Display
 from dungeon.camera import Camera
 from dungeon.floor import Floor
 import pyxel
-import time
 
 
 class Dungeon:
@@ -15,10 +14,10 @@ class Dungeon:
         self.__id: int = _id
         self.__name = 'HOGE DUNGEON'
 
-        self.__FLOOR_NUMBERS: int = 5
+        self.__FLOOR_NUMBERS: int = 5   # 階数
         self.__floors: list[Floor] = self.generate_floors(self.__FLOOR_NUMBERS)
 
-        self.__now_floor_index: int = 0
+        self.__now_floor_number: int = 0
         self.__turn: int = 1
 
 
@@ -61,20 +60,18 @@ class Dungeon:
         # bgm再生
         pyxel.playm(0, loop=True)
 
-        self.__now_floor_index += 1
+        self.__now_floor_number += 1
 
-        self.__camera.start_eye_catching(self.__name, self.__now_floor_index)
-        # time.sleep(1)
-
-        # self.__floors[self.__now_floor_index].__spawn_player()
-        # self.__floors[self.__now_floor_index].spawn_steps()
-        # self.__floors[self.__now_floor_index].spawn_enemys()
-        # print('フロアスタートターン:', self.__turn)
+        self.__camera.start_eye_catching(self.__name, self.__now_floor_number)
 
         # manager
-        self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_index])
+        self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_number])
+
+        # ダンジョンが1階のとき
         if (self.__player_manager is None):
             self.__player_manager = Player_manager(self.__floor_manager.spawn_player())
+
+        # ダンジョンが
         else:
             player = self.__floor_manager.spawn_player()
             player.set_status(
@@ -115,16 +112,15 @@ class Dungeon:
         self.camera_show()
         self.__camera.clear_map()
 
-        # self.__floor_manager.generate_enemy_layers(len(enemys))
-        # for k in range(len(self.__floor_manager.floor.rooms)):
-        #     for j in range(len(self.__floor_manager.floor.rooms)):
-        #         print('enemylayers', k, j, '個数', len(self.__floor_manager.floor.rooms[k][j].layers.enemy_layers))
-
     # ターンを進める
     def forward_turn(self):
+        """
+        ターンを進める
+        """
 
         self.__alive_check()
 
+        # いずれかのボタンが押されたらターンを進める
         if  (not pyxel.btnp(pyxel.KEY_SHIFT) and
             (pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W)
              or pyxel.btnp(pyxel.KEY_S)  or pyxel.btnp(pyxel.KEY_E))):
@@ -132,12 +128,17 @@ class Dungeon:
             self.player_turn()
             self.enemys_turn()
 
+
+        # プレイヤーが階段の上にいるかチェックする
         if (self.__floor_manager.is_player_on_steps(self.__player_manager.character) == True):
-            print('next')
             self.start_turn()
 
 
     def __alive_check(self):
+        """
+        プレイヤーとエネミーが生きているかチェックする。
+        """
+
         # playerが死んだら、マネージャーはお役御免
         if (self.__player_manager.character.alive == False):
             del self.__player_manager
@@ -147,7 +148,11 @@ class Dungeon:
         for i, enemy_manager in enumerate(self.__enemy_manager_list):
             # enemyが死んだら、マネージャーはお役御免
             if (enemy_manager.character.alive == False):
+
+                # 対象enemyのレイヤーを掃除する
                 self.__floor_manager.clean_enemy_layer(i)
+
+                # 対象enemyのマネージャーを削除する
                 del self.__enemy_manager_list[i]
                 return
 
@@ -162,7 +167,6 @@ class Dungeon:
     # 入力されたキーをチェックする
     # 現在は方向キーだけ実装済み
     def player_turn(self):
-        # TODO: 0829 プレイヤーが動いた後に、エネミーが動くようにしたい。
 
         self.__player_manager.get_input()
         player_want_to_move_position:list = self.__player_manager.get_want_to_move_room_address_and_position()
@@ -177,12 +181,6 @@ class Dungeon:
 
                 if (exp == -1):
                     display.show_fool_battle_message(self.__player_manager.character.name)
-                # elif (is_level_up):
-                #     display.show_level_up(self.__player_manager.character.name, )
-
-                # else :
-                #     self.__player_manager.character.exp += exp
-                #     print('exp',self.__player_manager.character.exp)
 
             elif (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
                 self.__floor_manager.clean_player_layer()

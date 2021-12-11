@@ -42,13 +42,7 @@ class Display():
                             '**********'])
 
     def show_number_of_floors(self, num):
-        print(num, '階')
-
-    # def show_attack_message(self, attack_chara_name):
-    #     self.set_screen_log([str(attack_chara_name)+'の攻撃！'])
-
-    # def show_defence_message(self, target_chara_name, damage):
-    #     self.set_screen_log([str(target_chara_name)+'に'+str(damage)+'のダメージ！'])
+        self.set_screen_log([str(num)+'階'])
 
     def show_battle_message(self, attacker_name, defenser_name, damage):
         self.set_screen_log([str(attacker_name)+'の攻撃！',
@@ -71,11 +65,6 @@ class Display():
                             'attack: +'+str(attack),
                             'defense: +'+str(defense),
                             ])
-    # def test(self):
-    #     text = self.__font.render('警告', True, (255,0,0))
-    #     self.__screen.blit(text, (0,0))
-
-        # pygame.display.update()     # 画面を更新
 
     # TODO: self.__logにメッセージをセットする処理とself.__screenにログをセットする処理は分けたほうがいいのか？取り合えず、今はまとめている
     def set_screen_log(self, message_log):
@@ -96,6 +85,8 @@ class Display():
 
             # 区切り線をセットする
             text_line = self.__font.render('--------------------------', True, (255,255,255))
+
+            # 行単位でログを表示する
             self.__screen.blit(text_line, (0,self.__font_size*row_index))
 
             row_index+=1
