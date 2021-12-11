@@ -11,9 +11,9 @@ class Item(Obj):
         h = size
 
         if (size == 5):
-            pyxel.blt(x*w, y*h, img=0, u=u, v=v, w=5, h=5, colkey=0)    # 5*5
+            pyxel.blt(x*w, y*h, 0, u, v, 5, 5, 0)    # 5*5
         elif (size == 16):
-            pyxel.blt(x*w, y*h, img=0, u=u, v=v, w=16, h=16, colkey=0)  # 16*16
+            pyxel.blt(x*w, y*h, 0, u, v, 16, 16, 0)  # 16*16
 
     def use(self):
         pass

@@ -19,11 +19,11 @@ class Attack_effect(Obj):
 
         if (size == 16):
             if (self.__loop_index == 0 or self.__loop_index == 3):
-                pyxel.blt(x*w, y*h, img=0, u=16, v=32, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, 0, 16, 32, 16, 16, 0)
             elif (self.__loop_index == 1 or self.__loop_index == 4):
-                pyxel.blt(x*w, y*h, img=0, u=32, v=32, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, 0, 32, 32, 16, 16, 0)
             elif (self.__loop_index == 2 or self.__loop_index == 5):
-                pyxel.blt(x*w, y*h, img=0, u=48, v=32, w=16, h=16, colkey=0)
+                pyxel.blt(x*w, y*h, 0, 48, 32, 16, 16, 0)
 
     def __loop_animation(self):
         if (self.__is_loop):

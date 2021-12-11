@@ -12,7 +12,7 @@ class Steps(Obj):
         h = size
 
         if (size == 5):
-            pyxel.blt(x*w, y*h, img=1, u=0, v=5, w=5, h=5, colkey=0)    # 5*5
+            pyxel.blt(x*w, y*h, 1, 0, 5, 5, 5, 0)    # 5*5
 
         if (size == 16):
-            pyxel.blt(x*w, y*h, img=0, u=0, v=32, w=16, h=16, colkey=0)  # 16*16
+            pyxel.blt(x*w, y*h, 0, 0, 32, 16, 16, 0)  # 16*16

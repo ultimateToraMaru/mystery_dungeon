@@ -70,7 +70,7 @@ class Camera():
 
     def __embed_room_address(self):
         str_room_address = '('+', '.join(map(str, self.__target.room_address))+')'
-        pyxel.blt(x=0, y=Size.MASS_HEIGHT*10, img=0, u=0, v=48, w=48, h=16, colkey=0)
+        pyxel.blt(0, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
         pyxel.text(x=Size.MASS_HEIGHT/2, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2), s=str_room_address, col=Color.BLUE)
 
     def __embed_player_hp(self):
@@ -79,7 +79,7 @@ class Camera():
         player_hp = player.hp
 
         str_player_hp = '('+str(player_hp)+')'
-        pyxel.blt(x=48, y=Size.MASS_HEIGHT*10, img=0, u=0, v=48, w=48, h=16, colkey=0)
+        pyxel.blt(48, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
         pyxel.text(x=Size.MASS_HEIGHT/2+48, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2), s=str_player_hp, col=Color.BLUE)
 
     def __show_room(self):

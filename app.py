@@ -28,9 +28,9 @@ class App:
         # pyxel初期化処理
         # pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=5)   # 5*5
         # pyxel.init(200, 200, caption="mystery_dungeon", scale=2, fps=5)     # 10*10
-        pyxel.init(255, 255, caption="Mystery_Dungeon", scale=3, fps=10)     # 16*16
+        # pyxel.init(255, 255, caption="Mystery_Dungeon", scale=3, fps=10)     # 16*16
 
-        pyxel.init(255, 255, caption="Mystery_Dungeon2", scale=3, fps=10)     # 16*16
+        pyxel.init(255, 255, title="Mystery_Dungeon2", fps=15)     # 16*16
         pyxel.mouse(False)
         pyxel.load("my_resource.pyxres")
 
