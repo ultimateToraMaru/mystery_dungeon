@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.orange import Orange
 from manager.enemy_manager import Enemy_manager
 from manager.player_manager import Player_manager
 from manager.character_manager import Character_manager
@@ -175,9 +176,16 @@ class Dungeon:
 
         self.__player_manager.get_input()
         player_want_to_move_position:list = self.__player_manager.get_want_to_move_room_address_and_position()
+
+        obj = self.__floor_manager.check(self.__player_manager.character.room_address, self.__player_manager.character.position)
+        if (type(obj) == Orange):
+            self.__player_manager.pick_up(obj)
+        print('あしもと', obj)
+
         if (self.__player_manager.character.action != 'none'):
             self.__turn += 1
             print('ターン:', self.__turn)
+
 
             if (self.__player_manager.character.action == 'attack'):
                 exp = self.__floor_manager.attack_enemy(player_want_to_move_position[0], player_want_to_move_position[1], self.__player_manager.character.attack, self.__player_manager.character.name)

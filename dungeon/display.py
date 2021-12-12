@@ -31,7 +31,7 @@ class Display():
 
 
     def show_status(self, name, level, hp, max_hp, mp, max_mp, attack, difense, exp):
-        self.set_screen_log(['**********',
+        self.set_screen_log(['**********************',
                             'Name: '+str(name),
                             'Level: '+str(level),
                             'HP: '+str(hp)+'/'+str(max_hp),
@@ -39,7 +39,7 @@ class Display():
                             'Attack: '+str(attack),
                             'Difense: '+str(difense),
                             'Exp: '+str(exp),
-                            '**********'])
+                            '**********************'])
 
     def show_number_of_floors(self, num):
         self.set_screen_log([str(num)+'階'])
@@ -84,7 +84,7 @@ class Display():
                 row_index+=1
 
             # 区切り線をセットする
-            text_line = self.__font.render('--------------------------', True, (255,255,255))
+            text_line = self.__font.render('-----------------------------------------------', True, (255,255,255))
 
             # 行単位でログを表示する
             self.__screen.blit(text_line, (0,self.__font_size*row_index))

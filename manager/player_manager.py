@@ -1,4 +1,5 @@
 from dungeon.display import Display
+from dungeon.room.object_layers.objects.pocket import Pocket
 from exp_machine import Exp_machine
 from manager.character_manager import Character_manager
 import pyxel
@@ -9,6 +10,7 @@ class Player_manager(Character_manager):
     def __init__(self, player):
         super().__init__(player)
         self.__exp_machine = Exp_machine()
+        self.__pocket = Pocket()
 
     def get_input(self):
         keys=pygame.key.get_pressed()
@@ -66,3 +68,10 @@ class Player_manager(Character_manager):
 
         # レベルが上がった時: 1, それ以外: 0
         return plus_status[0]
+
+    def look_pocket(self):
+        item_list: list = self.__pocket.show()
+        return item_list
+
+    def pick_up(self, item):
+        self.__pocket.add_item(item)

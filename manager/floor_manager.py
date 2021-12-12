@@ -1,5 +1,6 @@
 from dungeon.display import Display
 from dungeon.room.object_layers.enemy_layer import Enemy_layer
+from dungeon.room.object_layers.objects.item import Item
 from dungeon.room.object_layers.objects.orange import Orange
 from dungeon.room.object_layers.objects.steps import Steps
 from dungeon.room.object_layers.objects.enemy import Enemy
@@ -402,7 +403,11 @@ class Floor_manager():
     #         for j in range(len(self.__floor.rooms)):
     #             self.__floor.rooms[i][j].layers.create_enemy_layers(enemy_nums_in_floor)
 
-    def get_item(self, target_room_address, target_position):
-        obj = self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.item_layer.check_item_and_get(target_position[0], target_position[1])
+    def check(self, target_room_address, target_position):
+        obj = self.__floor.rooms[target_room_address[0]][target_room_address[1]].layers.item_layer.get_obj(target_position[0], target_position[1])
 
-        # if (type(obj) == Item)
+        if (type(obj) == Orange):
+            return self.__pick_up(target_room_address, target_position, obj)
+
+    def __pick_up(self, target_room_address, target_position, item):
+        return item

@@ -135,5 +135,5 @@ class Room:
 
         return False
 
-    def check_item_and_get(self, x, y):
+    def get_obj(self, x, y):
         return self.layers.item_layer.data[x][y]

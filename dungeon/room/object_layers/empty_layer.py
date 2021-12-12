@@ -41,3 +41,6 @@ class Empty_layer(metaclass=ABCMeta):
         for p_x in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
             for p_y in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
                 self.__data[p_x][p_y] = None_obj()
+
+    def get_obj(self, x, y):
+        return self.__data[x][y]
