@@ -10,7 +10,6 @@ class Player_manager(Character_manager):
     def __init__(self, player):
         super().__init__(player)
         self.__exp_machine = Exp_machine()
-        self.__pocket = Pocket()
 
     def get_input(self):
         keys=pygame.key.get_pressed()
@@ -70,8 +69,8 @@ class Player_manager(Character_manager):
         return plus_status[0]
 
     def look_pocket(self):
-        item_list: list = self.__pocket.show()
+        item_list: list = super().character.pocket.show()
         return item_list
 
     def pick_up(self, item):
-        self.__pocket.add_item(item)
+        super().character.pocket.add_item(item)

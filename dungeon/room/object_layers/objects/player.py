@@ -14,7 +14,7 @@ class Player(Character):
     def create(self, x, y, size):
         super().create(x, y, u=16, v=32, size=size)
 
-    def set_status(self, name, level, hp, max_hp, mp, max_mp, attack, defense, exp):
+    def set_status(self, name, level, hp, max_hp, mp, max_mp, attack, defense, exp, pocket):
         self.name = name
         self.level = level
         self.hp = hp
@@ -24,5 +24,6 @@ class Player(Character):
         self.attack = attack
         self.defense = defense
         self.exp = exp
+        self.pocket = pocket
 
         # Display.show_status(self.level, self.hp, self.max_hp, self.mp, self.max_mp, self.attack, self.defense)

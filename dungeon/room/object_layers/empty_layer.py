@@ -43,4 +43,6 @@ class Empty_layer(metaclass=ABCMeta):
                 self.__data[p_x][p_y] = None_obj()
 
     def get_obj(self, x, y):
-        return self.__data[x][y]
+        obj = self.__data[x][y]
+        self.__data[x][y] = None_obj()
+        return obj

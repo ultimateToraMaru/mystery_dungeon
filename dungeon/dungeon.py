@@ -85,7 +85,8 @@ class Dungeon:
                 self.__player_manager.character.max_mp,
                 self.__player_manager.character.attack,
                 self.__player_manager.character.defense,
-                self.__player_manager.character.exp
+                self.__player_manager.character.exp,
+                self.__player_manager.character.pocket
             )
             self.__player_manager = Player_manager(player)
 
@@ -181,6 +182,7 @@ class Dungeon:
         if (type(obj) == Orange):
             self.__player_manager.pick_up(obj)
         print('あしもと', obj)
+        print('pocket', self.__player_manager.look_pocket())
 
         if (self.__player_manager.character.action != 'none'):
             self.__turn += 1

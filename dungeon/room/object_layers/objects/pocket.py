@@ -4,7 +4,7 @@ from dungeon.room.object_layers.objects.none_obj import None_obj
 class Pocket():
     def __init__(self):
         self.__size = 5
-        self.__contents = [[None_obj()] * self.__size]
+        self.__contents = []
 
     def get_item(self, index):
         """

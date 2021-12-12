@@ -1,6 +1,7 @@
 from dungeon.const.size import Size
 from dungeon.display import Display
 from dungeon.room.object_layers.objects.obj import Obj
+from dungeon.room.object_layers.objects.pocket import Pocket
 import pyxel
 import time
 import math
@@ -15,8 +16,8 @@ class Character(Obj):
         self.__action = 'none'
 
         # ステータス
-        self.__name = name
-        self.__level = level
+        self.__name: str = name
+        self.__level: int = level
         self.__hp: int = max_hp
         self.__max_hp: int = max_hp
         self.__mp: int = max_mp
@@ -26,7 +27,9 @@ class Character(Obj):
         self.__exp: int = exp
 
         self.__alive: bool = True
+        self.__pocket: Pocket = Pocket()
 
+        # アニメーション用
         self.__loop_cnt = 0 # 0~2の範囲で描画(create)されるたびに値が変わるindex. loop_animationで使用。
         self.__img_index = 1
 
@@ -185,6 +188,18 @@ class Character(Obj):
     @alive.setter
     def alive(self, alive):
         self.__alive = alive
+
+    @property
+    def pocket(self):
+        pass
+
+    @pocket.getter
+    def pocket(self):
+        return self.__pocket
+
+    @pocket.setter
+    def pocket(self, pocket):
+        self.__pocket = pocket
 
     @property
     def loop_index(self):
