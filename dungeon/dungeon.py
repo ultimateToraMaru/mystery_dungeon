@@ -1,4 +1,4 @@
-from tools.menu_window import Menu_window
+from tools.windows.menu_window import Menu_window
 from dungeon.room.object_layers.objects.orange import Orange
 from manager.enemy_manager import Enemy_manager
 from manager.player_manager import Player_manager
@@ -242,4 +242,4 @@ class Dungeon:
     def camera_show(self):
         self.__camera.target = self.__floor_manager.get_player_room_data(self.__player_manager.character)
         self.__camera.set_floor_rooms_data(self.__floor_manager.get_floor_rooms_data())
-        self.__camera.show()
+        self.__camera.stand_by()

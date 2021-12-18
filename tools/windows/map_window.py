@@ -1,5 +1,5 @@
-from tools.menu_window import Menu_window
-from tools.display_floor_index import Display_floor_index
+from tools.windows.menu_window import Menu_window
+from tools.windows.eye_catching import Eye_catching
 from dungeon.const.color import Color
 from dungeon.room.object_layers.objects.player import Player
 from dungeon.const.size import Size

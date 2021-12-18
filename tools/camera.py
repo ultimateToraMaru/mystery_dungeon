@@ -1,7 +1,7 @@
 # 描画する部分を格納する配列を持つカメラ
-from tools.menu_window import Menu_window
-from tools.map_window import Map_window
-from tools.display_floor_index import Display_floor_index
+from tools.windows.menu_window import Menu_window
+from tools.windows.map_window import Map_window
+from tools.windows.eye_catching import Eye_catching
 from dungeon.const.color import Color
 from dungeon.room.object_layers.objects.player import Player
 from dungeon.const.size import Size
@@ -24,21 +24,10 @@ class Camera():
             for j in range(self.__CAMERA_SCALE):
                 self.__target[i][j] = None_obj()
 
-        # self.__map_indexes = [[0, 0, 0, 0]]
-
-        # self.__is_show_map = False
-
+        # ウィンドウたち(キー入力で任意のウィンドウを表示する)
         self.__menu_window = Menu_window()
         self.__map_window = Map_window()
-        # self.__is_show_menu = False
-
-        # self.__pocket_contents = []
-
-        # self.__menu_cursor_index = 0
-
-        # self.__eye_catching_count = 0
-        # self.__target_floor_index = -1
-        self.__display_floor_index = Display_floor_index()
+        self.__eye_catching = Eye_catching()
 
     @property
     def target(self):
@@ -48,14 +37,6 @@ class Camera():
     def target(self, target):
         self.__target = target
 
-    # @property
-    # def floor_rooms_data(self):
-    #     pass
-
-    # @floor_rooms_data.setter
-    # def floor_rooms_data(self, floor_rooms_data):
-    #     self.__floor_rooms_data = floor_rooms_data
-
     @property
     def player_position(self):
         pass
@@ -64,22 +45,10 @@ class Camera():
     def player_position(self, player_position):
         self.__player_position = player_position
 
-    # @property
-    # def menu_list(self):
-    #     pass
-
-    # @menu_list.setter
-    # def menu_list(self, menu_list):
-    #     self.__menu_list = menu_list
-
-    # @menu_list.getter
-    # def menu_list(self):
-    #     return self.__menu_list
-
     def set_pocket_contents(self, pocket_contents):
         self.__menu_window.set_pocket_contents(pocket_contents)
 
-    def show(self):
+    def stand_by(self):
 
         # マップウィンドウが活性の時
         if (self.__map_window.is_show):
@@ -110,8 +79,8 @@ class Camera():
             # 真っ黒で上書きする
             pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
 
-        if (self.__display_floor_index.is_show_floor_index()):
-            self.__display_floor_index.show()
+        if (self.__eye_catching.is_show()):
+            self.__eye_catching.show()
 
     def __embed_room_address(self):
         """
@@ -169,7 +138,7 @@ class Camera():
         """
         アイキャッチ(hoge dungeon 00F)を開始するメソッド
         """
-        self.__display_floor_index.set_index(dungeon_name, floor_index)
+        self.__eye_catching.set_index(dungeon_name, floor_index)
     #     self.__eye_catching_count = 30
     #     self.__target_floor_index = floor_index
 
@@ -178,37 +147,3 @@ class Camera():
 
     def set_floor_rooms_data(self, floor_rooms_data):
         self.__map_window.floor_rooms_data = floor_rooms_data
-
-    # def __show_menu(self):
-    #     # 真っ黒で上書きする
-    #     pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
-
-    #     menu = ['pocket', 'status', 'settings']
-
-    #     for i, m in enumerate(menu):
-    #         str_menu = str(menu[i])
-    #         if (self.__menu_cursor_index == i):
-    #             str_menu += ' <'
-
-    #         pyxel.text(10, i*10, str_menu, Color.WHITE)
-
-    # def __check_move_cursor(self):
-    #     if (pyxel.btnp(pyxel.KEY_UP) and 0 < self.__menu_cursor_index):
-    #         self.__menu_cursor_index -= 1
-    #     elif (pyxel.btnp(pyxel.KEY_DOWN) and  < self.__menu_cursor_index):
-    #         self.__menu_cursor_index += 1
-
-    # def __show_pocket(self):
-    #     # 真っ黒で上書きする
-    #     pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
-
-    #     for item in self.__pocket_contents:
-    #         pyxel.text(str(item))
-
-    # def __play_eye_catching(self):
-    #     # 真っ黒で上書きする
-    #     pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
-    #     pyxel.text(x=Size.MASS_HEIGHT/2, y=Size.MASS_WIDTH/2, s=str(self.__target_floor_index)+'F', col=Color.WHITE)
-
-    #     self.__eye_catching_count = self.__eye_catching_count - 1
-        # print('aa',self.__eye_catching_count)

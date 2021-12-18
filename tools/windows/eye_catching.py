@@ -7,7 +7,7 @@ import time
 import pyxel
 
 
-class Display_floor_index():
+class Eye_catching():
     """
     アイキャッチ画面のクラス
     """
@@ -35,5 +35,5 @@ class Display_floor_index():
 
 
 
-    def is_show_floor_index(self):
+    def is_show(self):
         return 0 < self.__eye_catching_count
