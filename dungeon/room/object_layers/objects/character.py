@@ -1,5 +1,5 @@
 from dungeon.const.size import Size
-from dungeon.display import Display
+from tools.display import Display
 from dungeon.room.object_layers.objects.obj import Obj
 from dungeon.room.object_layers.objects.pocket import Pocket
 import pyxel

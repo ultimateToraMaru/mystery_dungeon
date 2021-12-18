@@ -1,7 +1,7 @@
 # 描画する部分を格納する配列を持つカメラ
-from display_floor_index import Display_floor_index
+from tools.menu_window import Menu_window
+from tools.display_floor_index import Display_floor_index
 from dungeon.const.color import Color
-from dungeon.menu_window import Menu_window
 from dungeon.room.object_layers.objects.player import Player
 from dungeon.const.size import Size
 from dungeon.room.room import Room
@@ -19,12 +19,12 @@ class Camera():
             for j in range(self.__CAMERA_SCALE):
                 self.__target[i][j] = None_obj()
 
-        # self.__player_position = [0, 0]
         self.__map_indexes = [[0, 0, 0, 0]]
 
         self.__is_show_map = False
 
         self.__menu_window = Menu_window()
+        # self.__map_window = Map_window()
         # self.__is_show_menu = False
 
         # self.__pocket_contents = []

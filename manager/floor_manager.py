@@ -1,4 +1,4 @@
-from dungeon.display import Display
+from tools.display import Display
 from dungeon.room.object_layers.enemy_layer import Enemy_layer
 from dungeon.room.object_layers.objects.item import Item
 from dungeon.room.object_layers.objects.orange import Orange

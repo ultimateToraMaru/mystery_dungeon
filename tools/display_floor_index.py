@@ -1,4 +1,3 @@
-# 描画する部分を格納する配列を持つカメラ
 from dungeon.const.color import Color
 from dungeon.room.object_layers.objects.player import Player
 from dungeon.const.size import Size

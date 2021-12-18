@@ -1,4 +1,4 @@
-from dungeon.display import Display
+from tools.display import Display
 from dungeon.room.object_layers.objects.character import Character
 from dungeon.room.object_layers.objects.none_obj import None_obj
 from dungeon.const.color import Color

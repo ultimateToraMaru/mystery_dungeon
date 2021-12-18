@@ -1,6 +1,6 @@
-from dungeon.display import Display
+from tools.display import Display
 from dungeon.room.object_layers.objects.pocket import Pocket
-from exp_machine import Exp_machine
+from tools.exp_machine import Exp_machine
 from manager.character_manager import Character_manager
 import pyxel
 import pygame

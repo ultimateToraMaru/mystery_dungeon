@@ -1,11 +1,11 @@
-from dungeon.menu_window import Menu_window
+from tools.menu_window import Menu_window
 from dungeon.room.object_layers.objects.orange import Orange
 from manager.enemy_manager import Enemy_manager
 from manager.player_manager import Player_manager
 from manager.character_manager import Character_manager
 from manager.floor_manager import Floor_manager
-from dungeon.display import Display
-from dungeon.camera import Camera
+from tools.display import Display
+from tools.camera import Camera
 from dungeon.floor import Floor
 import pyxel
 import pygame
