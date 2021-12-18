@@ -54,8 +54,11 @@ class Dungeon:
 
         return floors
 
-    # フロア到着時に一回だけ呼び出される
     def start_turn(self):
+        """
+        フロア到着時に一回だけ呼び出される
+        ターンの始まりに先立ち、準備を行うメソッド
+        """
         # self.__now_floor = self.get_next_floor()
 
         # 音楽一時停止
@@ -147,8 +150,6 @@ class Dungeon:
         # プレイヤーが階段の上にいるかチェックする
         if (self.__floor_manager.is_player_on_steps(self.__player_manager.character) == True):
             self.start_turn()
-
-
 
 
     def __alive_check(self):
