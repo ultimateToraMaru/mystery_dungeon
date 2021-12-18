@@ -1,3 +1,4 @@
+from dungeon.menu_window import Menu_window
 from dungeon.room.object_layers.objects.orange import Orange
 from manager.enemy_manager import Enemy_manager
 from manager.player_manager import Player_manager
@@ -31,6 +32,10 @@ class Dungeon:
         # ツール
         self.__camera = Camera()
         self.__display = Display.get_instance()
+
+        # TODO: 12/18 メニューウィンドウをカメラクラスから切り離したい
+        # いややっぱりカメラクラスでいい。クラスの名前を変えよう。
+        # self.__menu_window = Menu_window()
 
 
     @property
@@ -69,11 +74,11 @@ class Dungeon:
         # manager
         self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_number])
 
-        # ダンジョンが1階のとき
+        # 1階のとき
         if (self.__player_manager is None):
             self.__player_manager = Player_manager(self.__floor_manager.spawn_player())
 
-        # ダンジョンが
+        # 2階以上の時(前の階のプレイヤーステータスを受け継ぐ)
         else:
             player = self.__floor_manager.spawn_player()
             player.set_status(
@@ -115,6 +120,9 @@ class Dungeon:
         self.camera_show()
         self.__camera.clear_map()
 
+        # ポケットの中身をカメラに渡す
+        self.__camera.set_pocket_contents(self.__player_manager.look_pocket())
+
     # ターンを進める
     def forward_turn(self):
         """
@@ -139,6 +147,8 @@ class Dungeon:
         # プレイヤーが階段の上にいるかチェックする
         if (self.__floor_manager.is_player_on_steps(self.__player_manager.character) == True):
             self.start_turn()
+
+
 
 
     def __alive_check(self):
@@ -181,7 +191,7 @@ class Dungeon:
         obj = self.__floor_manager.check(self.__player_manager.character.room_address, self.__player_manager.character.position)
         if (type(obj) == Orange):
             self.__player_manager.pick_up(obj)
-        print('あしもと', obj)
+        # print('あしもと', obj)
         print('pocket', self.__player_manager.look_pocket())
 
         if (self.__player_manager.character.action != 'none'):

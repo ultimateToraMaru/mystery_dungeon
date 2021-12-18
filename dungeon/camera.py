@@ -1,6 +1,7 @@
 # 描画する部分を格納する配列を持つカメラ
 from display_floor_index import Display_floor_index
 from dungeon.const.color import Color
+from dungeon.menu_window import Menu_window
 from dungeon.room.object_layers.objects.player import Player
 from dungeon.const.size import Size
 from dungeon.room.room import Room
@@ -20,7 +21,15 @@ class Camera():
 
         # self.__player_position = [0, 0]
         self.__map_indexes = [[0, 0, 0, 0]]
+
         self.__is_show_map = False
+
+        self.__menu_window = Menu_window()
+        # self.__is_show_menu = False
+
+        # self.__pocket_contents = []
+
+        # self.__menu_cursor_index = 0
 
         # self.__eye_catching_count = 0
         # self.__target_floor_index = -1
@@ -50,9 +59,28 @@ class Camera():
     def player_position(self, player_position):
         self.__player_position = player_position
 
+    # @property
+    # def menu_list(self):
+    #     pass
+
+    # @menu_list.setter
+    # def menu_list(self, menu_list):
+    #     self.__menu_list = menu_list
+
+    # @menu_list.getter
+    # def menu_list(self):
+    #     return self.__menu_list
+
+    def set_pocket_contents(self, pocket_contents):
+        self.__menu_window.set_pocket_contents(pocket_contents)
+
     def show(self):
         if (self.__is_show_map):
             self.__show_map()
+
+        elif(self.__menu_window.is_show):
+            self.__menu_window.show()
+            self.__menu_window.check_move_cursor()
 
         else:
             self.__show_room()
@@ -62,6 +90,13 @@ class Camera():
 
         if (pyxel.btnp(pyxel.KEY_F)):
             self.__is_show_map = not self.__is_show_map
+
+            # 真っ黒で上書きする
+            pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
+
+        if (pyxel.btnp(pyxel.KEY_X)):
+            self.__menu_window.is_show = not self.__menu_window.is_show
+
             # 真っ黒で上書きする
             pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
 
@@ -113,6 +148,9 @@ class Camera():
 
     # 全体マップ
     def __show_map(self):
+        # # 真っ黒で上書きする
+        # pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
+
         # マップに追加された部屋を写しだす
         for index in range(len(self.__map_indexes)):
             # print(self.__map_indexes)
@@ -150,6 +188,32 @@ class Camera():
         self.__display_floor_index.set_index(dungeon_name, floor_index)
     #     self.__eye_catching_count = 30
     #     self.__target_floor_index = floor_index
+
+    # def __show_menu(self):
+    #     # 真っ黒で上書きする
+    #     pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
+
+    #     menu = ['pocket', 'status', 'settings']
+
+    #     for i, m in enumerate(menu):
+    #         str_menu = str(menu[i])
+    #         if (self.__menu_cursor_index == i):
+    #             str_menu += ' <'
+
+    #         pyxel.text(10, i*10, str_menu, Color.WHITE)
+
+    # def __check_move_cursor(self):
+    #     if (pyxel.btnp(pyxel.KEY_UP) and 0 < self.__menu_cursor_index):
+    #         self.__menu_cursor_index -= 1
+    #     elif (pyxel.btnp(pyxel.KEY_DOWN) and  < self.__menu_cursor_index):
+    #         self.__menu_cursor_index += 1
+
+    # def __show_pocket(self):
+    #     # 真っ黒で上書きする
+    #     pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
+
+    #     for item in self.__pocket_contents:
+    #         pyxel.text(str(item))
 
     # def __play_eye_catching(self):
     #     # 真っ黒で上書きする
