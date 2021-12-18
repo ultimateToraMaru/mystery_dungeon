@@ -8,7 +8,11 @@ import pyxel
 
 
 class Display_floor_index():
+    """
+    アイキャッチ画面のクラス
+    """
     def __init__(self):
+        # アイキャッチ表示時間を表すフィールド。数が大きいほど長く表示される。ただし、1 != 1s。
         self.__eye_catching_count = 0
         self.__target_floor_index = -1
         self.__dungeon_name = ''

@@ -1,5 +1,6 @@
 # 描画する部分を格納する配列を持つカメラ
 from tools.menu_window import Menu_window
+from tools.map_window import Map_window
 from tools.display_floor_index import Display_floor_index
 from dungeon.const.color import Color
 from dungeon.room.object_layers.objects.player import Player
@@ -11,20 +12,24 @@ import pyxel
 
 
 class Camera():
+    """
+    ゲーム画面を写すクラス\n
+    - メニューやマップのウィンドウの制御も担う
+    """
     def __init__(self):
         self.__CAMERA_SCALE = 5
         self.__target = [[None_obj()] * self.__CAMERA_SCALE for i in range(self.__CAMERA_SCALE)]
-        self.__floor_rooms_data = []
+        # self.__floor_rooms_data = []
         for i in range(self.__CAMERA_SCALE):
             for j in range(self.__CAMERA_SCALE):
                 self.__target[i][j] = None_obj()
 
-        self.__map_indexes = [[0, 0, 0, 0]]
+        # self.__map_indexes = [[0, 0, 0, 0]]
 
-        self.__is_show_map = False
+        # self.__is_show_map = False
 
         self.__menu_window = Menu_window()
-        # self.__map_window = Map_window()
+        self.__map_window = Map_window()
         # self.__is_show_menu = False
 
         # self.__pocket_contents = []
@@ -43,13 +48,13 @@ class Camera():
     def target(self, target):
         self.__target = target
 
-    @property
-    def floor_rooms_data(self):
-        pass
+    # @property
+    # def floor_rooms_data(self):
+    #     pass
 
-    @floor_rooms_data.setter
-    def floor_rooms_data(self, floor_rooms_data):
-        self.__floor_rooms_data = floor_rooms_data
+    # @floor_rooms_data.setter
+    # def floor_rooms_data(self, floor_rooms_data):
+    #     self.__floor_rooms_data = floor_rooms_data
 
     @property
     def player_position(self):
@@ -75,21 +80,26 @@ class Camera():
         self.__menu_window.set_pocket_contents(pocket_contents)
 
     def show(self):
-        if (self.__is_show_map):
-            self.__show_map()
 
+        # マップウィンドウが活性の時
+        if (self.__map_window.is_show):
+            self.__map_window.show()
+
+        # メニューウィンドウが活性の時
         elif(self.__menu_window.is_show):
             self.__menu_window.show()
             self.__menu_window.check_move_cursor()
 
+        # それ以外の時は通常のゲーム画面を写す
         else:
             self.__show_room()
-            self.__add_map()
+            self.__map_window.add_map(self.__target)
             self.__embed_room_address()
             self.__embed_player_hp()
 
+        # キーボード入力を受け付ける
         if (pyxel.btnp(pyxel.KEY_F)):
-            self.__is_show_map = not self.__is_show_map
+            self.__map_window.is_show = not self.__map_window.is_show
 
             # 真っ黒で上書きする
             pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
@@ -104,11 +114,17 @@ class Camera():
             self.__display_floor_index.show()
 
     def __embed_room_address(self):
+        """
+        ルームアドレスを下側に埋め込むメソッド
+        """
         str_room_address = '('+', '.join(map(str, self.__target.room_address))+')'
         pyxel.blt(0, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
         pyxel.text(x=Size.MASS_HEIGHT/2, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2), s=str_room_address, col=Color.BLUE)
 
     def __embed_player_hp(self):
+        """
+        プレイヤーのHPを下側に埋め込むメソッド
+        """
         player_position = self.__target.layers.player_layer.get_player_position()
         player = self.__target.layers.player_layer.data[player_position[0]][player_position[1]]
         player_hp = player.hp
@@ -118,6 +134,9 @@ class Camera():
         pyxel.text(x=Size.MASS_HEIGHT/2+48, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2), s=str_player_hp, col=Color.BLUE)
 
     def __show_room(self):
+        """
+        プレイヤーのいる部屋を画面上に映し出すメソッド
+        """
         x = 0
         y = 0
 
@@ -146,48 +165,19 @@ class Camera():
 
             self.__target.layers.effect_layer.draw(x, y)
 
-    # 全体マップ
-    def __show_map(self):
-        # # 真っ黒で上書きする
-        # pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
-
-        # マップに追加された部屋を写しだす
-        for index in range(len(self.__map_indexes)):
-            # print(self.__map_indexes)
-            map_index = self.__map_indexes[index]
-            self.__floor_rooms_data[map_index[0]][map_index[1]].layers.terrain_layer.draw(map_index[2], map_index[3], size=5)
-            self.__floor_rooms_data[map_index[0]][map_index[1]].layers.steps_layer.draw(map_index[2], map_index[3], size=5)
-            self.__floor_rooms_data[map_index[0]][map_index[1]].layers.player_layer.draw(map_index[2], map_index[3], size=5)
-
-
-    # 末尾の座標がすでにappendされたものかどうか判断しながらappendしていく
-    def __add_map(self):
-        for i in range(len(self.__floor_rooms_data)):
-            for j in range(len(self.__floor_rooms_data)):
-                x = i*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-                y = j*Size.MAX_MASS_IN_ROOM_ONE_SIDE
-
-                # 全マップ表示
-                # self.__map_indexes.append([i, j, x, y])
-
-                # playerがいるお部屋をマップに追加する
-                if (self.__target.room_address == [i, j]):
-                    if (self.__map_indexes[-1] != [i, j, x, y]):
-                        self.__map_indexes.append([i, j, x, y])
-
-    def clear_map(self):
-        self.__map_indexes = [[ self.__target.room_address[0],
-                                self.__target.room_address[1],
-                                self.__target.room_address[0]*Size.MAX_MASS_IN_ROOM_ONE_SIDE,
-                                self.__target.room_address[1]*Size.MAX_MASS_IN_ROOM_ONE_SIDE]]
-
-        # 真っ黒で上書きする
-        pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
-
     def start_eye_catching(self, dungeon_name, floor_index):
+        """
+        アイキャッチ(hoge dungeon 00F)を開始するメソッド
+        """
         self.__display_floor_index.set_index(dungeon_name, floor_index)
     #     self.__eye_catching_count = 30
     #     self.__target_floor_index = floor_index
+
+    def clear_map(self):
+        self.__map_window.clear_map(self.__target)
+
+    def set_floor_rooms_data(self, floor_rooms_data):
+        self.__map_window.floor_rooms_data = floor_rooms_data
 
     # def __show_menu(self):
     #     # 真っ黒で上書きする
