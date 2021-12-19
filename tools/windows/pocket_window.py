@@ -41,18 +41,21 @@ class Pocket_window(Empty_window):
     #         pyxel.text(str(item))
 
     def show(self):
-        # 真っ黒で上書きする
-        pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
+        # ウィンドウ
+        pyxel.rect(20, 20, 100, 100, Color.BLACK)
+        pyxel.rectb(20, 20, 100, 100, Color.WHITE)
 
         for i, item in enumerate(super().contents):
             str_menu = str(type(item).__name__)
             if (super().cursor_index == i):
                 str_menu += ' <'
 
-            size = 10
-            pyxel.text(size, i*size+size, str_menu, Color.WHITE)
+            size = 30
+            pyxel.text(size, i*10+size, str_menu, Color.WHITE)
 
-    def check_move_cursor(self):
+        self.__check_move_cursor()
+
+    def __check_move_cursor(self):
         """
         UPキーとDOWNキーの入力をチェックしてでメニューのカーソルを操作する。
         0からメニューの数の範囲内でカーソル移動ができる
@@ -60,7 +63,13 @@ class Pocket_window(Empty_window):
         if (pyxel.btnp(pyxel.KEY_UP) and 0 < super().cursor_index):
             super().cursor_index -= 1
         elif (pyxel.btnp(pyxel.KEY_DOWN) and len(super().contents)-1 > super().cursor_index):
+            # TODO: なぜかsuperはcursor_indexを持ってないって言われる
             super().cursor_index += 1
 
         elif(pyxel.btnp(pyxel.KEY_RETURN)):
-            super().menu_list[super().cursor_index].show()
+            print('use')
+            super().contents[super().cursor_index].use()
+
+        elif(pyxel.btnp(pyxel.KEY_LEFT)):
+            print('閉じる')
+            self.__is_show = False

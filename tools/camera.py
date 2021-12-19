@@ -57,7 +57,7 @@ class Camera():
         # メニューウィンドウが活性の時
         elif(self.__menu_window.is_show):
             self.__menu_window.show()
-            self.__menu_window.check_move_cursor()
+            # self.__menu_window.check_move_cursor()
 
         # それ以外の時は通常のゲーム画面を写す
         else:
@@ -88,6 +88,7 @@ class Camera():
         """
         str_room_address = '('+', '.join(map(str, self.__target.room_address))+')'
         pyxel.blt(0, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
+        pyxel.text(x=Size.MASS_HEIGHT/2, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2)-6, s='Room', col=Color.BLUE)
         pyxel.text(x=Size.MASS_HEIGHT/2, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2), s=str_room_address, col=Color.BLUE)
 
     def __embed_player_hp(self):
@@ -96,11 +97,11 @@ class Camera():
         """
         player_position = self.__target.layers.player_layer.get_player_position()
         player = self.__target.layers.player_layer.data[player_position[0]][player_position[1]]
-        player_hp = player.hp
 
-        str_player_hp = '('+str(player_hp)+')'
+        str_player_hp = str(player.hp)+' /'+str(player.max_hp)
         pyxel.blt(48, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
-        pyxel.text(x=Size.MASS_HEIGHT/2+48, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2), s=str_player_hp, col=Color.BLUE)
+        pyxel.text(x=Size.MASS_HEIGHT/2+45, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2)-6, s='HP', col=Color.BLUE)
+        pyxel.text(x=Size.MASS_HEIGHT/2+45, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2), s=str_player_hp, col=Color.BLUE)
 
     def __show_room(self):
         """

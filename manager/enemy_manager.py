@@ -64,10 +64,15 @@ class Enemy_manager(Character_manager):
             if (target_pos[0] == self_pos[0]+1 and super().character.direction == 'right' or
                 target_pos[0] == self_pos[0]-1 and super().character.direction == 'left' or
                 target_pos[1] == self_pos[1]+1 and super().character.direction == 'down' or
-                target_pos[1] == self_pos[1]-1 and super().character.direction == 'up'):
+                target_pos[1] == self_pos[1]-1 and super().character.direction == 'up' or
+                target_pos[0] == self_pos[0]-1 and target_pos[1] == self_pos[1]-1 and super().character.direction == 'up_left' or
+                target_pos[0] == self_pos[0]+1 and target_pos[1] == self_pos[1]-1 and super().character.direction == 'up_right' or
+                target_pos[0] == self_pos[0]-1 and target_pos[1] == self_pos[1]+1 and super().character.direction == 'down_left' or
+                target_pos[0] == self_pos[0]+1 and target_pos[1] == self_pos[1]+1 and super().character.direction == 'down_right'):
 
                 super().character.action = 'attack'
-                return
+                # return
+
         # やる気があるときの行動
         if (willingness > 1):
             if (target_address_and_pos[0] > self_address_and_pos[0]):

@@ -41,7 +41,7 @@ class Map_window():
 
         # マップに追加された部屋を写しだす
         for index in range(len(self.__map_indexes)):
-            print(self.__map_indexes)
+            # print(self.__map_indexes)
             map_index = self.__map_indexes[index]
             self.__floor_rooms_data[map_index[0]][map_index[1]].layers.terrain_layer.draw(map_index[2], map_index[3], size=5)
             self.__floor_rooms_data[map_index[0]][map_index[1]].layers.steps_layer.draw(map_index[2], map_index[3], size=5)

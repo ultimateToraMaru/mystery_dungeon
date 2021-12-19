@@ -1,4 +1,5 @@
 import pygame
+import time
 
 # pygameウィンドウにログを表示するシングルトンクラス
 # get_instanceメソッドでインスタンスを取得
@@ -90,3 +91,5 @@ class Display():
             self.__screen.blit(text_line, (0,self.__font_size*row_index))
 
             row_index+=1
+
+            # time.sleep(0.1)

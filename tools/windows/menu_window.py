@@ -7,7 +7,7 @@ import pyxel
 
 class Menu_window(Empty_window):
     def __init__(self):
-        super().__init__([Pocket_window()])
+        super().__init__([Empty_window(), Pocket_window()])
         # self.__is_show = False
         # self.__cursor_index = 0
         # self.__contents = [Pocket_window()]

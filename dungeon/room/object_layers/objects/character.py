@@ -270,7 +270,7 @@ class Character(Obj):
         self.__direction = direction
 
     def move(self, direction):
-        # # print('move')
+        print('move')
         self.__direction = direction
         if (self.__action == 'move'):
             if (direction == 'right'):
@@ -283,6 +283,22 @@ class Character(Obj):
                 self.position[1] = self.position[1]-1
 
             elif (direction == 'down'):
+                self.position[1] = self.position[1]-1
+
+            elif (direction == 'up_left'):
+                self.position[0] = self.position[0]-1
+                self.position[1] = self.position[1]-1
+
+            elif (direction == 'up_right'):
+                self.position[0] = self.position[0]+1
+                self.position[1] = self.position[1]-1
+
+            elif (direction == 'down_left'):
+                self.position[0] = self.position[0]-1
+                self.position[1] = self.position[1]+1
+
+            elif (direction == 'down_right'):
+                self.position[0] = self.position[0]+1
                 self.position[1] = self.position[1]+1
 
     def damage(self, damage_point, attacker_name):
