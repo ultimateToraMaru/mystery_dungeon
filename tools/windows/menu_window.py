@@ -17,7 +17,7 @@ class Menu_window(Empty_window):
         """
         ポケットメニューにポケットの中身をセットする
         """
-        super().contents[0].contents = pocket_contents
+        super().contents[1].contents = pocket_contents
 
     # @property
     # def is_show(self):

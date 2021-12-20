@@ -123,7 +123,7 @@ class Dungeon:
         self.camera_show()
         self.__camera.clear_map()
 
-        # ポケットの中身をカメラに渡す
+        # ポケットの中身の参照をカメラに渡す
         self.__camera.set_pocket_contents(self.__player_manager.look_pocket())
 
     # ターンを進める
@@ -193,7 +193,7 @@ class Dungeon:
         if (type(obj) == Orange):
             self.__player_manager.pick_up(obj)
         # print('あしもと', obj)
-        # print('pocket', self.__player_manager.look_pocket())
+        print('pocket', self.__player_manager.look_pocket())
 
         if (self.__player_manager.character.action != 'none'):
             self.__turn += 1

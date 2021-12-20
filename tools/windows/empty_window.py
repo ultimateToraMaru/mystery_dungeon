@@ -9,6 +9,7 @@ import pyxel
 class Empty_window():
     def __init__(self, contents=[]):
         self.__is_show = False
+        self.__is_active = False
         self.__cursor_index = 0
         self.__contents: list = contents
 
@@ -48,23 +49,39 @@ class Empty_window():
     def contents(self):
         return self.__contents
 
+    @property
+    def is_active(self):
+        pass
+
+    @is_active.setter
+    def is_active(self, is_active):
+        self.__is_active = is_active
+
+    @is_active.getter
+    def is_active(self):
+        return self.__is_active
+
     def show(self):
         # ウィンドウ
         pyxel.rect(10, 10, 100, 100, Color.BLACK)
         pyxel.rectb(10, 10, 100, 100, Color.WHITE)
 
-        for i, m in enumerate(self.__contents):
-            str_menu = str(type(self.__contents[i]).__name__)
+        for i, content in enumerate(self.__contents):
+            str_content = str(type(self.__contents[i]).__name__)
             if (self.__cursor_index == i):
-                str_menu += ' <'
+                str_content = '> '+str_content
 
             size = 20
-            pyxel.text(size, i*size+size, str_menu, Color.WHITE)
+            pyxel.text(size, i*size+size, str_content, Color.WHITE)
 
         if (self.__contents[self.__cursor_index].is_show):
             self.__contents[self.__cursor_index].show()
+            self.__is_active = True
 
-        self.__check_move_cursor()
+        if (self.__is_active):
+            self.__check_move_cursor()
+
+        self.__active_check()
 
     def __check_move_cursor(self):
         """
@@ -77,8 +94,17 @@ class Empty_window():
             self.__cursor_index += 1
 
         elif(pyxel.btnp(pyxel.KEY_RETURN)):
+            self.__is_active = False
             self.__contents[self.__cursor_index].is_show = True
 
         elif(pyxel.btnp(pyxel.KEY_LEFT)):
             print('閉じる')
-            self.__is_show = False
+            self.__is_active = False
+
+    def __active_check(self):
+        self.__is_active = True
+
+        for i, content in enumerate(self.__contents):
+            if (content.is_active == True):
+                self.__is_active = False
+                return

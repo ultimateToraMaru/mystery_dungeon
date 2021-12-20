@@ -1,4 +1,5 @@
 from dungeon.const.color import Color
+from dungeon.room.object_layers.objects.orange import Orange
 import pyxel
 from tools.windows.empty_window import Empty_window
 
@@ -46,14 +47,16 @@ class Pocket_window(Empty_window):
         pyxel.rectb(20, 20, 100, 100, Color.WHITE)
 
         for i, item in enumerate(super().contents):
-            str_menu = str(type(item).__name__)
+            str_content = str(type(item).__name__)
+            # print(str_content)
             if (super().cursor_index == i):
-                str_menu += ' <'
+                str_content = '> ' + str_content
 
             size = 30
-            pyxel.text(size, i*10+size, str_menu, Color.WHITE)
+            pyxel.text(size, i*10+size, str_content, Color.WHITE)
 
-        self.__check_move_cursor()
+        if (super().is_active):
+            self.__check_move_cursor()
 
     def __check_move_cursor(self):
         """
@@ -61,15 +64,18 @@ class Pocket_window(Empty_window):
         0からメニューの数の範囲内でカーソル移動ができる
         """
         if (pyxel.btnp(pyxel.KEY_UP) and 0 < super().cursor_index):
-            super().cursor_index -= 1
+            self.cursor_index -= 1
         elif (pyxel.btnp(pyxel.KEY_DOWN) and len(super().contents)-1 > super().cursor_index):
             # TODO: なぜかsuperはcursor_indexを持ってないって言われる
-            super().cursor_index += 1
+            self.cursor_index += 1
 
         elif(pyxel.btnp(pyxel.KEY_RETURN)):
+            self.is_active = False
             print('use')
             super().contents[super().cursor_index].use()
 
         elif(pyxel.btnp(pyxel.KEY_LEFT)):
-            print('閉じる')
-            self.__is_show = False
+            print('閉じる1', super().is_active)
+            self.is_active = False
+            self.is_show = False
+            print('閉じる2', super().is_active)
