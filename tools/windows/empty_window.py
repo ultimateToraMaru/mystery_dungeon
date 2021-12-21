@@ -66,18 +66,22 @@ class Empty_window():
         pyxel.rect(10, 10, 100, 100, Color.BLACK)
         pyxel.rectb(10, 10, 100, 100, Color.WHITE)
 
+        # コンテンツを表示する
         for i, content in enumerate(self.__contents):
             str_content = str(type(self.__contents[i]).__name__)
+            # カーソルインデックスのところに>を表示する
             if (self.__cursor_index == i):
                 str_content = '> '+str_content
 
             size = 20
             pyxel.text(size, i*size+size, str_content, Color.WHITE)
 
+        # コンテンツの表示フラグが立った時
         if (self.__contents[self.__cursor_index].is_show):
             self.__contents[self.__cursor_index].show()
-            self.__is_active = True
+            self.__is_active = False
 
+        # アクティブな時
         if (self.__is_active):
             self.__check_move_cursor()
 
@@ -96,12 +100,18 @@ class Empty_window():
         elif(pyxel.btnp(pyxel.KEY_RETURN)):
             self.__is_active = False
             self.__contents[self.__cursor_index].is_show = True
+            self.__contents[self.__cursor_index].is_active = True
 
         elif(pyxel.btnp(pyxel.KEY_LEFT)):
             print('閉じる')
             self.__is_active = False
 
     def __active_check(self):
+        """
+        コンテンツの表示状況をみて、自分自身をアクティブにするか決める<br>
+        コンテンツウィンドウがアクティブの時：False<br>
+        コンテンツウィンドウが非アクティブの時：True
+        """
         self.__is_active = True
 
         for i, content in enumerate(self.__contents):
