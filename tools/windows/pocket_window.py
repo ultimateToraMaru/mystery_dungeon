@@ -6,40 +6,6 @@ from tools.windows.empty_window import Empty_window
 class Pocket_window(Empty_window):
     def __init__(self):
         super().__init__()
-        # super().is_show = False
-        # super().cursor_index = 0
-        # super().contents: list = []
-
-    # @property
-    # def is_show(self):
-    #     pass
-
-    # @is_show.setter
-    # def is_show(self, is_show):
-    #     super().is_show = is_show
-
-    # @is_show.getter
-    # def is_show(self):
-    #     return super().is_show
-
-    # @property
-    # def contents(self):
-    #     pass
-
-    # @contents.setter
-    # def contents(self, contents):
-    #     super().contents = contents
-
-    # @contents.getter
-    # def contents(self):
-    #     return super().contents
-
-    # def __show_pocket(self):
-    #     # 真っ黒で上書きする
-    #     pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
-
-    #     for item in super().contents:
-    #         pyxel.text(str(item))
 
     def show(self):
         # ウィンドウ
@@ -56,7 +22,7 @@ class Pocket_window(Empty_window):
             pyxel.text(size, i*10+size, str_content, Color.WHITE)
 
         if (super().is_active):
-            self.__check_move_cursor()
+            return self.__check_move_cursor()
 
     def __check_move_cursor(self):
         """
@@ -71,11 +37,14 @@ class Pocket_window(Empty_window):
 
         elif(pyxel.btnp(pyxel.KEY_RETURN)):
             self.is_active = False
-            print('use')
-            super().contents[super().cursor_index].use()
+            print('take_out')
+            item = super().contents[super().cursor_index]
 
-        elif(pyxel.btnp(pyxel.KEY_LEFT)):
-            print('閉じる1', super().is_active)
             self.is_active = False
             self.is_show = False
-            print('閉じる2', super().is_active)
+
+            return item
+
+        elif(pyxel.btnp(pyxel.KEY_LEFT)):
+            self.is_active = False
+            self.is_show = False

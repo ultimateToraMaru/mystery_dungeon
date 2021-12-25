@@ -17,3 +17,6 @@ class Item(Obj):
 
     def use(self):
         pass
+
+    # def take_out(self):
+    #     return self

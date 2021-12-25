@@ -9,6 +9,18 @@ class Orange(Item):
         super().__init__(color)
         self.__recovery_point = 200
 
+    @property
+    def recovery_point(self):
+        pass
+
+    @recovery_point.getter
+    def recovery_point(self):
+        return self.__recovery_point
+
+    @recovery_point.setter
+    def recovery_point(self, recovery_point):
+        self.__recovery_point = recovery_point
+
     def create(self, x, y, size):
         w = size
         h = size
@@ -18,11 +30,14 @@ class Orange(Item):
         elif (size == 16):
             super().create(x, y, 16, 0, size)
 
-    def use(self, hp, max_hp):
+    def use(self, status):
         """
         回復ポイント分回復して、
         もし最大HPよりも多く回復してしまったら、最大HPを返す
         """
+        hp: int = status.hp
         hp += self.__recovery_point
 
-        return min(hp, max_hp)
+        status.hp = min(hp, status.max_hp)
+
+        return status

@@ -56,7 +56,12 @@ class Camera():
 
         # メニューウィンドウが活性の時
         elif(self.__menu_window.is_show):
-            self.__menu_window.show()
+            result = self.__menu_window.show()
+
+            if (result != None):
+                self.__menu_window.is_show = False
+
+            return result
             # self.__menu_window.check_move_cursor()
 
         # それ以外の時は通常のゲーム画面を写す

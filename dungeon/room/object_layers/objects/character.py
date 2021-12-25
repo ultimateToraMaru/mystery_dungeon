@@ -1,4 +1,5 @@
 from dungeon.const.size import Size
+from dungeon.room.object_layers.objects.status import Status
 from tools.display import Display
 from dungeon.room.object_layers.objects.obj import Obj
 from dungeon.room.object_layers.objects.pocket import Pocket

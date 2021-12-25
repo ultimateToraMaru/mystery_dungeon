@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.item import Item
 from tools.windows.menu_window import Menu_window
 from dungeon.room.object_layers.objects.orange import Orange
 from manager.enemy_manager import Enemy_manager
@@ -242,4 +243,18 @@ class Dungeon:
     def camera_show(self):
         self.__camera.target = self.__floor_manager.get_player_room_data(self.__player_manager.character)
         self.__camera.set_floor_rooms_data(self.__floor_manager.get_floor_rooms_data())
-        self.__camera.stand_by()
+        result = self.__camera.stand_by()
+        self.__check_camera_result(result)
+
+        return result
+
+    def __check_camera_result(self, result):
+        if (type(result) == Orange):
+            new_status = result.use(self.__player_manager.get_status())
+            self.__player_manager.set_status(new_status)
+
+            self.__display.set_screen_log([
+                self.__player_manager.character.name
+                + 'は、オレンジを食べて',
+                str(result.recovery_point)
+                + 'ポイントを回復した！'])

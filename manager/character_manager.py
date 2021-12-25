@@ -1,10 +1,13 @@
 from dungeon.const.size import Size
 import copy
+from dungeon.room.object_layers.objects.character import Character
+
+from dungeon.room.object_layers.objects.status import Status
 
 
 class Character_manager():
     def __init__(self, character):
-        self.__character = character
+        self.__character: Character = character
 
     @property
     def character(self):
@@ -106,3 +109,30 @@ class Character_manager():
         return self.__character.alive
 
     # def ＿＿＿get_orange
+
+    def get_status(self):
+        return Status(
+            self.character.room_address,
+            self.character.position,
+            self.character.name,
+            self.character.level,
+            self.character.hp,
+            self.character.max_hp,
+            self.character.mp,
+            self.character.max_mp,
+            self.character.attack,
+            self.character.defense,
+            self.character.exp)
+
+    def set_status(self, status: Status):
+        self.character.room_address = status.room_address
+        self.character.position = status.position
+        self.character.name = status.name
+        self.character.level = status.level
+        self.character.hp = status.hp
+        self.character.max_hp = status.max_hp
+        self.character.mp = status.mp
+        self.character.max_mp = status.max_mp
+        self.character.attack = status.attack
+        self.character.defense = status.defense
+        self.character.exp = status.exp
