@@ -17,3 +17,13 @@ class Pocket():
 
     def show(self):
         return self.__contents
+
+    def remove_item(self, used_item):
+        """
+        引数で渡されたアイテムを
+        コンテンツから削除する
+        """
+        for i, item in enumerate(self.__contents):
+            if (item == used_item):
+                # indexにあるアイテムをコンテンツから削除する
+                del self.__contents[i]

@@ -9,7 +9,7 @@ import math
 
 
 class Character(Obj):
-    def __init__(self, color, room_address, position, name='hoge', level=1, max_hp=1000, max_mp=100, attack=100, defense=100, exp=0):
+    def __init__(self, color, room_address, position, name='スライム', level=1, max_hp=1000, max_mp=100, attack=100, defense=100, exp=0):
         super().__init__(color, room_address, position)
 
         self.__tmp_position = [0, 0]    # 移動するオブジェクト(キャラクター)のみが持つ。

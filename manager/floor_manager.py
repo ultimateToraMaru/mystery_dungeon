@@ -287,7 +287,7 @@ class Floor_manager():
             r_x = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             r_y = random.randint(0, Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-1)
             if (rooms[r_x][r_y].is_room == True):
-                print('スタート部屋のアドレス', r_x, r_y)
+                # print('スタート部屋のアドレス', r_x, r_y)
                 return [r_x, r_y]
 
     def spawn_player(self):
@@ -321,7 +321,7 @@ class Floor_manager():
                 steps = self.__floor.rooms[r_x][r_y].generate_steps(r_x, r_y)
                 break
 
-        print('階段のあるお部屋', steps.room_address)
+        # print('階段のあるお部屋', steps.room_address)
         return steps
 
     def __spawn_items(self):

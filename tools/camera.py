@@ -153,3 +153,17 @@ class Camera():
 
     def set_floor_rooms_data(self, floor_rooms_data):
         self.__map_window.floor_rooms_data = floor_rooms_data
+
+    def show_game_clear(self):
+        # 真っ黒で上書きする
+        pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
+
+        # テキストをセット
+        pyxel.text(x=Size.MASS_HEIGHT*Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE/2, y=Size.MASS_WIDTH*Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-Size.MASS_WIDTH, s='GAME CLEAR', col=Color.WHITE)
+
+    def show_game_over(self):
+        # 真っ黒で上書きする
+        pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
+
+        # テキストをセット
+        pyxel.text(x=Size.MASS_HEIGHT*Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE/2, y=Size.MASS_WIDTH*Size.MAX_BLOCKS_IN_FLOOR_ONE_SIDE-Size.MASS_WIDTH, s='GAME OVER', col=Color.WHITE)

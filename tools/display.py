@@ -67,6 +67,14 @@ class Display():
                             'defense: +'+str(defense),
                             ])
 
+    def show_game_over(self, player_name, dungeon_name):
+        self.set_screen_log([str(player_name)+'は、'+str(dungeon_name)+'の攻略中に',
+                            '力尽きた...'])
+
+    def show_game_clear(self, player_name, dungeon_name):
+        self.set_screen_log([str(player_name)+'は、'+str(dungeon_name)+'の攻略に成功した！',
+                            'おめでとう！'])
+
     # TODO: self.__logにメッセージをセットする処理とself.__screenにログをセットする処理は分けたほうがいいのか？取り合えず、今はまとめている
     def set_screen_log(self, message_log):
         self.__log.append(message_log)

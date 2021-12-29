@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.food import Food
 from dungeon.room.object_layers.objects.item import Item
 from tools.windows.menu_window import Menu_window
 from dungeon.room.object_layers.objects.orange import Orange
@@ -16,10 +17,10 @@ class Dungeon:
     def __init__(self, _id):
         # ダンジョンの情報
         self.__id: int = _id
-        self.__name = 'HOGE DUNGEON'
+        self.__name = 'JEWELRY TOWER'
 
-        self.__FLOOR_NUMBERS: int = 5   # 階数
-        self.__floors: list[Floor] = self.generate_floors(self.__FLOOR_NUMBERS)
+        self.__FLOOR_NUMBERS: int = 2   # 階数
+        self.__floors: list[Floor] = self.generate_floors(self.__FLOOR_NUMBERS+1)
 
         self.__now_floor_number: int = 0
         self.__turn: int = 1
@@ -76,7 +77,13 @@ class Dungeon:
         self.__camera.start_eye_catching(self.__name, self.__now_floor_number)
 
         # manager
-        self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_number])
+        try :
+            self.__floor_manager = Floor_manager(self.__floors[self.__now_floor_number])
+
+        except IndexError as e:
+            self.__camera.show_game_clear()
+            self.__display.show_game_clear(self.__player_manager.character.name, self.__name)
+            # return
 
         # 1階のとき
         if (self.__player_manager is None):
@@ -119,7 +126,7 @@ class Dungeon:
             enemys[i].target = self.__player_manager.character
             self.__enemy_manager_list.append(Enemy_manager(enemy))
 
-        print('このフロアの敵の数', len(enemys))
+        # print('このフロアの敵の数', len(enemys))
 
         self.camera_show()
         self.__camera.clear_map()
@@ -132,25 +139,25 @@ class Dungeon:
         """
         ターンを進める
         """
+        if (self.__player_manager.character.alive == True and self.__FLOOR_NUMBERS+1 != self.__now_floor_number):
+            self.__alive_check()
 
-        self.__alive_check()
+            # いずれかのボタンが押されたらターンを進める
+            if  ((pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_S)
+                # or pyxel.btnp(pyxel.KEY_Q) or pyxel.btnp(pyxel.KEY_E) or pyxel.btnp(pyxel.KEY_Z) or pyxel.btnp(pyxel.KEY_C)
+                or pyxel.btnp(pyxel.KEY_R))):
 
-        # いずれかのボタンが押されたらターンを進める
-        if  ((pyxel.btnp(pyxel.KEY_D) or pyxel.btnp(pyxel.KEY_A) or pyxel.btnp(pyxel.KEY_W) or pyxel.btnp(pyxel.KEY_S)
-             or pyxel.btnp(pyxel.KEY_Q) or pyxel.btnp(pyxel.KEY_E) or pyxel.btnp(pyxel.KEY_Z) or pyxel.btnp(pyxel.KEY_C)
-             or pyxel.btnp(pyxel.KEY_R))):
+                self.player_turn()
 
-            self.player_turn()
-
-            # SHIFTキーが押されていたらエネミーのターンは来ない
-            keys=pygame.key.get_pressed()
-            if (not keys[pygame.K_LSHIFT]):
-                self.enemys_turn()
+                # SHIFTキーが押されていたらエネミーのターンは来ない
+                keys=pygame.key.get_pressed()
+                if (not keys[pygame.K_LSHIFT]):
+                    self.enemys_turn()
 
 
-        # プレイヤーが階段の上にいるかチェックする
-        if (self.__floor_manager.is_player_on_steps(self.__player_manager.character) == True):
-            self.start_turn()
+            # プレイヤーが階段の上にいるかチェックする
+            if (self.__floor_manager.is_player_on_steps(self.__player_manager.character) == True):
+                self.start_turn()
 
 
     def __alive_check(self):
@@ -159,10 +166,10 @@ class Dungeon:
         """
 
         # playerが死んだら、マネージャーはお役御免
-        if (self.__player_manager.character.alive == False):
-            del self.__player_manager
-            print('********** GAME OVER **********')
-            return
+        # if (self.__player_manager.character.alive == False):
+        #     del self.__player_manager
+        #     print('********** GAME OVER **********')
+        #     return
 
         for i, enemy_manager in enumerate(self.__enemy_manager_list):
             # enemyが死んだら、マネージャーはお役御免
@@ -194,7 +201,7 @@ class Dungeon:
         if (type(obj) == Orange):
             self.__player_manager.pick_up(obj)
         # print('あしもと', obj)
-        print('pocket', self.__player_manager.look_pocket())
+        # print('pocket', self.__player_manager.look_pocket())
 
         if (self.__player_manager.character.action != 'none'):
             self.__turn += 1
@@ -246,15 +253,22 @@ class Dungeon:
         result = self.__camera.stand_by()
         self.__check_camera_result(result)
 
+        # プレイヤーが死んだらゲームオーバー
+        if (self.__player_manager.character.alive == False):
+            self.__camera.show_game_over()
+            self.__display.show_game_over(self.__player_manager.character.name, self.__name)
+
+        if (self.__FLOOR_NUMBERS+1 == self.__now_floor_number):
+            self.__camera.show_game_clear()
+            self.__display.show_game_clear(self.__player_manager.character.name, self.__name)
+
         return result
 
     def __check_camera_result(self, result):
-        if (type(result) == Orange):
-            new_status = result.use(self.__player_manager.get_status())
-            self.__player_manager.set_status(new_status)
+        # アイテムを使う時の処理
 
-            self.__display.set_screen_log([
-                self.__player_manager.character.name
-                + 'は、オレンジを食べて',
-                str(result.recovery_point)
-                + 'ポイントを回復した！'])
+        # ポケットの食べ物を食べるとき
+        if (isinstance(result, Food)):
+            new_status = result.eat(self.__player_manager.get_status())
+            self.__player_manager.character.pocket.remove_item(result)
+            self.__player_manager.set_status(new_status)

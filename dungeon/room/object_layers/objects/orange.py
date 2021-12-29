@@ -1,13 +1,16 @@
 from dungeon.const.color import Color
 from dungeon.const.size import Size
+from dungeon.room.object_layers.objects.food import Food
 from dungeon.room.object_layers.objects.item import Item
 from dungeon.room.object_layers.objects.obj import Obj
 import pyxel
+from tools.display import Display
 
-class Orange(Item):
+class Orange(Food):
     def __init__(self, color=Color.WHITE):
         super().__init__(color)
         self.__recovery_point = 200
+        self.__name = 'オレンジ'
 
     @property
     def recovery_point(self):
@@ -30,7 +33,7 @@ class Orange(Item):
         elif (size == 16):
             super().create(x, y, 16, 0, size)
 
-    def use(self, status):
+    def eat(self, status):
         """
         回復ポイント分回復して、
         もし最大HPよりも多く回復してしまったら、最大HPを返す
@@ -39,5 +42,12 @@ class Orange(Item):
         hp += self.__recovery_point
 
         status.hp = min(hp, status.max_hp)
+
+        display = Display.get_instance()
+        display.set_screen_log([
+            status.name
+            + 'は、' + self.__name + 'を食べてHPを',
+            str(self.__recovery_point)
+            + 'ポイント回復した！'])
 
         return status
