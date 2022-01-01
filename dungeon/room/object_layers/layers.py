@@ -20,6 +20,7 @@ class Layers:
         self.__enemy_layers: list[Enemy_layer] = []
         self.__effect_layer = Empty_layer()
         self.__item_layer = Empty_layer()
+        self.__trap_layer = Empty_layer()
 
     @property
     def terrain_layer(self):
@@ -94,3 +95,15 @@ class Layers:
     @item_layer.setter
     def item_layer(self, item_layer):
         self.__item_layer = item_layer
+
+    @property
+    def trap_layer(self):
+        pass
+
+    @trap_layer.getter
+    def trap_layer(self):
+        return self.__trap_layer
+
+    @trap_layer.setter
+    def trap_layer(self, trap_layer):
+        self.__trap_layer = trap_layer

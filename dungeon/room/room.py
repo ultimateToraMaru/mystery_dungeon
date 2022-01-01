@@ -11,6 +11,8 @@ from dungeon.room.object_layers.objects.tile import Tile
 from dungeon.const.size import Size
 import random
 from dungeon.const.color import Color
+from dungeon.room.object_layers.objects.trap import Trap
+from dungeon.room.object_layers.objects.trap_damage import Trap_damage
 from dungeon.room.object_layers.objects.wall import Wall
 from dungeon.room.object_layers.layers import Layers
 
@@ -119,6 +121,26 @@ class Room:
             self.__layers.item_layer.data[p_x][p_y] = orange
 
         # return orange
+
+    def generate_traps(self, trap_nums):
+        traps: list[Trap] = []
+
+        # ランダムな場所に生成
+        for i in range(trap_nums):
+
+            p_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
+            p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
+
+            if (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile and
+                type(self.layers.player_layer.data[p_x][p_y]) == None_obj and
+                type(self.layers.steps_layer.data[p_x][p_y]) == None_obj):
+
+                trap = Trap_damage(room_address=self.__room_address, position=[p_x, p_y])
+                self.__layers.trap_layer.data[p_x][p_y] = trap
+
+                traps.append(trap)
+        #         break
+        return traps
 
     # 与えられた座標(x, y)の場所に、障害となるオブジェクト(敵、壁、プレイヤー)がないか判定する(ない: true, ある: false)
     # バグは個々のメソッドが原因そう

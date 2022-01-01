@@ -1,3 +1,4 @@
+from dungeon.room.object_layers.objects.trap import Trap
 from tools.display import Display
 from dungeon.room.object_layers.enemy_layer import Enemy_layer
 from dungeon.room.object_layers.objects.item import Item
@@ -18,6 +19,7 @@ class Floor_manager():
 
         self.__steps = self.__spawn_steps()
         self.__spawn_items()
+        self.spawn_traps()
 
     @property
     def floor(self):
@@ -327,8 +329,16 @@ class Floor_manager():
     def __spawn_items(self):
         for x in range(len(self.__floor.rooms)):
             for y in range(len(self.__floor.rooms)):
-                item = self.__floor.rooms[x][y].generate_items()
+                self.__floor.rooms[x][y].generate_items()
                 # if (item)
+
+    def spawn_traps(self):
+        traps: list[Trap] = []
+        for x in range(len(self.__floor.rooms)):
+            for y in range(len(self.__floor.rooms)):
+                traps.extend(self.__floor.rooms[x][y].generate_traps(2))
+
+        return traps
 
     def set_layer_player(self, player):
         self.__floor.rooms[player.room_address[0]][player.room_address[1]].layers.player_layer.set_position(player)

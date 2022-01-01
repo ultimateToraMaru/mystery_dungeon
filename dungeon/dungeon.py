@@ -1,5 +1,6 @@
 from dungeon.room.object_layers.objects.food import Food
 from dungeon.room.object_layers.objects.item import Item
+from dungeon.room.object_layers.objects.trap import Trap
 from tools.windows.menu_window import Menu_window
 from dungeon.room.object_layers.objects.orange import Orange
 from manager.enemy_manager import Enemy_manager
@@ -30,6 +31,7 @@ class Dungeon:
         self.__floor_manager: Floor_manager
         self.__player_manager: Player_manager = None
         self.__enemy_manager_list: list[Enemy_manager] = []
+        self.__traps: list[Trap] = []
 
         # ツール
         self.__camera = Camera()
@@ -120,19 +122,25 @@ class Dungeon:
 
         self.__floor_manager.set_layer_player(self.__player_manager.character)
 
+        # エネミーを誕生させて、マネージャーにセット
         enemys = self.__floor_manager.spawn_enemys()
         self.__enemy_manager_list: list[Enemy_manager] = []
         for i, enemy in enumerate(enemys):
             enemys[i].target = self.__player_manager.character
             self.__enemy_manager_list.append(Enemy_manager(enemy))
 
-        # print('このフロアの敵の数', len(enemys))
+        # トラップを誕生させて、ターゲットをセット
+        self.__traps = self.__floor_manager.spawn_traps()
+        for i, trap in enumerate(self.__traps):
+            trap.target = self.__player_manager.character
 
         self.camera_show()
         self.__camera.clear_map()
 
         # ポケットの中身の参照をカメラに渡す
         self.__camera.set_pocket_contents(self.__player_manager.look_pocket())
+
+    # def start_up_player_manager(self):
 
     # ターンを進める
     def forward_turn(self):
@@ -154,10 +162,12 @@ class Dungeon:
                 if (not keys[pygame.K_LSHIFT]):
                     self.enemys_turn()
 
+                self.__traps_turn()
 
             # プレイヤーが階段の上にいるかチェックする
             if (self.__floor_manager.is_player_on_steps(self.__player_manager.character) == True):
                 self.start_turn()
+
 
 
     def __alive_check(self):
@@ -272,3 +282,8 @@ class Dungeon:
             new_status = result.eat(self.__player_manager.get_status())
             self.__player_manager.character.pocket.remove_item(result)
             self.__player_manager.set_status(new_status)
+
+
+    def __traps_turn(self):
+        for i, trap in enumerate(self.__traps):
+            trap.check_target()

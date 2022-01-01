@@ -132,6 +132,7 @@ class Camera():
 
             self.__target.layers.terrain_layer.draw(x, y, size=Size.MASS_HEIGHT)
             self.__target.layers.steps_layer.draw(x, y, size=Size.MASS_HEIGHT)
+            self.__target.layers.trap_layer.draw(x, y, size=Size.MASS_HEIGHT)
             self.__target.layers.item_layer.draw(x, y, size=Size.MASS_HEIGHT)
             self.__target.layers.player_layer.draw(x, y, size=Size.MASS_HEIGHT)
 
