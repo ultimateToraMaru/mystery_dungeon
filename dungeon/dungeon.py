@@ -286,4 +286,5 @@ class Dungeon:
 
     def __traps_turn(self):
         for i, trap in enumerate(self.__traps):
-            trap.check_target()
+            if(trap.check_target() == True):
+                trap.activate()

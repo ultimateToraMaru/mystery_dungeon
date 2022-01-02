@@ -131,10 +131,7 @@ class Room:
             p_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
             p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
 
-            if (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile and
-                type(self.layers.player_layer.data[p_x][p_y]) == None_obj and
-                type(self.layers.steps_layer.data[p_x][p_y]) == None_obj):
-
+            if (self.is_noneobj(p_x, p_y)):
                 trap = Trap_damage(room_address=self.__room_address, position=[p_x, p_y])
                 self.__layers.trap_layer.data[p_x][p_y] = trap
 

@@ -10,6 +10,7 @@ import random
 from dungeon.room.object_layers.steps_layer import Steps_layer
 from dungeon.room.object_layers.player_layer import Player_layer
 from dungeon.room.object_layers.terrain_layer import Terrain_layer
+from dungeon.room.object_layers.trap_layer import Trap_layer
 
 # roomが持つオブジェクト(Terrain, Item, Player ...)を集約して持つクラス
 class Layers:
@@ -20,7 +21,7 @@ class Layers:
         self.__enemy_layers: list[Enemy_layer] = []
         self.__effect_layer = Empty_layer()
         self.__item_layer = Empty_layer()
-        self.__trap_layer = Empty_layer()
+        self.__trap_layer = Trap_layer()
 
     @property
     def terrain_layer(self):

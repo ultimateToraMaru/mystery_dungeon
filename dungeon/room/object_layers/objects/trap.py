@@ -11,6 +11,7 @@ class Trap(Obj):
         super().__init__(Color.BLACK, room_address, position)
         self.__target: Character = None_obj()
         self.__display: Display = Display.get_instance()
+        self.__is_activate = False
 
     @property
     def target(self):
@@ -23,6 +24,30 @@ class Trap(Obj):
     @target.setter
     def target(self, target):
         self.__target = target
+
+    @property
+    def display(self):
+        pass
+
+    @display.getter
+    def display(self):
+        return self.__display
+
+    @display.setter
+    def display(self, display):
+        self.__display = display
+
+    @property
+    def is_activate(self):
+        pass
+
+    @is_activate.getter
+    def is_activate(self):
+        return self.__is_activate
+
+    @is_activate.setter
+    def is_activate(self, is_activate):
+        self.__is_activate = is_activate
 
     def create(self, x, y, size):
         w = size
@@ -40,16 +65,9 @@ class Trap(Obj):
         同じだった場合、トラップを発動する
         """
 
-        if (self.room_address == self.__target.room_address
-            and self.position == self.__target.position):
-
-            print('発動！')
-            self.__activate()
-
-        else :
-            # print('何も起こらない')
-            pass
+        return  (self.room_address == self.__target.room_address
+            and self.position == self.__target.position)
 
 
-    def __activate(self):
+    def activate(self):
         pass

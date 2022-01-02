@@ -10,9 +10,10 @@ class Trap_damage(Trap):
         super().__init__(room_address, position)
         self.__damage = 100
 
-    def __activate(self):
-        self.__target.hp -= self.__damage
-        self.__display.set_screen_log([
+    def activate(self):
+        self.target.hp -= self.__damage
+        self.display.set_screen_log([
             'ダメージトラップが発動！',
-            self.__target.name+'に'+self.__damage+'のダメージ！'
+            self.target.name+'に'+str(self.__damage)+'のダメージ！'
         ])
+        self.is_activate = True
