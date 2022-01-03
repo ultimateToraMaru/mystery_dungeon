@@ -21,7 +21,7 @@ class Display():
         else :
             # pygame初期化処理
             pygame.display.set_caption('Dungeon Log')
-            self.__screen = pygame.display.set_mode((400, 300)) # ウィンドウの大きさ
+            self.__screen = pygame.display.set_mode((900, 700)) # ウィンドウの大きさ
             self.__screen.fill((0,0,0))                         # 背景色
 
             self.__font_size = 20
@@ -88,7 +88,9 @@ class Display():
         for one_log in reversed(self.__log):
             for log in one_log:
                 text = self.__font.render(log, True, (255,255,255))
-                self.__screen.blit(text, (0,self.__font_size*row_index))
+                x = 610
+                margin = 10
+                self.__screen.blit(text, (x ,self.__font_size*row_index + margin))
 
                 row_index+=1
 
@@ -96,7 +98,7 @@ class Display():
             text_line = self.__font.render('-----------------------------------------------', True, (255,255,255))
 
             # 行単位でログを表示する
-            self.__screen.blit(text_line, (0,self.__font_size*row_index))
+            self.__screen.blit(text_line, (x ,self.__font_size*row_index + margin))
 
             row_index+=1
 

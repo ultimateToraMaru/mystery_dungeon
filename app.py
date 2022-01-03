@@ -24,6 +24,8 @@ class App:
         pygame.init()
         pygame.mouse.set_visible(True)
 
+        # スタート画面
+        self.start_disp()
 
         # pyxel初期化処理
         # pyxel.init(255, 255, caption="mystery_dungeon", scale=3, fps=5)   # 5*5
@@ -34,8 +36,8 @@ class App:
         pyxel.mouse(False)
         pyxel.load("my_resource.pyxres")
 
-        # スタート画面
-        self.start_disp()
+        # bgm再生
+        pyxel.playm(1, loop=True)
 
         # ダンジョンを生成してゲームを始める
         self.dungeon = Dungeon(_id=0)
@@ -73,9 +75,6 @@ class App:
         message = font_message.render('~Press Space Button~', True, (255,255,255, 1))
         screen.blit(message, (50,500))
 
-        # bgm再生
-        pyxel.playm(1, loop=True)
-
         # スペースボタンが押されたらゲーム画面に遷移
         spaceBtnPressed = False
         while (not spaceBtnPressed):
@@ -98,6 +97,7 @@ class App:
                         print("pressedKey = " + pygame.key.name(event.key))
 
                 pygame.display.update()
+
 
     # ゲーム処理の更新
     def update(self):
