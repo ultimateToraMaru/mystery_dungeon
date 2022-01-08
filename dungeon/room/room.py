@@ -1,4 +1,3 @@
-
 # floor内の一個一個の部屋を表すクラス
 from dungeon.room.object_layers.objects.attack_effect import Attack_effect
 from dungeon.room.object_layers.enemy_layer import Enemy_layer
@@ -11,6 +10,8 @@ from dungeon.room.object_layers.objects.tile import Tile
 from dungeon.const.size import Size
 import random
 from dungeon.const.color import Color
+from dungeon.room.object_layers.objects.tile_path import Tile_path
+from dungeon.room.object_layers.objects.tile_room import Tile_room
 from dungeon.room.object_layers.objects.trap import Trap
 from dungeon.room.object_layers.objects.trap_damage import Trap_damage
 from dungeon.room.object_layers.objects.wall import Wall
@@ -65,7 +66,9 @@ class Room:
         while (True):
             p_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
             p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
-            if (type(self.__layers.terrain_layer.data[p_x][p_y]) == Tile):
+            print(type(self.__layers.terrain_layer.data[p_x][p_y]))
+            if (type(self.__layers.terrain_layer.data[p_x][p_y]) == Tile_room):
+                #isinstance(type(self.__layers.terrain_layer.data[p_x][p_y]), Tile_room)):
                 # self.__layers.steps_layer.steps_position = [r_x, r_y]
                 steps = Steps(room_address=[r_x, r_y], position=[p_x, p_y])
                 self.__layers.steps_layer.data[p_x][p_y] = steps
@@ -87,9 +90,7 @@ class Room:
             p_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
             p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
 
-            if (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile and
-                type(self.layers.player_layer.data[p_x][p_y]) == None_obj and
-                type(self.layers.steps_layer.data[p_x][p_y]) == None_obj):
+            if (self.is_noneobj(p_x, p_y)):
 
                 enemy = Enemy(Color.BLACK, room_address=[self.__room_address[0],self.__room_address[1]], position=[p_x, p_y])
 
@@ -116,7 +117,7 @@ class Room:
         p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
 
         # orange: Orange
-        if (self.is_noneobj(p_x, p_y)):
+        if (self.is_noneobj_in_room(p_x, p_y)):
             orange = Orange(Color.BLACK)
             self.__layers.item_layer.data[p_x][p_y] = orange
 
@@ -131,7 +132,7 @@ class Room:
             p_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
             p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
 
-            if (self.is_noneobj(p_x, p_y)):
+            if (self.is_noneobj_in_room(p_x, p_y)):
                 trap = Trap_damage(room_address=self.__room_address, position=[p_x, p_y])
                 self.__layers.trap_layer.data[p_x][p_y] = trap
 
@@ -143,8 +144,22 @@ class Room:
     # バグは個々のメソッドが原因そう
     def is_noneobj(self, p_x, p_y):
         # print('移動しようとしているマス', [p_x, p_y], 'の状態 terrain:', type(self.layers.terrain_layer.data[p_x][p_y]), 'player:', type(self.layers.player_layer.data[p_x][p_y]), 'enemy:', type(self.layers.enemy_layer.data[p_x][p_y]))
-        if (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile and
-            type(self.layers.player_layer.data[p_x][p_y]) == None_obj):
+        if ((type(self.layers.terrain_layer.data[p_x][p_y]) == Tile_room
+            or type(self.layers.terrain_layer.data[p_x][p_y]) == Tile_path)
+            and type(self.layers.player_layer.data[p_x][p_y]) == None_obj):
+
+            for i in range(len(self.__layers.enemy_layers)):
+                if (type(self.__layers.enemy_layers[i].data[p_x][p_y]) != None_obj):
+                    return False
+
+            return True
+
+        return False
+
+    def is_noneobj_in_room(self, p_x, p_y):
+        # print('移動しようとしているマス', [p_x, p_y], 'の状態 terrain:', type(self.layers.terrain_layer.data[p_x][p_y]), 'player:', type(self.layers.player_layer.data[p_x][p_y]), 'enemy:', type(self.layers.enemy_layer.data[p_x][p_y]))
+        if (type(self.layers.terrain_layer.data[p_x][p_y]) == Tile_room
+            and type(self.layers.player_layer.data[p_x][p_y]) == None_obj):
 
             for i in range(len(self.__layers.enemy_layers)):
                 if (type(self.__layers.enemy_layers[i].data[p_x][p_y]) != None_obj):

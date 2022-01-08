@@ -76,6 +76,8 @@ class Dungeon:
 
         self.__now_floor_number += 1
 
+
+
         self.__camera.start_eye_catching(self.__name, self.__now_floor_number)
 
         # manager

@@ -5,6 +5,8 @@ import math
 from dungeon.const.size import Size
 import random
 from dungeon.room.object_layers.objects.tile import Tile
+from dungeon.room.object_layers.objects.tile_path import Tile_path
+from dungeon.room.object_layers.objects.tile_room import Tile_room
 from dungeon.room.object_layers.objects.wall import Wall
 from dungeon.const.color import Color
 
@@ -42,12 +44,12 @@ class Terrain_layer(Empty_layer):
         for r_x in range(r_start_y, r_end_y):
             for r_y in range(r_start_x, r_end_x):
                 # print(i, j)
-                self.data[r_x][r_y] = Tile()
+                self.data[r_x][r_y] = Tile_room()
 
         # X軸の端っこに床を配置していく
         for r_x in range(r_start_x, r_end_x):
             for r_y in range(r_start_y, r_end_y):
-                self.data[r_y][r_x] = Tile()
+                self.data[r_y][r_x] = Tile_room()
 
     # 壁だけの部屋を生成。部屋ではない。。。
     # 格子状に道を作って道の生成を簡易的にしよう
@@ -56,8 +58,8 @@ class Terrain_layer(Empty_layer):
         # self.data = [[Wall(Color.BROWN)] * Size.MAX_MASS_IN_ROOM_ONE_SIDE for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE)]
 
         for i in range(Size.MAX_MASS_IN_ROOM_ONE_SIDE):
-            self.data[i][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Tile()
-            self.data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][i] = Tile()
+            self.data[i][math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)] = Tile_path()
+            self.data[math.floor(Size.MAX_MASS_IN_ROOM_ONE_SIDE/2)][i] = Tile_path()
 
         return self.data
 
@@ -78,48 +80,48 @@ class Terrain_layer(Empty_layer):
             # directions_r = random.randint(0, 3)
             for i in range(center):
                 if (path_way_type == 'normal'):
-                    self.data[0+i][center] = Tile()      # 左方
-                    self.data[center+i][center] = Tile() # 右方
-                    self.data[center][0+i] = Tile()      # 上方
-                    self.data[center][center+i] = Tile() # 下方
+                    self.data[0+i][center] = Tile_path()      # 左方
+                    self.data[center+i][center] = Tile_path() # 右方
+                    self.data[center][0+i] = Tile_path()      # 上方
+                    self.data[center][center+i] = Tile_path() # 下方
 
                 elif(path_way_type == 'top_end'):
-                    self.data[0+i][center] = Tile()      # 左方
-                    self.data[center+i][center] = Tile() # 右方
-                    self.data[center][center+i] = Tile() # 下方
+                    self.data[0+i][center] = Tile_path()      # 左方
+                    self.data[center+i][center] = Tile_path() # 右方
+                    self.data[center][center+i] = Tile_path() # 下方
 
                 elif(path_way_type == 'bottom_end'):
-                    self.data[0+i][center] = Tile()      # 左方
-                    self.data[center+i][center] = Tile() # 右方
-                    self.data[center][0+i] = Tile()      # 上方
+                    self.data[0+i][center] = Tile_path()      # 左方
+                    self.data[center+i][center] = Tile_path() # 右方
+                    self.data[center][0+i] = Tile_path()      # 上方
 
                 elif(path_way_type == 'top_left_corner'):
-                    self.data[center+i][center] = Tile() # 右方
-                    self.data[center][center+i] = Tile() # 下方
+                    self.data[center+i][center] = Tile_path() # 右方
+                    self.data[center][center+i] = Tile_path() # 下方
 
                 elif(path_way_type == 'bottom_left_corner'):
-                    self.data[center+i][center] = Tile() # 右方
-                    self.data[center][0+i] = Tile()      # 上方
+                    self.data[center+i][center] = Tile_path() # 右方
+                    self.data[center][0+i] = Tile_path()      # 上方
 
                 elif(path_way_type == 'left_end'):
-                    self.data[center+i][center] = Tile() # 右方
-                    self.data[center][0+i] = Tile()      # 上方
-                    self.data[center][center+i] = Tile() # 下方
+                    self.data[center+i][center] = Tile_path() # 右方
+                    self.data[center][0+i] = Tile_path()      # 上方
+                    self.data[center][center+i] = Tile_path() # 下方
 
                 elif(path_way_type == 'top_right_corner'):
-                    self.data[0+i][center] = Tile()      # 左方
-                    self.data[center][center+i] = Tile() # 下方
+                    self.data[0+i][center] = Tile_path()      # 左方
+                    self.data[center][center+i] = Tile_path() # 下方
 
                 elif(path_way_type == 'bottom_right_corner'):
-                    self.data[0+i][center] = Tile()      # 左方
-                    self.data[center][0+i] = Tile()      # 上方
+                    self.data[0+i][center] = Tile_path()      # 左方
+                    self.data[center][0+i] = Tile_path()      # 上方
 
-                    self.data[center][center] = Tile()   # 中央(調整)
+                    self.data[center][center] = Tile_path()   # 中央(調整)
 
                 elif(path_way_type == 'right_end'):
-                    self.data[0+i][center] = Tile()      # 左方
-                    self.data[center][0+i] = Tile()      # 上方
-                    self.data[center][center+i] = Tile() # 下方
+                    self.data[0+i][center] = Tile_path()      # 左方
+                    self.data[center][0+i] = Tile_path()      # 上方
+                    self.data[center][center+i] = Tile_path() # 下方
 
 
     # # pass_findingはfloor()でやるべきなのでは？

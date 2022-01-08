@@ -1,3 +1,5 @@
+from dungeon.room.object_layers.objects.tile_path import Tile_path
+from dungeon.room.object_layers.objects.tile_room import Tile_room
 from dungeon.room.object_layers.objects.trap import Trap
 from tools.display import Display
 from dungeon.room.object_layers.enemy_layer import Enemy_layer
@@ -145,8 +147,10 @@ class Floor_manager():
             return False
 
         try:
-            if (type(self.__floor.rooms[r_x][r_y].layers.terrain_layer.data[p_x][p_y]) == Tile and
-                type(self.__floor.rooms[r_x][r_y].layers.player_layer.data[p_x][p_y]) == None_obj):
+            if (#isinstance(type(self.__floor.rooms[r_x][r_y].layers.terrain_layer.data[p_x][p_y]), Tile)
+                (type(self.__floor.rooms[r_x][r_y].layers.terrain_layer.data[p_x][p_y]) == Tile_room
+                or type(self.__floor.rooms[r_x][r_y].layers.terrain_layer.data[p_x][p_y]) == Tile_path)
+                and type(self.__floor.rooms[r_x][r_y].layers.player_layer.data[p_x][p_y]) == None_obj):
 
                 for i in range(len(self.__floor.rooms[r_x][r_y].layers.enemy_layers)):
                     if (type(self.__floor.rooms[r_x][r_y].layers.enemy_layers[i].data[p_x][p_y]) != None_obj):
