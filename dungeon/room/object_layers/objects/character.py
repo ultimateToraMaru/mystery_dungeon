@@ -310,6 +310,9 @@ class Character(Obj):
         display = Display.get_instance()
         display.show_battle_message(attacker_name, self.name, actual_damage_point)
 
+        # ダメージの効果音
+        pyxel.play(0, 31, loop=False)
+
         if (self.__hp <= 0):
             return self.__destroy(attacker_name)
 

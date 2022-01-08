@@ -24,7 +24,7 @@ class Display():
             self.__screen = pygame.display.set_mode((900, 700)) # ウィンドウの大きさ
             self.__screen.fill((0,0,0))                         # 背景色
 
-            self.__font_size = 20
+            self.__font_size = 15
             self.__font = pygame.font.SysFont('yugothicyugothicuilight', self.__font_size)
             self.__log = []
 

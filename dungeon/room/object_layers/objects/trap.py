@@ -70,4 +70,5 @@ class Trap(Obj):
 
 
     def activate(self):
-        pass
+        # トラップ発動時の効果音
+        pyxel.play(0, 35, loop=False)

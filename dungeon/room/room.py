@@ -14,6 +14,7 @@ from dungeon.room.object_layers.objects.tile_path import Tile_path
 from dungeon.room.object_layers.objects.tile_room import Tile_room
 from dungeon.room.object_layers.objects.trap import Trap
 from dungeon.room.object_layers.objects.trap_damage import Trap_damage
+from dungeon.room.object_layers.objects.trap_warp import Trap_warp
 from dungeon.room.object_layers.objects.wall import Wall
 from dungeon.room.object_layers.layers import Layers
 
@@ -133,7 +134,8 @@ class Room:
             p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
 
             if (self.is_noneobj_in_room(p_x, p_y)):
-                trap = Trap_damage(room_address=self.__room_address, position=[p_x, p_y])
+                # trap = Trap_damage(room_address=self.__room_address, position=[p_x, p_y])
+                trap = Trap_warp(room_address=self.__room_address, position=[p_x, p_y])
                 self.__layers.trap_layer.data[p_x][p_y] = trap
 
                 traps.append(trap)

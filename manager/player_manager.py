@@ -74,3 +74,6 @@ class Player_manager(Character_manager):
 
     def pick_up(self, item):
         super().character.pocket.add_item(item)
+
+        # 拾い上げる時の効果音
+        pyxel.play(0, 32, loop=False)

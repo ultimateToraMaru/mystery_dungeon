@@ -101,12 +101,20 @@ class Camera():
         プレイヤーのHPを下側に埋め込むメソッド
         """
         player_position = self.__target.layers.player_layer.get_player_position()
-        player = self.__target.layers.player_layer.data[player_position[0]][player_position[1]]
 
-        str_player_hp = str(player.hp)+' /'+str(player.max_hp)
-        pyxel.blt(48, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
-        pyxel.text(x=Size.MASS_HEIGHT/2+45, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2)-6, s='HP', col=Color.BLUE)
-        pyxel.text(x=Size.MASS_HEIGHT/2+45, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2), s=str_player_hp, col=Color.BLUE)
+        # プレイヤーがワープトラップに引っかかった時は、ワープ直後のプレイヤーをうまく取得できないので
+        # IndexErrorが発生してしまう。これは、一時的なものなので例外をキャッチして何もしない
+        try :
+            player = self.__target.layers.player_layer.data[player_position[0]][player_position[1]]
+
+            str_player_hp = str(player.hp)+' /'+str(player.max_hp)
+            pyxel.blt(48, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
+            pyxel.text(x=Size.MASS_HEIGHT/2+45, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2)-6, s='HP', col=Color.BLUE)
+            pyxel.text(x=Size.MASS_HEIGHT/2+45, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2), s=str_player_hp, col=Color.BLUE)
+
+        except IndexError as e :
+            # 何もしない。
+            pass
 
     def __show_room(self):
         """
