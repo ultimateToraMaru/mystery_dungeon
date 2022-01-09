@@ -67,7 +67,7 @@ class Room:
         while (True):
             p_x = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
             p_y = random.randint(0, Size.MAX_MASS_IN_ROOM_ONE_SIDE-1)
-            print(type(self.__layers.terrain_layer.data[p_x][p_y]))
+
             if (type(self.__layers.terrain_layer.data[p_x][p_y]) == Tile_room):
                 #isinstance(type(self.__layers.terrain_layer.data[p_x][p_y]), Tile_room)):
                 # self.__layers.steps_layer.steps_position = [r_x, r_y]

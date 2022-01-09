@@ -32,16 +32,18 @@ class Pocket_window(Empty_window):
         if (pyxel.btnp(pyxel.KEY_UP) and 0 < super().cursor_index):
             self.cursor_index -= 1
         elif (pyxel.btnp(pyxel.KEY_DOWN) and len(super().contents)-1 > super().cursor_index):
-            # TODO: なぜかsuperはcursor_indexを持ってないって言われる
             self.cursor_index += 1
 
+        # アイテムを使う
         elif(pyxel.btnp(pyxel.KEY_RETURN)):
             self.is_active = False
-            print('take_out')
             item = super().contents[super().cursor_index]
 
             self.is_active = False
             self.is_show = False
+
+            # アイテム使用時の効果音
+            pyxel.play(0, 34, loop=False)
 
             return item
 
