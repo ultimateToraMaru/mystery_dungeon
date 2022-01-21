@@ -20,7 +20,7 @@ class Dungeon:
         self.__id: int = _id
         self.__name = 'JEWELRY TOWER'
 
-        self.__FLOOR_NUMBERS: int = 2   # 階数
+        self.__FLOOR_NUMBERS: int = 5   # 階数
         self.__floors: list[Floor] = self.generate_floors(self.__FLOOR_NUMBERS+1)
 
         self.__now_floor_number: int = 0
@@ -129,7 +129,7 @@ class Dungeon:
         self.__enemy_manager_list: list[Enemy_manager] = []
         for i, enemy in enumerate(enemys):
             enemys[i].target = self.__player_manager.character
-            self.__enemy_manager_list.append(Enemy_manager(enemy))
+            self.__enemy_manager_list.append(Enemy_manager(enemy, self.__now_floor_number))
 
         # トラップを誕生させて、ターゲットをセット
         self.__traps = self.__floor_manager.spawn_traps()

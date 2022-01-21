@@ -4,7 +4,7 @@ from manager.character_manager import Character_manager
 
 
 class Enemy_manager(Character_manager):
-    def __init__(self, enemy):
+    def __init__(self, enemy, floor_index):
         super().__init__(enemy)
 
         # self.__info_data = [
@@ -29,24 +29,28 @@ class Enemy_manager(Character_manager):
             ['7', 'ナゴブラック', '5', '200', '100', '1000', '800', '45', '64', '160'],
         ]
 
-        self.__set_status(self.__select_enemy_id())
+        self.__set_status(self.__select_enemy_id(), floor_index)
 
     def __select_enemy_id(self):
         return random.randint(0, len(self.__info_data)-1)
 
-    def __set_status(self, _id):
+    def __set_status(self, _id, floor_index):
+
+        # 階数によって敵のステータスの強さを補正する
+        correction = floor_index
+
         enemy = super().character
         # print('_id', _id)
         enemy.id = int(self.__info_data[_id][0])
         enemy.name = self.__info_data[_id][1]
-        enemy.level = int(self.__info_data[_id][2])
-        enemy.hp = int(self.__info_data[_id][3])
-        enemy.max_hp = int(self.__info_data[_id][3])
-        enemy.mp = int(self.__info_data[_id][4])
-        enemy.max_mp = int(self.__info_data[_id][4])
-        enemy.attack = int(self.__info_data[_id][5])
-        enemy.defense = int(self.__info_data[_id][6])
-        enemy.exp = int(self.__info_data[_id][7])
+        enemy.level = int(self.__info_data[_id][2]) + correction
+        enemy.hp = int(self.__info_data[_id][3]) * correction
+        enemy.max_hp = int(self.__info_data[_id][3]) * correction
+        enemy.mp = int(self.__info_data[_id][4]) * correction
+        enemy.max_mp = int(self.__info_data[_id][4]) * correction
+        enemy.attack = int(self.__info_data[_id][5]) * correction
+        enemy.defense = int(self.__info_data[_id][6]) * correction
+        enemy.exp = int(self.__info_data[_id][7]) * correction
 
         enemy.u = int(self.__info_data[_id][8])
         enemy.v = int(self.__info_data[_id][9])
