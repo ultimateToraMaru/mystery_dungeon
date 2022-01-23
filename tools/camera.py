@@ -91,10 +91,15 @@ class Camera():
         """
         ルームアドレスを下側に埋め込むメソッド
         """
+        # ウィンドウ
+        pyxel.rect(160, 25, 40, 30, Color.BLACK)
+        pyxel.rectb(160, 25, 40, 30, Color.WHITE)
+
+        # ルームアドレス
         str_room_address = '('+', '.join(map(str, self.__target.room_address))+')'
-        pyxel.blt(0, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
-        pyxel.text(x=Size.MASS_HEIGHT/2, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2)-6, s='Room', col=Color.BLUE)
-        pyxel.text(x=Size.MASS_HEIGHT/2, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2), s=str_room_address, col=Color.BLUE)
+        # pyxel.blt(0, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
+        pyxel.text(x=162, y=35, s='Room', col=Color.WHITE)
+        pyxel.text(x=162, y=45, s=str_room_address, col=Color.WHITE)
 
     def __embed_player_hp(self):
         """
@@ -107,10 +112,15 @@ class Camera():
         try :
             player = self.__target.layers.player_layer.data[player_position[0]][player_position[1]]
 
-            str_player_hp = str(player.hp)+' /'+str(player.max_hp)
-            pyxel.blt(48, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
-            pyxel.text(x=Size.MASS_HEIGHT/2+45, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2)-6, s='HP', col=Color.BLUE)
-            pyxel.text(x=Size.MASS_HEIGHT/2+45, y=Size.MASS_HEIGHT*Size.MAX_MASS_IN_ROOM_ONE_SIDE+(Size.MASS_HEIGHT/2), s=str_player_hp, col=Color.BLUE)
+            # ウィンドウ
+            pyxel.rect(160, 5, 40, 25, Color.BLACK)
+            pyxel.rectb(160, 5, 40, 25, Color.WHITE)
+
+            # HP描画
+            str_player_hp = str(player.hp)+'/'+str(player.max_hp)
+            # pyxel.blt(48, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
+            pyxel.text(x=162, y=10, s='HP', col=Color.WHITE)
+            pyxel.text(x=162, y=20, s=str_player_hp, col=Color.WHITE)
 
         except IndexError as e :
             # 何もしない。
