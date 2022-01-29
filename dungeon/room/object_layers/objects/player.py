@@ -9,7 +9,21 @@ import pyxel
 class Player(Character):
     def __init__(self, color, room_address, position):
         super().__init__(color, room_address, position)
-        # self.__pocket =
+
+        # TODO: 満腹度
+        self.__satiation = 100
+
+    @property
+    def satiation(self):
+        pass
+
+    @satiation.getter
+    def satiation(self):
+        return self.__satiation
+
+    @satiation.setter
+    def satiation(self, satiation):
+        self.__satiation = satiation
 
     def create(self, x, y, size):
         super().create(x, y, u=16, v=32, size=size)

@@ -1,3 +1,4 @@
+import time
 from dungeon.room.object_layers.objects.food import Food
 from dungeon.room.object_layers.objects.item import Item
 from dungeon.room.object_layers.objects.trap import Trap
@@ -37,9 +38,6 @@ class Dungeon:
         self.__camera = Camera()
         self.__display = Display.get_instance()
 
-        # TODO: 12/18 メニューウィンドウをカメラクラスから切り離したい
-        # いややっぱりカメラクラスでいい。クラスの名前を変えよう。
-        # self.__menu_window = Menu_window()
 
 
     @property
@@ -195,6 +193,8 @@ class Dungeon:
                 return
 
     def __clean_floor(self):
+        """フロアをきれいにする
+        """
         # if (self.__player_manager.character.action == 'move'):
         #     self.__floor_manager.clean_player_layer()
 
@@ -202,9 +202,9 @@ class Dungeon:
             # if (enemy_manager.character.action == 'move'):
             self.__floor_manager.clean_enemy_layer(i)
 
-    # 入力されたキーをチェックする
-    # 現在は方向キーだけ実装済み
     def player_turn(self):
+        """プレイヤーのターン
+        """
 
         self.__player_manager.get_input()
         player_want_to_move_position:list = self.__player_manager.get_want_to_move_room_address_and_position()
@@ -212,6 +212,7 @@ class Dungeon:
         obj = self.__floor_manager.check(self.__player_manager.character.room_address, self.__player_manager.character.position)
         if (type(obj) == Orange):
             self.__player_manager.pick_up(obj)
+
         # print('あしもと', obj)
         # print('pocket', self.__player_manager.look_pocket())
 
@@ -225,8 +226,9 @@ class Dungeon:
                 is_level_up = self.__player_manager.add_exp_machine(exp)
                 display = Display.get_instance()
 
-                if (exp == -1):
-                    display.show_fool_battle_message(self.__player_manager.character.name)
+                # TODO: なぜか空振りしていないのに、空振り判定がでてきまう。いったん保留。
+                # if (exp == -1):
+                #     display.show_fool_battle_message(self.__player_manager.character.name)
 
             elif (self.__floor_manager.is_can_move_neo(player_want_to_move_position[0], player_want_to_move_position[1])):
                 self.__floor_manager.clean_player_layer()

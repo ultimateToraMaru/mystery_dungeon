@@ -17,9 +17,9 @@ class Player_layer(Empty_layer):
     def set_damage(self, p_x, p_y, damage_point, attacker_name):
         if (type(super().data[p_x][p_y]) == Player):
             super().data[p_x][p_y].damage(damage_point, attacker_name)
-        else :
-            display = Display.get_instance()
-            display.show_fool_battle_message(attacker_name)
+        # else :
+        #     display = Display.get_instance()
+        #     display.show_fool_battle_message(attacker_name)
 
     def get_player_position(self):
         player_position = []

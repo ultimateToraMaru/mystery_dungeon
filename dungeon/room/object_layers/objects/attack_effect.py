@@ -2,6 +2,7 @@ from dungeon.const.color import Color
 from dungeon.const.size import Size
 import pyxel
 from dungeon.room.object_layers.objects.obj import Obj
+import time
 
 class Attack_effect(Obj):
     def __init__(self, room_address, position, isMove):

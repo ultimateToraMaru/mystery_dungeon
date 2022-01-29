@@ -46,7 +46,18 @@ class Player_manager(Character_manager):
         elif keys[pygame.K_r]:
             super().character.action = 'attack'
 
+        # if pyxel.btnp(pyxel.KEY_KP_D):
+        #     super().character.direction = 'right'
+
     def add_exp_machine(self, exp):
+        """経験値マシンに経験値を追加
+
+        Args:
+            exp (int): 経験値
+
+        Returns:
+            status: レベルが上がった時: 1, それ以外: 0
+        """
         plus_status = self.__exp_machine.add_exp(exp, super().character.level)
 
         super().character.level += plus_status[0]
@@ -77,3 +88,7 @@ class Player_manager(Character_manager):
 
         # 拾い上げる時の効果音
         pyxel.play(0, 32, loop=False)
+
+    def check_satiation(self):
+        # 満腹度を減らす
+        super().character.satiation -= 1

@@ -12,7 +12,8 @@ import pyxel
 class Exp_machine():
     def __init__(self):
         # self.__next_level_exp_base = random.randint(30, 100)  # 次のレベルまでに必要な経験値の基礎
-        self.__necesarry_exp_list = self.__generate_necesarry_exp_list()    #
+        self.__necesarry_exp_list = self.__generate_necesarry_exp_list()
+
         self.__exps = 0
 
     def __generate_necesarry_exp_list(self):

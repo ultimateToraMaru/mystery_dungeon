@@ -9,7 +9,6 @@ from dungeon.room.object_layers.objects.trap import Trap
 from dungeon.room.object_layers.objects.wall import Wall
 from dungeon.const.color import Color
 
-# TODO: layerクラスの抽象クラス。
 class Trap_layer(Empty_layer):
     def __init__(self):
         super().__init__()

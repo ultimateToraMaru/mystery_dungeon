@@ -8,6 +8,7 @@ import pyxel
 import pygame
 from dungeon.room.room import Room
 import subprocess
+import asyncio
 # import os
 # import sys
 
@@ -35,6 +36,7 @@ class App:
         pyxel.init(200, 200, title="Mystery_Dungeon", fps=10)     # 16*16
         pyxel.mouse(False)
         pyxel.load("my_resource.pyxres")
+        # pyxel.load()
 
         # bgm再生
         pyxel.playm(1, loop=True)
@@ -102,6 +104,9 @@ class App:
     # ゲーム処理の更新
     def update(self):
         self.dungeon.forward_turn()
+
+        display = Display.get_instance()
+        display.out_log()
 
         # Qキーでゲームを終了
         # if pyxel.btnp(pyxel.KEY_Q):

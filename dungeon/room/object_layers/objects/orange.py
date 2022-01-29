@@ -44,7 +44,7 @@ class Orange(Food):
         status.hp = min(hp, status.max_hp)
 
         display = Display.get_instance()
-        display.set_screen_log([
+        display.set_log([
             status.name
             + 'は、' + self.__name + 'を食べてHPを',
             str(self.__recovery_point)

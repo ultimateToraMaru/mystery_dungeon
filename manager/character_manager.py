@@ -102,8 +102,9 @@ class Character_manager():
     #     # self.__rooms[target_room_address[0]][target_room_address[1]].layers.enemy_layer.set_damage(target_position[0], target_position[1], self.__character.attack)
 
     def print_status(self):
-        print('room_address', self.__character.room_address)
-        print('position', self.__character.position)
+        # print('room_address', self.__character.room_address)
+        # print('position', self.__character.position)
+        pass
 
     def checkAlive(self):
         return self.__character.alive

@@ -214,7 +214,6 @@ class Character(Obj):
     def loop_index(self, loop_index):
         self.__loop_cnt = loop_index
 
-    # TODO: create()内で呼べれている攻撃エフェクトの描画を、objectクラスを継承したattack_effect()を作成するべきだ
     def create(self, x, y, u, v, size):
 
         self.__loop_animation()

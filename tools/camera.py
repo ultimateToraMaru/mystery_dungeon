@@ -82,7 +82,7 @@ class Camera():
             self.__menu_window.is_show = not self.__menu_window.is_show
 
             # 真っ黒で上書きする
-            pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
+            # pyxel.rect(0, 0, 1000, 1000, Color.BLACK)
 
         if (self.__eye_catching.is_show()):
             self.__eye_catching.show()
@@ -97,7 +97,6 @@ class Camera():
 
         # ルームアドレス
         str_room_address = '('+', '.join(map(str, self.__target.room_address))+')'
-        # pyxel.blt(0, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
         pyxel.text(x=162, y=35, s='Room', col=Color.WHITE)
         pyxel.text(x=162, y=45, s=str_room_address, col=Color.WHITE)
 
@@ -118,7 +117,6 @@ class Camera():
 
             # HP描画
             str_player_hp = str(player.hp)+'/'+str(player.max_hp)
-            # pyxel.blt(48, Size.MASS_HEIGHT*10, 0, 0, 48, 48, 16, 0)
             pyxel.text(x=162, y=10, s='HP', col=Color.WHITE)
             pyxel.text(x=162, y=20, s=str_player_hp, col=Color.WHITE)
 
